@@ -1,13 +1,17 @@
-"文字コード設定"
-set fenc=utf-8
-"nobackup noswapfile"
+﻿"文字コード設定" "set fenc=utf-16 
+set fenc=utf-8 
 "set nobackup
 "set noswapfile
 set autoread
+"コマンド表示
 set showcmd
 set clipboard=unnamed,autoselect
+"ステータスラインを表示
 set laststatus=2
+"バックスペースの有効化
 set backspace=indent,eol,start
+
+"swpfile
 
 syntax on
 colorscheme molokai
@@ -16,17 +20,20 @@ hi Comment ctermfg=yellow
 hi MatchParen ctermbg = 1
 
 "display"
+"行番号表示
 set number
+"カーソル行の背景色を変化
 set cursorline
+"オートインデント
 set smartindent
-set laststatus=2
 set wildmode=list:longest
+"括弧入力時の補完
 set showmatch
+"編集中のファイル名表示
 set title
 set guioptions+=a
 
 "Status line
-highlight StatusLine term=NONE cterm=NONE ctermfg=red ctermbg=blue
 
 
 "tab"
@@ -38,7 +45,7 @@ set ignorecase
 set smartcase
 set incsearch
 
-"shortcut"
+"==================================================================================
 "keymap"
 inoremap <silent> jj <ESC>
 noremap <C-f> :NERDTreeToggle<CR>
@@ -47,7 +54,8 @@ noremap <C-i> :GoImports<CR>
 
 imap <Space>. &
 imap <Space>, %
-map <Space>m $
+imap <Space>/ '
+"imap <Space>m $
 
 map -- :q!<CR>
 map ss :split<CR>
@@ -65,11 +73,21 @@ map sL <C-w>L
 nnoremap tn :tabnew<CR>
 nnoremap mm gt
 nnoremap nn gT
-"NERDTree"
+nnoremap \ $
+
+""Git-fugitive
+map gs :Gstatus<CR>
+
+"==================================================================================
+
+
+""NERDTree"
 let g:NERTreeShowBoolmarks=1
 autocmd vimenter * NERDTree
 autocmd StdinReadPre * let s:std_in=1 "ファイル名指定時はNERDのデフォルト表示をoff"
 
+
+"==================================================================================
 "golang highlight"
 let g:go_gocode_propose_source = 0
 let g:go_gocode_unimported_packages=1
@@ -84,6 +102,7 @@ let g:go_highlight_build_constraints=1
 let g:go_fmt_command = "goimports"
 let g:go_fmt_command = "gofmt"
 
+"==================================================================================
 
 "dein"
 if &compatible
@@ -103,7 +122,11 @@ nmap <Esc><ESC> <Plug>(anzu-ckear-search-status)
 
 set statusline=%{anzu#search_status()}
 
-"plug-in"
+"vue 
+autocmd FileType vue syntax sync fromstart
+
+"==================================================================================
+"dein Plugin
 call dein#add('Shougo/dein.vim')
 call dein#add('Shougo/vimproc.vim',{'build':'make'})
 
@@ -113,7 +136,9 @@ call dein#add('scrooloose/nerdtree')
 call dein#add('fatih/vim-go')
 call dein#add('nsf/gocode')
 call dein#add('ervandew/supertab')
-call dein#add('itchyny/lightline.vim')
+if !exists('itchyny/lightline.vim')
+	call dein#add('itchyny/lightline.vim')
+endif
 call dein#add('Shougo/neocomplete.vim')
 call dein#add('Shougo/neosnippet')
 call dein#add('Shougo/neosnippet-snippets')
@@ -122,8 +147,123 @@ call dein#add('simeji/winresizer')
 call dein#add('tpope/vim-fugitive')
 call dein#add('osyo-manga/vim-anzu')
 call dein#add('t9md/vim-quickhl')
+call dein#add('airblade/vim-gitgutter')
+
+call dein#add('posva/vim-vue')
+call dein#add('ryanoasis/vim-devicons')
+call dein#add('Xuyuanp/nerdtree-git-plugin')
+call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
 
 call dein#end()
+
+"end of dein Plugin
+"==================================================================================
+
+"[[vim-gitgutter]]
+let g:gitgutter_sign_added = '✚ '
+let g:gitgutter_sign_modified = '➜ '
+let g:gitgutter_sign_removed = '✘ '
+
+"==================================================================================
+"LightLine
+
+let g:lightline={
+			\'colorscheme':'landscape',
+			\'active':{
+			\    'left' : [ ['mode','paste'],['gitbranch','gitgutter','filename','modified']],
+			\    'right' : [ ['lineinfo'],['percent'],['fileformat','fileencoding','filetype','readonly']]
+			\},
+			\'inactive':{
+			\    'left' : [ ['filename'] ],
+			\    'right' : [ ['lineinfo','percent'] ]
+			\},
+			\'component_function': {
+			\   'filetype' : 'LightLineType',
+      		\   'gitbranch' : 'LightLineBranch',
+			\   'gitgutter' : 'LightLineGitGutter',
+			\   'filename' : 'LightLineFilename'
+      		\ },
+			\'tab':{
+			\    'active' : ['tabnum','filename','modified'],
+			\    'inactive' : ['tabnum','filename','modified'],
+			\},
+			\ 'separator': { 'left': "\u2b80", 'right': "\u2b82" },
+            \ 'subseparator': { 'left': "\u2b81", 'right': "\u2b83" }
+			\}
+
+"filetype
+function! LightLineType()
+  return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+endfunction
+
+"gitbranch
+function! LightLineBranch()
+	try 
+		if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
+			let branch = fugitive#head()
+			return strlen(branch) ? "\ue725 " .branch : ''
+		endif
+	catch
+	endtry
+	return ''
+	endtry
+endfunction
+
+"git-gutter
+function! LightLineGitGutter()
+  if ! exists('*GitGutterGetHunkSummary')
+        \ || ! get(g:, 'gitgutter_enabled', 0)
+        \ || winwidth('.') <= 90
+    return ''
+  endif
+  let symbols = [
+        \ g:gitgutter_sign_added . ' ',
+        \ g:gitgutter_sign_modified . ' ',
+        \ g:gitgutter_sign_removed . ' '
+        \ ]
+  let hunks = GitGutterGetHunkSummary()
+  let ret = []
+  for i in [0, 1, 2]
+    if hunks[i] > 0
+      call add(ret, symbols[i] . hunks[i])
+    endif
+  endfor
+  return join(ret, ' ')
+endfunction
+
+"filename
+function! LightLineFilename()
+	return  ('' != expand('%:t') ? expand('%:t') . ' ' . WebDevIconsGetFileTypeSymbol() : '[No Name]')
+endfunction
+
+"end of LightLine
+"==================================================================================
+
+"NERD
+let g:NERDTreeDirArrows = 1
+let g:webdevicons_conceal_nerdtree_brackets = 1
+let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
+
+"==========vim-devicons===========
+let g:webdevicons_conceal_nerdtree_brackets = 1
+let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
+" adding the flags to NERDTree
+let g:webdevicons_enable_nerdtree = 1
+let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
+" enable folder/directory glyph flag (disabled by default with 0)
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+" enable custom folder/directory glyph exact matching
+" (enabled by default when g:WebDevIconsUnicodeDecorateFolderNodes is set to 1)
+let WebDevIconsUnicodeDecorateFolderNodesExactMatches = 1
+
+"=============dev-icons===============
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:DevIconsEnableFoldersOpenClose = 1
+
+"============= file-icons==============
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {}
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['go'] = "\ue724"
+
 
 "supertab
 let g:SuperTabDefaultCompletionType="context"
@@ -141,7 +281,7 @@ let g:SuperTabDefaultCompletionType="context"
 
 filetype plugin indent on
 "install"
-"
+
 if dein#check_install()
 	call dein#install()
 endif
