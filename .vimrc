@@ -1,5 +1,7 @@
 ﻿"文字コード設定" "set fenc=utf-16 
 set fenc=utf-8 
+set encoding=utf-8
+scriptencoding=utf-8
 "set nobackup
 "set noswapfile
 set autoread
@@ -44,6 +46,10 @@ set shiftwidth=4
 set ignorecase
 set smartcase
 set incsearch
+set hlsearch
+
+"command
+set wildmenu
 
 "==================================================================================
 "keymap"
@@ -60,6 +66,7 @@ imap <Space>/ '
 map -- :q!<CR>
 map ss :split<CR>
 map vs :vsplit<CR>
+nnoremap <F3> :noh<CR>
 
 map <C-j> <C-w>j
 map <C-k> <C-w>k
@@ -154,6 +161,10 @@ call dein#add('ryanoasis/vim-devicons')
 call dein#add('Xuyuanp/nerdtree-git-plugin')
 call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
 
+call dein#add('Yggdroot/indentLine')
+call dein#add('ctrlpvim/ctrlp.vim')
+call dein#add('tacahiroy/ctrlp-funky')
+
 call dein#end()
 
 "end of dein Plugin
@@ -164,6 +175,23 @@ let g:gitgutter_sign_added = '✚ '
 let g:gitgutter_sign_modified = '➜ '
 let g:gitgutter_sign_removed = '✘ '
 
+"==================================================================================
+" CtrlPの設定
+"==================================================================================
+let g:ctrlp_match_window = 'order:ttb,min:20,max:20,results:100' " マッチウインドウの設定. 「下部に表示, 大きさ20行で固定, 検索結果100件」
+let g:ctrlp_show_hidden = 1 " .(ドット)から始まるファイルも検索対象にする
+let g:ctrlp_types = ['fil'] "ファイル検索のみ使用
+let g:ctrlp_extensions = ['funky'] " CtrlPの拡張として「funky」と「commandline」を使用
+
+" CtrlPCommandLineの有効化
+command! CtrlPCommandLine call ctrlp#init(ctrlp#commandline#id())
+
+" CtrlPFunkyの有効化
+let g:ctrlp_funky_matchtype = 'path' 
+
+"==================================================================================
+"
+"
 "==================================================================================
 "LightLine
 
