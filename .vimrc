@@ -1,4 +1,4 @@
-﻿"文字コード設定" "set fenc=utf-16 
+"文字コード設定" "set fenc=utf-16 
 set fenc=utf-8 
 set encoding=utf-8
 scriptencoding=utf-8
@@ -67,15 +67,16 @@ map -- :q!<CR>
 map ss :split<CR>
 map vs :vsplit<CR>
 nnoremap <F3> :noh<CR>
+nnoremap <F6> :e!<CR>
 
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-h> <C-w>h
 map <C-l> <C-w>l
-map sH <C-w>H
-map sJ <C-w>J
-map sK <C-w>K
-map sL <C-w>L
+map <F7> <C-w>H
+map <F8> <C-w>J
+map <F9> <C-w>K
+map <F10> <C-w>L
 
 nnoremap tn :tabnew<CR>
 nnoremap mm gt
@@ -90,9 +91,9 @@ map gs :Gstatus<CR>
 
 ""NERDTree"
 let g:NERTreeShowBoolmarks=1
-autocmd vimenter * NERDTree
-autocmd StdinReadPre * let s:std_in=1 "ファイル名指定時はNERDのデフォルト表示をoff"
-
+" filename指定の時はdefaultでNERDTree非表示、その他は表示
+autocmd vimenter * if !argc() | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 "==================================================================================
 "golang highlight"
@@ -120,7 +121,7 @@ set runtimepath+=~/.vim/dein/dein.vim
 call dein#begin(expand('~/.vim/dein'))
 
 "vim-anzu"
-nmap n <Plug>(anzu-n-with-echo)
+nmap M <Plug>(anzu-n-with-echo)
 nmap N <Plug>(anzu-N-with-echo)
 nmap * <Plug>(anzu-star)
 nmap # <Plug>(anzu-sharp)
@@ -198,7 +199,7 @@ let g:ctrlp_funky_matchtype = 'path'
 let g:lightline={
 			\'colorscheme':'landscape',
 			\'active':{
-			\    'left' : [ ['mode','paste'],['gitbranch','gitgutter','filename','modified']],
+			\    'left' : [ ['mode','paste'],['gitbranch','gitgutter','filename','modified'],["absolutepath"]],
 			\    'right' : [ ['lineinfo'],['percent'],['fileformat','fileencoding','filetype','readonly']]
 			\},
 			\'inactive':{
