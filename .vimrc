@@ -199,7 +199,7 @@ let g:ctrlp_funky_matchtype = 'path'
 let g:lightline={
 			\'colorscheme':'landscape',
 			\'active':{
-			\    'left' : [ ['mode','paste'],['gitbranch','gitgutter','filename','modified'],["absolutepath"]],
+			\    'left' : [ ['mode','paste'],['gitbranch','gitgutter','filename','modified']],
 			\    'right' : [ ['lineinfo'],['percent'],['fileformat','fileencoding','filetype','readonly']]
 			\},
 			\'inactive':{
