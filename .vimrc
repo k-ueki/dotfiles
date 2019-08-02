@@ -1,8 +1,7 @@
 "文字コード設定" "set fenc=utf-16 
 set fenc=utf-8 
 set encoding=utf-8
-scriptencoding=utf-8
-"set nobackup
+scriptencoding=utf-8 "set nobackup
 "set noswapfile
 set autoread
 "コマンド表示
@@ -166,6 +165,9 @@ call dein#add('Yggdroot/indentLine')
 call dein#add('ctrlpvim/ctrlp.vim')
 call dein#add('tacahiroy/ctrlp-funky')
 
+call dein#add('thinca/vim-quickrun')
+call dein#add('tomtom/tcomment_vim')
+
 call dein#end()
 
 "end of dein Plugin
@@ -191,6 +193,17 @@ command! CtrlPCommandLine call ctrlp#init(ctrlp#commandline#id())
 let g:ctrlp_funky_matchtype = 'path' 
 
 "==================================================================================
+"
+"
+"==================================================================================
+"vim-quickrun
+"
+"
+"
+"
+"==================================================================================
+"
+"
 "
 "
 "==================================================================================
