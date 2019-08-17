@@ -4,6 +4,18 @@ PROMPT="%F{010}> %~%f "
 
 alias la='ls -a'
 alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../../"
+alias tm='terminal'
+alias reload='source ~/.zshrc'
+
+# git
+alias g="git status"
+alias gb="git branch"
+alias gco="git checkout"
+alias gd="git diff"
+alias ga="git add"
+alias gc="git commit -m"
 
 # =============================================================
 # PATH
@@ -45,8 +57,8 @@ setopt auto_menu
 # =============================================================
 # Plugin
 
-zplug "zsh-autosuggestions"
-zplug "zsh-syntax-highlighting"
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zsh-completions"
 
 # =============================================================
