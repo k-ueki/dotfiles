@@ -1,9 +1,8 @@
 "文字コード設定" "set fenc=utf-16 
 set fenc=utf-8 
 set encoding=utf-8
-scriptencoding=utf-8
-"set nobackup
-"set noswapfile
+scriptencoding=utf-8 "set nobackup
+set noswapfile
 set autoread
 "コマンド表示
 set showcmd
@@ -12,6 +11,9 @@ set clipboard=unnamed,autoselect
 set laststatus=2
 "バックスペースの有効化
 set backspace=indent,eol,start
+
+set list
+set list listchars=tab:>-
 
 "swpfile
 
@@ -147,7 +149,6 @@ call dein#add('ervandew/supertab')
 if !exists('itchyny/lightline.vim')
 	call dein#add('itchyny/lightline.vim')
 endif
-call dein#add('Shougo/neocomplete.vim')
 call dein#add('Shougo/neosnippet')
 call dein#add('Shougo/neosnippet-snippets')
 call dein#add('cohama/lexima.vim')
@@ -165,12 +166,39 @@ call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
 call dein#add('Yggdroot/indentLine')
 call dein#add('ctrlpvim/ctrlp.vim')
 call dein#add('tacahiroy/ctrlp-funky')
+" call dein#add('suy/vim-crtlp-commandline')
 
-call dein#end()
+call dein#add('thinca/vim-quickrun')
+call dein#add('tomtom/tcomment_vim')
+
+call dein#add('vim-scripts/AnsiEsc.vim')
+
+call dein#add('scrooloose/syntastic')
+
+call dein#add('davidhalter/jedi-vim')
 
 "end of dein Plugin
 "==================================================================================
 
+"==================================================================================
+" Golang Syntax
+" " MEMO:$GOPATHがなければ手動でパス指定
+" if $GOPATH != ''
+"   " golintの実行パスを追加
+"   execute "set rtp+=".globpath($GOPATH, "src/github.com/golang/lint/misc/vim")
+"   " syntastic設定
+"   let g:syntastic_go_checkers = ['go', 'golint', 'govet']
+" endif
+"
+" " 保存時に自動で:Fmtをかける(syntastic関係ない)
+" augroup Go
+"   autocmd!
+"   autocmd BufWritePre *.go :Fmt
+" augroup END
+" let g:syntastic_mode_map = { 'mode': 'passive',
+"     \ 'active_filetypes': ['go'] }
+" let g:syntastic_go_checkers = ['go', 'golint']
+"==================================================================================
 "[[vim-gitgutter]]
 let g:gitgutter_sign_added = '✚ '
 let g:gitgutter_sign_modified = '➜ '
@@ -179,18 +207,36 @@ let g:gitgutter_sign_removed = '✘ '
 "==================================================================================
 " CtrlPの設定
 "==================================================================================
-let g:ctrlp_match_window = 'order:ttb,min:20,max:20,results:100' " マッチウインドウの設定. 「下部に表示, 大きさ20行で固定, 検索結果100件」
-let g:ctrlp_show_hidden = 1 " .(ドット)から始まるファイルも検索対象にする
-let g:ctrlp_types = ['fil'] "ファイル検索のみ使用
-let g:ctrlp_extensions = ['funky'] " CtrlPの拡張として「funky」と「commandline」を使用
+" let g:ctrlp_match_window = 'order:ttb,min:20,max:20,results:100' " マッチウインドウの設定. 「下部に表示, 大きさ20行で固定, 検索結果100件」
+" let g:ctrlp_show_hidden = 1 " .(ドット)から始まるファイルも検索対象にする
+" let g:ctrlp_types = ['fil'] "ファイル検索のみ使用
+" let g:ctrlp_extensions = ['funky'] " CtrlPの拡張として「funky」と「commandline」を使用
+"
+" " CtrlPCommandLineの有効化
+" command! CtrlPCommandLine call ctrlp#init(ctrlp#commandline#id())
+"
+" " CtrlPFunkyの有効化
+" let g:ctrlp_funky_matchtype = 'path' 
 
-" CtrlPCommandLineの有効化
-command! CtrlPCommandLine call ctrlp#init(ctrlp#commandline#id())
-
-" CtrlPFunkyの有効化
-let g:ctrlp_funky_matchtype = 'path' 
-
+" CtrlPの起動	Ctrl+P
+" 検索モードの切り替え	Ctrl+F
+" 下方向のカーソル移動	Ctrl+J
+" 上方向のカーソル移動	Ctrl+K
+" 検索結果の選択（バッファ）	Enter
+" 検索結果の選択（水平分割）	Ctrl+X
+" CtrlPの終了	Esc
 "==================================================================================
+"
+"
+"==================================================================================
+"vim-quickrun
+"
+"
+"
+"
+"==================================================================================
+"
+"
 "
 "
 "==================================================================================
@@ -268,14 +314,18 @@ endfunction
 "end of LightLine
 "==================================================================================
 
-"NERD
+"==================================================================================
+" NERD
 let g:NERDTreeDirArrows = 1
 let g:webdevicons_conceal_nerdtree_brackets = 1
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
 
-"==========vim-devicons===========
+"==================================================================================
+"vim-devicons
 let g:webdevicons_conceal_nerdtree_brackets = 1
 let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
+
+"==================================================================================
 " adding the flags to NERDTree
 let g:webdevicons_enable_nerdtree = 1
 let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
@@ -309,7 +359,6 @@ let g:SuperTabDefaultCompletionType="context"
 	imap <expr><TAB> pumvisible()?"<C-n>":neosnippet#jumpable()?"<Plug>(neosnippet_expand_or_jump)":"<TAB>"
 
 filetype plugin indent on
-"install"
 
 if dein#check_install()
 	call dein#install()
