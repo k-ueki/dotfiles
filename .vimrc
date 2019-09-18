@@ -175,6 +175,8 @@ call dein#add('vim-scripts/AnsiEsc.vim')
 
 call dein#add('scrooloose/syntastic')
 
+call dein#add('davidhalter/jedi-vim')
+
 "end of dein Plugin
 "==================================================================================
 
@@ -193,9 +195,9 @@ call dein#add('scrooloose/syntastic')
 "   autocmd!
 "   autocmd BufWritePre *.go :Fmt
 " augroup END
-let g:syntastic_mode_map = { 'mode': 'passive',
-    \ 'active_filetypes': ['go'] }
-let g:syntastic_go_checkers = ['go', 'golint']
+" let g:syntastic_mode_map = { 'mode': 'passive',
+"     \ 'active_filetypes': ['go'] }
+" let g:syntastic_go_checkers = ['go', 'golint']
 "==================================================================================
 "[[vim-gitgutter]]
 let g:gitgutter_sign_added = '✚ '
@@ -205,16 +207,16 @@ let g:gitgutter_sign_removed = '✘ '
 "==================================================================================
 " CtrlPの設定
 "==================================================================================
-let g:ctrlp_match_window = 'order:ttb,min:20,max:20,results:100' " マッチウインドウの設定. 「下部に表示, 大きさ20行で固定, 検索結果100件」
-let g:ctrlp_show_hidden = 1 " .(ドット)から始まるファイルも検索対象にする
-let g:ctrlp_types = ['fil'] "ファイル検索のみ使用
-let g:ctrlp_extensions = ['funky'] " CtrlPの拡張として「funky」と「commandline」を使用
-
-" CtrlPCommandLineの有効化
-command! CtrlPCommandLine call ctrlp#init(ctrlp#commandline#id())
-
-" CtrlPFunkyの有効化
-let g:ctrlp_funky_matchtype = 'path' 
+" let g:ctrlp_match_window = 'order:ttb,min:20,max:20,results:100' " マッチウインドウの設定. 「下部に表示, 大きさ20行で固定, 検索結果100件」
+" let g:ctrlp_show_hidden = 1 " .(ドット)から始まるファイルも検索対象にする
+" let g:ctrlp_types = ['fil'] "ファイル検索のみ使用
+" let g:ctrlp_extensions = ['funky'] " CtrlPの拡張として「funky」と「commandline」を使用
+"
+" " CtrlPCommandLineの有効化
+" command! CtrlPCommandLine call ctrlp#init(ctrlp#commandline#id())
+"
+" " CtrlPFunkyの有効化
+" let g:ctrlp_funky_matchtype = 'path' 
 
 " CtrlPの起動	Ctrl+P
 " 検索モードの切り替え	Ctrl+F
