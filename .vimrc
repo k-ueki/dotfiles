@@ -15,6 +15,8 @@ set backspace=indent,eol,start
 set list
 set list listchars=tab:>-
 
+"mouse on
+set mouse=a
 "swpfile
 
 syntax on
