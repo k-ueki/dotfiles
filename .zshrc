@@ -14,6 +14,9 @@ fi
 
 # Customize to your needs...
 alias la='ls -a'
+alias ll='ls -l'
+
+export ZPLUG_HOME=/usr/local/opt/zplug
 
 # =============================================================
 # Path
@@ -21,7 +24,7 @@ export GOPATH=/Users/uekikatsuya/go
 export PATH=$GOPATH/bin:$PATH
 export PATH=~/.local/bin:$PATH
 
-source ~/.zplug/init.zsh
+source $ZPLUG_HOME/init.zsh
 # =============================================================
 
 # vcs_infoを読み込み
@@ -159,3 +162,9 @@ function tmux_automatically_attach_session()
     fi
 }
 tmux_automatically_attach_session
+#
+#setopt EXTENDED_GLOB
+#for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+#  ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+#done
+#

@@ -40,6 +40,7 @@ set title
 set guioptions+=a
 
 "Status line
+set guifont=Ricty
 
 
 "tab"
@@ -132,75 +133,10 @@ filetype plugin on
 
 "==================================================================================
 
-"dein"
-if &compatible
-	set nocompatible
-endif
-set runtimepath+=~/.vim/dein/dein.vim
-
-call dein#begin(expand('~/.vim/dein'))
-
-"vim-anzu"
-nmap M <Plug>(anzu-n-with-echo)
-nmap N <Plug>(anzu-N-with-echo)
-nmap * <Plug>(anzu-star)
-nmap # <Plug>(anzu-sharp)
-
-nmap <Esc><ESC> <Plug>(anzu-ckear-search-status)
-
-set statusline=%{anzu#search_status()}
 
 "vue 
 autocmd FileType vue syntax sync fromstart
 
-"==================================================================================
-"dein Plugin
-call dein#add('Shougo/dein.vim')
-call dein#add('Shougo/vimproc.vim',{'build':'make'})
-
-call dein#add('Shougo/neocomplete.vim')
-call dein#add('Shougo/neomru.vim')
-call dein#add('scrooloose/nerdtree')
-call dein#add('fatih/vim-go')
-call dein#add('nsf/gocode')
-call dein#add('ervandew/supertab')
-if !exists('itchyny/lightline.vim')
-	call dein#add('itchyny/lightline.vim')
-endif
-call dein#add('Shougo/neosnippet')
-call dein#add('Shougo/neosnippet-snippets')
-call dein#add('cohama/lexima.vim')
-call dein#add('simeji/winresizer')
-call dein#add('tpope/vim-fugitive')
-call dein#add('osyo-manga/vim-anzu')
-call dein#add('t9md/vim-quickhl')
-call dein#add('airblade/vim-gitgutter')
-
-call dein#add('posva/vim-vue')
-call dein#add('ryanoasis/vim-devicons')
-call dein#add('Xuyuanp/nerdtree-git-plugin')
-call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
-
-call dein#add('Yggdroot/indentLine')
-call dein#add('ctrlpvim/ctrlp.vim')
-call dein#add('tacahiroy/ctrlp-funky')
-" call dein#add('suy/vim-crtlp-commandline')
-
-call dein#add('thinca/vim-quickrun')
-call dein#add('tomtom/tcomment_vim')
-
-call dein#add('vim-scripts/AnsiEsc.vim')
-
-call dein#add('scrooloose/syntastic')
-
-call dein#add('davidhalter/jedi-vim')
-
-call dein#add('suan/vim-instant-markdown')
-
-call dein#add('kana/vim-operator-user')
-call dein#add('rhysd/vim-clang-format')
-
-"end of dein Plugin
 "==================================================================================
 autocmd FIleType c ClandFormatAutoEnable
 
@@ -379,6 +315,88 @@ let g:SuperTabDefaultCompletionType="context"
 
 filetype plugin indent on
 
+"dein Scripts-----------------------------
+if &compatible
+  set nocompatible               " Be iMproved
+endif
+
+" Required:
+set runtimepath+=/Users/uekikatsuya/.cache/dein/repos/github.com/Shougo/dein.vim
+
+" Required:
+if dein#load_state('/Users/uekikatsuya/.cache/dein')
+  call dein#begin('/Users/uekikatsuya/.cache/dein')
+
+  " Let dein manage dein
+  " Required:
+  call dein#add('/Users/uekikatsuya/.cache/dein/repos/github.com/Shougo/dein.vim')
+
+  "Add or remove dein Plugins
+  "call dein#add('Shougo/dein.vim')
+  "call dein#add('Shougo/vimproc.vim',{'build':'make'})
+  "
+  "call dein#add('Shougo/neocomplete.vim')
+  "call dein#add('Shougo/neomru.vim')
+  "call dein#add('scrooloose/nerdtree')
+  "call dein#add('fatih/vim-go')
+  "call dein#add('nsf/gocode')
+  "call dein#add('ervandew/supertab')
+  call dein#add('itchyny/lightline.vim')
+  "call dein#add('Shougo/neosnippet')
+  "call dein#add('Shougo/neosnippet-snippets')
+  "call dein#add('cohama/lexima.vim')
+  "call dein#add('simeji/winresizer')
+  "call dein#add('tpope/vim-fugitive')
+  "call dein#add('osyo-manga/vim-anzu')
+  "call dein#add('t9md/vim-quickhl')
+  call dein#add('airblade/vim-gitgutter')
+  "
+  "call dein#add('posva/vim-vue')
+  call dein#add('ryanoasis/vim-devicons')
+  "call dein#add('Xuyuanp/nerdtree-git-plugin')
+  "call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
+  "
+  "call dein#add('Yggdroot/indentLine')
+  "call dein#add('ctrlpvim/ctrlp.vim')
+  "call dein#add('tacahiroy/ctrlp-funky')
+  "" call dein#add('suy/vim-crtlp-commandline')
+  "
+  "call dein#add('thinca/vim-quickrun')
+  "call dein#add('tomtom/tcomment_vim')
+  "
+  "call dein#add('vim-scripts/AnsiEsc.vim')
+  "
+  "call dein#add('scrooloose/syntastic')
+  "
+  "call dein#add('davidhalter/jedi-vim')
+  "
+  "call dein#add('suan/vim-instant-markdown')
+  "
+  "call dein#add('kana/vim-operator-user')
+  "call dein#add('rhysd/vim-clang-format')
+  
+  " Required:
+  call dein#end()
+  call dein#save_state()
+endif
+
+" Required:
+filetype plugin indent on
+syntax enable
+
+" If you want to install not installed plugins on startup.
 if dein#check_install()
 	call dein#install()
 endif
+
+"End dein Scripts-------------------------
+
+"vim-anzu"
+nmap M <Plug>(anzu-n-with-echo)
+nmap N <Plug>(anzu-N-with-echo)
+nmap * <Plug>(anzu-star)
+nmap # <Plug>(anzu-sharp)
+
+nmap <Esc><ESC> <Plug>(anzu-ckear-search-status)
+
+set statusline=%{anzu#search_status()}

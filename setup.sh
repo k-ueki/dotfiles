@@ -37,7 +37,7 @@ fc-cache -vf
 # patching ricty for powerline(vim-powerline)
 cd ~
 brew install fontforge
-mkdir tmp | cd tmp
+mkdir tmp & cd tmp
 git clone https://github.com/Lokaltog/vim-powerline.git
 cd .vim-powerline/fontpatcher
 fontforge -script ./fontpatcher ~/Library/Fonts/Ricty-Regular.ttf #scriptがpy2で書かれているのでpy3に書き換える必要がある 105行: [*{something}, *{something}]

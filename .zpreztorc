@@ -119,6 +119,7 @@ zstyle ':prezto:module:editor' key-bindings 'vi'
 # Setting it to 'random' loads a random theme.
 # Auto set to 'off' on dumb terminals.
 # zstyle ':prezto:module:prompt' theme 'sorin'
+# テーマは.zprezto/modules/prompt/functionsにあるので適宜表示項目等をいじる
 zstyle ':prezto:module:prompt' theme 'paradox'
 
 # Set the working directory prompt display length.
