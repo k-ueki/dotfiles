@@ -1,0 +1,78 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+
+[[plugins]]
+repo = 'derekwyatt/vim-scala'
+
+[[plugins]]
+repo = 'tomasiser/vim-code-dark'
+
+[[plugins]]
+repo = 'preservim/nerdtree'
+
+[[plugins]]
+repo = 'ryanoasis/vim-devicons'
+
+[[plugins]]
+repo = 'vim-airline/vim-airline'
+
+#[[plugins]]
+#repo = 'vim-airline/vim-airline-themes'
+
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
+hook_add = '''
+	let g:gitgutter_sign_added = '✚ '
+	let g:gitgutter_sign_modified = '➜ '
+	let g:gitgutter_sign_removed = '✘ '
+'''
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+# fzf
+[[plugins]]
+repo = 'junegunn/fzf'
+build_on = './install --all'
+
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+
+# comment out
+#[[plugins]]
+#repo = 'tyru/caw.vim'
+#hook_add='''
+#    nmap <C-\> <Plug>(caw:hatpos:toggle)
+#    vmap <C-\> <Plug>(caw:hatpos:toggle)
+#'''
+
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+rev = 'release'
+on_i = 1
+merged = '0'
+
+[[plugins]]
+repo = 'b4b4r07/vim-shellutils'
+
+[[plugins]]
+repo = 'Shougo/unite.vim'
+
+[[plugins]]
+repo = 'jistr/vim-nerdtree-tabs'
+
+[[plugins]]
+repo = 'mileszs/ack.vim'
+
+[[plugins]]
+repo = 'elzr/vim-json'
+
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+[[plugins]]
+repo = 'hashivim/vim-terraform'
+
