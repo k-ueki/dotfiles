@@ -1,11 +1,7 @@
 #!bin/sh
 
-DotfilesPath='~/dotfiles'
-
-cd ~/dotfiles
-
-ln -sf DotfilesPath/.tmux.conf ~/.tmux.conf
-ln -sf dotfilesPath/nvim ~/.config/nvim
+ln -sf $HOME/dotfiles/.tmux.conf ~/.tmux.conf
+ln -sf $HOME/dotfiles/nvim ~/.config/nvim
 
 ln -sf $HOME/runcoms/zlogin ~/.zlogin
 ln -sf $HOME/runcoms/zlogout ~/.zlogout
