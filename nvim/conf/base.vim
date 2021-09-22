@@ -11,8 +11,6 @@ autocmd bufenter * if (winnr('$')==1 && exists('b:NERDTree') && b:NERDTree.isTab
 
 set rtp+=~/.config/fzf
 
-let g:ackprg = 'ag --nogroup --nocolor --column'
-
 " coc conf
 let g:coc_config_home='${HOME}/.config/nvim/config'
 au BufRead, BufNewFile *.sbt set filetype=scala

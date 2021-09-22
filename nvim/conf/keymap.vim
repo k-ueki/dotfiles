@@ -22,6 +22,12 @@ noremap <silent> <C-f> :NERDTreeToggle<CR>
 noremap <C-d> :NERDTreeFind<CR>
 nnoremap <Leader>bm :Bookmark<CR>
 
+" Fzf, regrep
+nnoremap <Leader>f :GFiles<CR>
+nnoremap <Leader>b :Buffers<CR>
+nnoremap <Leader>r :Rg<CR>
+"nnoremap <Leader>l :Lines<CR>
+
 " Tab
 
 "nnoremap <Leader>t :terminal
