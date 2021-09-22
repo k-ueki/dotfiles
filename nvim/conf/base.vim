@@ -3,6 +3,8 @@ colorscheme codedark
 
 let g:webdevicons_enable_nerdtree = 2
 
+set clipboard+=unnamed
+
 " NERDTree conf
 let NERDTreeShowHidden = 1
 let g:nerdtree_tabs_open_on_console_startup=1
