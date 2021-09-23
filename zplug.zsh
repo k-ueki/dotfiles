@@ -7,6 +7,6 @@ source ~/.zplug/init.zsh
 
 zplug "zplug/zplug"
 zplug "zsh-users/zsh-syntax-highlighting"
-zplug "wfxr/forgit"
+
 
 zplug install
