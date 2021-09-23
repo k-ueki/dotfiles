@@ -3,7 +3,7 @@ colorscheme codedark
 
 let g:webdevicons_enable_nerdtree = 2
 
-set clipboard+=unnamed
+set clipboard=unnamed
 
 " NERDTree conf
 let NERDTreeShowHidden = 1
@@ -16,3 +16,4 @@ set rtp+=~/.config/fzf
 " coc conf
 let g:coc_config_home='${HOME}/.config/nvim/config'
 au BufRead, BufNewFile *.sbt set filetype=scala
+

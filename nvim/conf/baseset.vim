@@ -14,3 +14,6 @@ set list
 set list listchars=tab:>-
 set mouse=a
 set ttyfast
+
+set completeopt=menuone,noinsert
+

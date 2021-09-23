@@ -28,6 +28,12 @@ nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>r :Rg<CR>
 "nnoremap <Leader>l :Lines<CR>
 
+" completion
+inoremap <expr><CR> pumvisible() ? '<C-y>' : '<CR>'
+inoremap <expr><C-j> pumvisible() ? '<Down>' : '<C-n>'
+inoremap <expr><C-k> pumvisible() ? '<Up>' : '<C-p>'
+
+
 " Tab
 
 "nnoremap <Leader>t :terminal
