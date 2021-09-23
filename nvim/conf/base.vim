@@ -15,5 +15,5 @@ set rtp+=~/.config/fzf
 
 " coc conf
 let g:coc_config_home='${HOME}/.config/nvim/config'
-au BufRead, BufNewFile *.sbt set filetype=scala
+au BufRead,BufNewFile *.sbt set filetype=scala
 
