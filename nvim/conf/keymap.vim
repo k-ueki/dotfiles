@@ -20,7 +20,7 @@ noremap <Leader>l $
 " NERDTree
 noremap <silent> <C-f> :NERDTreeToggle<CR>
 noremap <C-d> :NERDTreeFind<CR>
-nnoremap <Leader>bm :Bookmark<CR>
+" nnoremap <Leader>bm :Bookmark<CR>
 
 " Fzf, regrep
 nnoremap <Leader>f :GFiles<CR>

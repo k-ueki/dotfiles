@@ -7,6 +7,7 @@
 #
 
 export Z_PATH=$HOME/dotfiles/zsh
+export PATH="$PATH:$HOME/go/bin"
 
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/dotfiles/zsh/init.zsh" ]]; then
@@ -18,6 +19,7 @@ source ${Z_PATH}/zplug/zplug.zsh
 source ${HOME}/z/z.sh 
 
 source ${Z_PATH}/runcoms/myconf/alias
+source ${Z_PATH}/runcoms/myconf/dyn.zsh
 source ${Z_PATH}/runcoms/myconf/git_fzf.zsh
 source ${Z_PATH}/runcoms/myconf/myopt.zsh
 source ${Z_PATH}/runcoms/myconf/tmux_conf

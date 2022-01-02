@@ -1,4 +1,11 @@
 {
+	"suggest.noselect": true,
+	"suggest.preferCompleteThanJumpPlaceholder": true,
+	"coc.preferences.formatOnSaveFiletypes": [
+		"go",
+		"scala"
+	],
+	"metals.javaHome": "~/.jenv/shims/java",
 	"languageserver": {
 		"metals": {
 			"command": "metals-vim",
@@ -10,6 +17,12 @@
 			"args": ["serve"],
 			"filetypes": ["terraform", "tf"],
 			"initializationOptions": {}
+		},
+		"go": {
+			"command": "gopls",
+			"rootPatterns": ["go.mod", ".gitignore", ".git"],
+			"trace.server": "verbose",
+			"filetypes": ["go"]
 		}
 	}
 }

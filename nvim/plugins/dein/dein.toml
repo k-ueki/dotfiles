@@ -75,4 +75,3 @@ repo = 'tpope/vim-surround'
 
 [[plugins]]
 repo = 'hashivim/vim-terraform'
-
