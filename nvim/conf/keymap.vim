@@ -18,8 +18,13 @@ noremap <Leader>a ^
 noremap <Leader>l $
 
 " NERDTree
-noremap <silent> <C-f> :NERDTreeToggle<CR>
+"noremap <silent> <C-f> :NERDTreeToggle<CR>
+nnoremap <silent><C-f> :NERDTreeTabsToggle<CR>
 noremap <C-d> :NERDTreeFind<CR>
+nmap <Space>n [nerd]
+
+nnoremap <silent>[nerd]f :call NERDTreeFindAndHighlight()<CR>
+nnoremap <silent>[nerd]h :call NERDTreeHighlight()<CR>
 " nnoremap <Leader>bm :Bookmark<CR>
 
 " Fzf, regrep
