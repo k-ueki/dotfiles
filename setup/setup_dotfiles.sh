@@ -1,12 +1,14 @@
 #!bin/sh
 
-ln -sf $HOME/dotfiles/.tmux.conf ~/.tmux.conf
-ln -sf $HOME/dotfiles/nvim ~/.config/nvim
+export DOT_PATH="$HOME/dotfiles"
 
-ln -sf $HOME/runcoms/zlogin ~/.zlogin
-ln -sf $HOME/runcoms/zlogout ~/.zlogout
-ln -sf $HOME/runcoms/zpreztorc ~/.zpreztorc
-ln -sf $HOME/runcoms/zprofile ~/.zprofile
-ln -sf $HOME/runcoms/zshenv ~/.zshenv
-ln -sf $HOME/runcoms/zshrc ~/.zshrc
+ln -sf $DOT_PATH/tmux/.tmux.conf ~/.tmux.conf
+ln -sf $DOT_PATH/nvim ~/.config/nvim
+
+ln -sf $DOT_PATH/zsh/runcoms/zlogin ~/.zlogin
+ln -sf $DOT_PATH/zsh/runcoms/zlogout ~/.zlogout
+ln -sf $DOT_PATH/zsh/runcoms/zpreztorc ~/.zpreztorc
+ln -sf $DOT_PATH/zsh/runcoms/zprofile ~/.zprofile
+ln -sf $DOT_PATH/zsh/runcoms/zshenv ~/.zshenv
+ln -sf $DOT_PATH/zsh/runcoms/zshrc ~/.zshrc
 

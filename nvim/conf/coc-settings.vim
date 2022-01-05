@@ -1,12 +1,13 @@
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> <ctrl> <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-nmap <leader>rn <Plug>(coc-rename)
+"like inttelij Ctrl-Fn6 
+nmap <leader>6 <Plug>(coc-rename)
 nmap <leader>f <Plug>(coc-format-selected)
 
 nnoremap <silent> K :call <SID>show_documetation()<CR>
