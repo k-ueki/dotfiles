@@ -1,0 +1,12 @@
+for f in ${Z_PATH}/myconf/*; do
+	if [ -d $f ]; then
+		for file in $f/*; do
+			source $file
+		done
+	fi
+	if [ -f $f ]; then
+		source $f
+	fi
+done
+
+source ${HOME}/z/z.sh 
