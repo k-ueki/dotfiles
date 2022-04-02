@@ -1,7 +1,5 @@
 #!bin/zsh
 
-#bindkey -v
-
 function fzf_z_search() {
 	local target=$(z | sort -n | cut -c 12- | fzf )
 	if [ -n "$target" ]; then
