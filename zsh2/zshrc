@@ -13,8 +13,8 @@ for f in ${Z_PATH}/myconf/*; do
 	fi
 done
 
-source ${HOME}/z/z.sh
-source ${HOME}/zsh-abbr/zsh-abbr.zsh
+source ${HOME}/tools/z/z.sh
+source ${HOME}/tools/zsh-abbr/zsh-abbr.zsh
 
 # Fig post block. Keep at the bottom of this file.
 eval "$(fig init zsh post)"
