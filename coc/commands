@@ -1,0 +1,3 @@
+document.renameCurrentWord
+editor.action.pickColor
+go.install.gopls

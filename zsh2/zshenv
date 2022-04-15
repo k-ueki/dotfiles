@@ -19,9 +19,12 @@ export PATH="$HOME/.jenv/shims:$PATH"
 export PATH="$HOME/CyberAgent/dynalyst-mgmt-fm-tool:$PATH"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="${HOME}/.scalaenv/bin:${PATH}"
+export PATH="${HOME}/mybin:${PATH}"
 
 export LSCOLORS=cxfxcxdxbxGxDxabagacad
 
 export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 export FZF_CTRL_T_OPTS='--reverse --preview "bat --color=always --style=header,grid --line-range :100 {}"'
 export FZF_CTRL_R_OPTS='--reverse'
+
+

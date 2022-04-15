@@ -1,7 +1,7 @@
 #function is_exists() { type "$1" >/dev/null 2>&1; return $?;}
 #function is_osx() { [[ $OSTYPE == darwin* ]]; }
 #function is_screen_running() { [ ! -z "$STY" ]; }
-#function is_tmux_runnning() { [ ! -z "$TMUX" ]; }
+#function is_tmux_running() { [ ! -z "$TMUX" ]; }
 #function is_screen_or_tmux_running() { is_screen_running || is_tmux_runnning; }
 #function shell_has_started_interactively() { [ ! -z "$PS1" ]; }
 #function is_ssh_running() { [ ! -z "$SSH_CONECTION" ]; }
@@ -48,3 +48,48 @@
 #        fi
 #    fi
 #}
+
+# For Dynalyst
+sessions=(
+	"conv-apps"
+	"conv-form"
+	"conv-dig"
+	
+	"sbt"
+	
+	"work"
+)
+function start_session() { 
+	tmux new -s $1
+	tmux detach -s $1
+}
+# for session in $sessions; do
+# 	start_session $session
+# done
+
+
+# if [[ -z $(pgrep tmux) ]]; then
+# 	echo false
+# 	for session in $sessions; do
+# 		start_session $session
+# 	done
+# else
+# 	echo true
+# fi
+if [[ ! -n $TMUX && $- == *l* ]]; then
+  # get the IDs
+  ID="`tmux list-sessions`"
+  if [[ -z "$ID" ]]; then
+    tmux new-session
+  fi
+  create_new_session="Create New Session"
+  ID="$ID\n${create_new_session}:"
+  ID="`echo $ID | $PERCOL | cut -d: -f1`"
+  if [[ "$ID" = "${create_new_session}" ]]; then
+    tmux new-session
+  elif [[ -n "$ID" ]]; then
+    tmux attach-session -t "$ID"
+  else
+    :  # Start terminal normally
+  fi
+fi

@@ -40,6 +40,7 @@ build_on = './install --all'
 
 [[plugins]]
 repo = 'junegunn/fzf.vim'
+depends = 'fzf'
 
 # comment out
 #[[plugins]]
@@ -75,3 +76,19 @@ repo = 'tpope/vim-surround'
 
 [[plugins]]
 repo = 'hashivim/vim-terraform'
+
+[[plugins]]
+repo = 'simeji/winresizer'
+
+[[plugins]]
+repo = 'ryanoasis/vim-devicons'
+
+[[plugins]]
+repo = 'tomtom/tcomment_vim'
+hook_add = '''
+    vnoremap ? :'<,'>TComment<CR>
+	noremap ? :'<,'>TComment<CR>
+'''
+
+[[plugins]]
+repo = 'easymotion/vim-easymotion'

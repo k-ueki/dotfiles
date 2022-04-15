@@ -15,9 +15,12 @@ ln -sf $DOT_PATH/nvim ~/.config/nvim
 ln -sf $DOT_PATH/zsh2/zprofile ~/.zprofile
 ln -sf $DOT_PATH/zsh2/zshenv ~/.zshenv
 ln -sf $DOT_PATH/zsh2/zshrc ~/.zshrc
+ln -sf $DOT_PATH/zsh2/zlogin ~/.zlogin
 
 ln -sf $DOT_PATH/zsh2/zimrc ~/.zimrc
 ln -sf $DOT_PATH/zsh2/zim/gitster ~/.zim/modules/gitster
+
+ln -sf $DOT_PATH/bin ~/mybin
 
 
 ln -sf $DOT_PATH/.ideavimrc ~/.ideavimrc

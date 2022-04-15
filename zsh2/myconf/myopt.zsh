@@ -41,3 +41,7 @@ function fzf_intellij_search() {
 		/Applications/IntelliJ\ IDEA.app/Contents/MacOS/idea $target
 	fi
 }
+
+function mkcd() {
+	mkdir -p "$@" && eval cd "\"\$$#\"";
+}

@@ -9,6 +9,9 @@ for f in ${Z_PATH}/myconf/*; do
 		done
 	fi
 	if [ -f $f ]; then
+		if grep -q tmux_conf $f; then
+			continue
+		fi
 		source $f
 	fi
 done
@@ -19,3 +22,6 @@ source ${HOME}/tools/zsh-abbr/zsh-abbr.zsh
 # Fig post block. Keep at the bottom of this file.
 eval "$(fig init zsh post)"
 
+source ${Z_PATH}/myconf/tmux_conf.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

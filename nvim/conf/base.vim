@@ -1,7 +1,8 @@
 syntax on
-colorscheme codedark
+"colorscheme codedark
+colorscheme kuroi
 
-let g:webdevicons_enable_nerdtree = 2
+let g:webdevicons_enable_nerdtree = 0
 
 set clipboard=unnamed
 
