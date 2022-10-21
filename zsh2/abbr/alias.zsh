@@ -2,9 +2,9 @@ for a in $(abbr list-abbreviations); do
 	abbr erase $a
 done
 
-abbr kc='kubectl'
+abbr k='kubectl'
 abbr tf='terraform'
-abbr dc='docker-compose'
+abbr dp='docker-compose'
 abbr tm='tmux'
 
 abbr telij='/Applications/IntelliJ\ IDEA.app/Contents/MacOS/idea'
