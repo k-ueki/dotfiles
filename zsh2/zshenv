@@ -33,3 +33,4 @@ export FZF_CTRL_T_OPTS='--reverse --preview "bat --color=always --style=header,g
 export FZF_CTRL_R_OPTS='--reverse'
 
 export FIG_WORKFLOWS_KEYBIND="^\\"
+. "$HOME/.cargo/env"

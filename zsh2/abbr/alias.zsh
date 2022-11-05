@@ -29,3 +29,5 @@ abbr lla='ls -al'
 # global option
 abbr -g G='| grep '
 
+
+abbr mux='tmuxinator'
