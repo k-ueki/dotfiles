@@ -8,6 +8,6 @@ cd ~/CyberAgent/Dynalyst/dynalyst-mgmt-fw-tool
 export AWS_PROFILE=conv-dev
 echo "AWS_PROFILE=$(echo $AWS_PROFILE)"
 
-open https://authenticator.pingone.com/pingid/ppm/auth
+#open https://authenticator.pingone.com/pingid/ppm/auth
 open https://apf.cyberagent.group/idp/startSSO.ping?PartnerSpId=adtech-aws-dynalyst-dev
 

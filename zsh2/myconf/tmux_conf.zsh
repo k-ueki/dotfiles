@@ -49,24 +49,6 @@
 #    fi
 #}
 
-# For Dynalyst
-sessions=(
-	"conv-apps"
-	"conv-form"
-	"conv-dig"
-	
-	"sbt"
-	
-	"work"
-)
-function start_session() { 
-	tmux new -s $1
-	tmux detach -s $1
-}
-# for session in $sessions; do
-# 	start_session $session
-# done
-
 
 # if [[ -z $(pgrep tmux) ]]; then
 # 	echo false

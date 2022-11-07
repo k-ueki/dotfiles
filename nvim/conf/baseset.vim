@@ -5,6 +5,7 @@ set relativenumber
 set tabstop=4
 set shiftwidth=4
 set ignorecase
+set smartcase
 set hlsearch
 set nobackup
 set noswapfile
@@ -16,4 +17,12 @@ set mouse=a
 set ttyfast
 
 set completeopt=menuone,noinsert
+
+set hidden
+
+" inoremap { {}<LEFT>
+" inoremap [ []<LEFT>
+" inoremap ( ()<LEFT>
+" inoremap " ""<LEFT>
+" inoremap ' ''<LEFT>
 

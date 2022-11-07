@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ -n "$TMUX" ]; then
+  session="$(tmux ls |
+    cut -d : -f 1 |
+    fzf
+  )"
+
+  if [ -n "$session" ]; then
+    tmux switch -t $session
+  fi
+fi
+

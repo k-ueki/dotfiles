@@ -1,3 +1,4 @@
+
 function! NERDTreeFindAndHighlight()
   NERDTreeFind
   :setlocal isk+=.
@@ -10,8 +11,6 @@ function! NERDTreeHighlight()
   :call NERDTreeFindAndHighlight()
   :wincmd p
 endfunction
-
-
 
 
 " [
@@ -37,8 +36,8 @@ endfunction
 
 nnoremap <silent> <C-t> :<C-u>call CocActionAsync('jumpDefinition', CocJumpAction())<CR>
 
-
 function! NERDTreeFzfSearch()
   let s:cmd = 'FZF .'
   execute s:cmd
 endfunction
+

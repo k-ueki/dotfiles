@@ -1,4 +1,4 @@
-nnoremap <silent> <Leader>g :<C-u>silent call <SID>find_rip_grep()<CR>
+nnoremap <silent><Leader>g :<C-u>silent call <SID>find_rip_grep()<CR>
 
 function! s:find_rip_grep() abort
     call fzf#vim#grep(
@@ -8,3 +8,4 @@ function! s:find_rip_grep() abort
                 \   0,
                 \ )
 endfunction
+

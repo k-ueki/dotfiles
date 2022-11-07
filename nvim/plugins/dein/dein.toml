@@ -42,14 +42,6 @@ build_on = './install --all'
 repo = 'junegunn/fzf.vim'
 depends = 'fzf'
 
-# comment out
-#[[plugins]]
-#repo = 'tyru/caw.vim'
-#hook_add='''
-#    nmap <C-\> <Plug>(caw:hatpos:toggle)
-#    vmap <C-\> <Plug>(caw:hatpos:toggle)
-#'''
-
 [[plugins]]
 repo = 'neoclide/coc.nvim'
 rev = 'release'
@@ -92,3 +84,10 @@ hook_add = '''
 
 [[plugins]]
 repo = 'easymotion/vim-easymotion'
+
+[[plugins]]
+repo = 'cohama/lexima.vim'
+
+[[plugins]]
+repo = 'ap/vim-buftabline'
+
