@@ -9,7 +9,7 @@ export JENV_SHELL=zsh
 export JENV_LOADED=1
 unset JAVA_HOME
 
-export Z_PATH=$HOME/dotfiles/zsh2
+export Z_PATH=$HOME/dotfiles/zsh
 
 export PATH="$PATH:$HOME/go/bin"
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
