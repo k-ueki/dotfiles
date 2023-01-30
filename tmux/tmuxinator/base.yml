@@ -14,4 +14,3 @@ windows:
           - tmuxinator start apps
           - tmuxinator start formation
           - tmuxinator start sbt
-          - sleep 5 && tmux kill-session -t base

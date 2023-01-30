@@ -16,6 +16,7 @@ done
 
 source ${HOME}/tools/z/z.sh
 source ${HOME}/tools/zsh-abbr/zsh-abbr.zsh
+cp ${HOME}/tools/chrome-cli/chrome-cli/chrome-cli /usr/local/bin
 
 source ${Z_PATH}/myconf/tmux_conf.zsh
 
