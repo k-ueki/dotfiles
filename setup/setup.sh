@@ -12,6 +12,9 @@ sh ./setup_fonts.sh
 # setup options
 sh ./setup_opts.sh
 
+# setup dotfiles
+sh ./setup_dotfiles.sh
+
 #install via brew
 brew bundle --file=./Brewfile
 
