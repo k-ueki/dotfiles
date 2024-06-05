@@ -45,3 +45,12 @@ function fzf_intellij_search() {
 function mkcd() {
 	mkdir -p "$@" && eval cd "\"\$$#\"";
 }
+
+
+alias tmp="make_temp_rm"
+function make_temp_rm() {
+	datetime=$(date "+%Y%m%d%H%m")
+	fileName="tmp_$datetime"
+	vi ~/tmp/$fileName
+}
+

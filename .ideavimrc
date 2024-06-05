@@ -1,4 +1,5 @@
 "文字コード設定" "set fenc=utf-16 
+let mapleader = "\<Space>"
 set fenc=utf-8 
 set encoding=utf-8
 set relativenumber
@@ -81,6 +82,12 @@ nnoremap tn :tabnew<CR>
 nnoremap mm gt
 nnoremap nn gT
 nnoremap \ $
+
+
+set easymotion
+map <leader>w <Plug>(easymotion-bd-w)  " word単位移動
+map <leader>s <Plug>(easymotion-bd-f2) " 検索移動
+map <leader>l <Plug>(easymotion-bd-jk) " 行移動
 
 
 " #function is_exists() { type "$1" >/dev/null 2>&1; return $?;}

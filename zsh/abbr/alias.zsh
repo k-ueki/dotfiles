@@ -17,7 +17,7 @@ abbr gs="git status"
 abbr gc="git commit -m"
 abbr gam="git commit --amend"
 abbr gp="git push origin head"
-abbr gstash="git stash"
+abbr gst="git stash"
 abbr gpop="git stash pop"
 abbr gl="git log --oneline"
 abbr gd="git diff"
@@ -27,7 +27,10 @@ abbr la='ls -a'
 abbr lla='ls -al'
 
 # global option
-abbr -g G='| grep '
+abbr -g G='| grep'
 
 
 abbr mux='tmuxinator'
+
+## for dyna
+abbr aws='aws --profile conv-dev'
