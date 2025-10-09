@@ -1,3 +1,6 @@
+export SHELL=/bin/zsh
+
+
 # Fig pre block. Keep at the top of this file.
 [[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 for f in ${Z_PATH}/myconf/*; do
@@ -16,7 +19,7 @@ done
 
 source ${HOME}/tools/z/z.sh
 source ${HOME}/tools/zsh-abbr/zsh-abbr.zsh
-cp ${HOME}/tools/chrome-cli/chrome-cli/chrome-cli /usr/local/bin
+# cp ${HOME}/tools/chrome-cli/chrome-cli/chrome-cli /usr/local/bin
 
 source ${Z_PATH}/myconf/tmux_conf.zsh
 
@@ -24,7 +27,11 @@ source ${Z_PATH}/myconf/tmux_conf.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export PATH=$PATH:~/.rbenv/bin
-
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+
+eval "$(nodenv init - zsh)"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+eval "$(direnv hook zsh)"
