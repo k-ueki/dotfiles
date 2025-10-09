@@ -1,0 +1,1 @@
+echo '{"startup": "echo \"Logged in as: $(claude auth whoami)\""}'
