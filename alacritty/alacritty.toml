@@ -1,0 +1,60 @@
+[colors.bright]
+black = "#676767"
+blue = "#6871ff"
+cyan = "#5ffdff"
+green = "#5ff967"
+magenta = "#ff76ff"
+red = "#ff6d67"
+white = "#fffefe"
+yellow = "#fefb67"
+
+[colors.cursor]
+cursor = "#c7c7c7"
+text = "#fffefe"
+
+[colors.hints.end]
+background = "#1d1f21"
+foreground = "#e9ff5e"
+
+[colors.hints.start]
+background = "#e9ff5e"
+foreground = "#1d1f21"
+
+[colors.normal]
+black = "#000000"
+blue = "#002cff"
+cyan = "#00c5c7"
+green = "#00c200"
+magenta = "#c930c7"
+red = "#a44131"
+white = "#c7c7c7"
+yellow = "#c7c400"
+
+[colors.primary]
+background = "#292a33"
+foreground = "#fdfdfd"
+
+[font]
+size = 14
+
+[font.bold]
+family = "SauceCodePro Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "SauceCodePro Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "SauceCodePro Nerd Font"
+style = "Regular"
+
+[scrolling]
+history = 10000
+
+[shell]
+# args = ["-l", "-c", "tmux a -t work"]
+program = "/bin/zsh"
+
+[window]
+startup_mode = "Fullscreen"
