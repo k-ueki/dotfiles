@@ -41,6 +41,6 @@ fi
 
 #PS1='%(?:%F{green}:%F{red})➜ %F{white}$(prompt-pwd)${(e)git_info[prompt]}%f '
 PS1='
- ${SSH_TTY:+"%F{9}%n%F{7}@%F{3}%m "}%B%F{cyan}%~%b%(!. %B%F{1}#%b.) ${(e)git_info[prompt]}${(e)git_info[status]}%f
+${SSH_TTY:+"%F{9}%n%F{7}@%F{3}%m "}%B%F{cyan}%~%b%(!. %B%F{1}#%b.) ${(e)git_info[prompt]}${(e)git_info[status]}%f '$(kube_ps1)'
 $(_prompt_sorin_vimode)%f '
 unset RPS1
