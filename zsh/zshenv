@@ -11,18 +11,21 @@ unset JAVA_HOME
 
 export Z_PATH=$HOME/dotfiles/zsh
 
+export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$PATH:$HOME/go/bin"
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
 export PATH="$GOROOT/bin:$PATH"
 export PATH="$PATH:$GOPATH/bin"
-export PATH="$HOME/.jenv/shims:$PATH"
 export PATH="$HOME/CyberAgent/dynalyst-mgmt-fm-tool:$PATH"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-export PATH="${HOME}/.scalaenv/bin:${PATH}"
 export PATH="${HOME}/mybin:${PATH}"
 export PATH="${HOME}/mybin/for_dynalyst:${PATH}"
 export PATH="${HOME}/mybin/tmux:${PATH}"
+export PATH="$HOME/.jenv/shims:$PATH"
+export PATH="${HOME}/.scalaenv/bin:${PATH}"
+export PATH="${PATH}:${HOME}/tools/cycloud"
 #export PATH="${PATH}:$HOME/CyberAgent/k-ueki/scripts_for_dynalyst"
+export PATH=$PATH:~/.rbenv/bin
 
 #/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:/Users/s11308/.jenv/shims:/Users/s11308/.scalaenv/shims:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/s11308/mybin:/Users/s11308/.scalaenv/bin:/Users/s11308/.yarn/bin:/Users/s11308/.config/yarn/global/node_modules/.bin:/Users/s11308/CyberAgent/dynalyst-mgmt-fm-tool:/Users/s11308/.jenv/shims:/Users/s11308/.nodebrew/current/bin:/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:/Users/s11308/.scalaenv/shims:/Users/s11308/go/bin:/Users/s11308/.fig/bin:/Users/s11308/.local/bin:/Users/s11308/.cache/dein/repos/github.com/junegunn/fzf/bin:/Users/s11308/.rbenv/bin:/Users/s11308/CyberAgent/k-ueki/scripts_for_dynalyst:/Users/s11308/.local/bin:/Users/s11308/.rbenv/bin
 
@@ -34,3 +37,13 @@ export FZF_CTRL_R_OPTS='--reverse'
 
 export FIG_WORKFLOWS_KEYBIND="^\\"
 . "$HOME/.cargo/env"
+
+# export NODE_OPTIONS=--openssl-legacy-provider
+
+source /Users/s11308/tools/kube-ps1/kube-ps1.sh
+
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="/opt/homebrew/opt/postgresql@13/bin:$PATH"
+
+export PATH="${HOME}/tools/fzf-chrome-active-tab/chrome-tab-activate:$PATH"
