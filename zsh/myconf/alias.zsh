@@ -9,7 +9,9 @@ alias ....='cd ../../..'
 
 alias less='bat'
 alias cat='bat --paging=never'
-alias ls='exa'
+#alias ls='exa'
 alias grep='rg'
 alias ch='chrome-cli'
 
+alias python='python3'
+#alias c='chrome-tab-activate'

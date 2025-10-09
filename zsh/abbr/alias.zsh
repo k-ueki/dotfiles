@@ -12,6 +12,7 @@ abbr telij='/Applications/IntelliJ\ IDEA.app/Contents/MacOS/idea'
 ## Git
 abbr ga="git add"
 abbr gch="git checkout"
+abbr gcb='git checkout $(git branch | fzf)'
 abbr gcm="git checkout master"
 abbr gs="git status"
 abbr gc="git commit -m"
@@ -33,4 +34,11 @@ abbr -g G='| grep'
 abbr mux='tmuxinator'
 
 ## for dyna
-abbr aws='aws --profile conv-dev'
+abbr stg='ssh conv-stg-2'
+abbr prod='ssh conv-prod-2'
+# abbr c='chrome-tab-activate'
+
+
+## claude
+abbr c='claude'
+abbr -g C='| claude'
