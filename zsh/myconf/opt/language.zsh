@@ -11,7 +11,7 @@ eval "$(scalaenv init -)"
 eval export PATH="/Users/s11308/.jenv/shims:${PATH}"
 unset JAVA_HOME
 
-source '/usr/local/Cellar/jenv/0.5.4/libexec/libexec/../completions/jenv.zsh'
+#source '/usr/local/Cellar/jenv/0.5.4/libexec/libexec/../completions/jenv.zsh'
 jenv rehash 2>/dev/null
 jenv refresh-plugins
 jenv() {

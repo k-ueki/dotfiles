@@ -6,14 +6,15 @@ eval "$(fig init zsh pre)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 ## zsh-abbr
-source /usr/local/Cellar/zsh-abbr/4.7.1/share/zsh-abbr/zsh-abbr.zsh
+source /opt/homebrew/Cellar/zsh-abbr/5.8.0/share/zsh-abbr/zsh-abbr.zsh
+# source ../abbr/alias.zsh
 
 ## tmux-attach
 #tmux_automatically_attach_session
 
 ## google-cloud-sdk
-source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
-source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
+# source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
+# source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
 
 ## zim
 #source ${HOME}/.zim/zimfw.zsh
