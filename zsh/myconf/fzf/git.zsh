@@ -1,21 +1,14 @@
 #!bin/zsh
 
-function _git_checkout() {
-	local branch=$(git branch -a | fzf)
-	BUFFER+="git checkout $branch"
-	zle accept-line
-}
-zle -N _git_checkout
-bindkey '^g^o' _git_checkout
 
 alias ghash="_git_fetch_commit_hash"
 function _git_fetch_commit_hash() {
-	git log --oneline | fzf --reverse | cut -d ' ' -f 1 | pbcopy
+	git log --oneline | fzf-tmux -p 80% --reverse | cut -d ' ' -f 1 | pbcopy
 }
 
 alias grbi="_git_rebase_interactive"
 function _git_rebase_interactive() {
-	local start="$(git log --oneline | fzf --reverse | cut -d ' ' -f 1)"
+	local start="$(git log --oneline | fzf-tmux -p 80% --reverse | cut -d ' ' -f 1)"
 	BUFFER+="git rebase -i $start"
 	zle accept-line
 }
@@ -26,7 +19,7 @@ alias fga="_fzf_git_add"
 function _fzf_git_add() {
 	local preview="git diff $@ --color=always -- {-1}"
 	git add -N .
-	git add $(git diff $@ --name-only | fzf -m --ansi --preview "$preview" --preview-window '50%')
+	git add $(git diff $@ --name-only | fzf-tmux -p 90% -m --ansi --preview "$preview" --preview-window '60%')
 }
 
 # alias fgd="_fzf_git_diff"
@@ -82,15 +75,31 @@ function _git_commit_message() {
 # 	done
 # }
 alias fgc="_fzf_git_checkout"
+# function _fzf_git_checkout() {
+# 	local preview="git diff $@ --color=always -- {-1}"
+# 	git add -N .
+# 	local files=$(git diff $@ --name-only | fzf-tmux -p 90% -m --ansi --preview "$preview" --preview-window '60%')
+# 	files=`echo ${files} | sed -e "s/[\r\n]\+//g"`
+# 	if [ ${#files[@]} -ne 0 ]; then 
+# 		git checkout $files;
+# 	fi
+# }
 function _fzf_git_checkout() {
-	local preview="git diff $@ --color=always -- {-1}"
-	git add -N .
-	local files=$(git diff $@ --name-only | fzf -m --ansi --preview "$preview" --preview-window '50%')
-	echo $files
-	files=`echo ${files} | sed -e "s/[\r\n]\+//g"`
-	if [ ${#files[@]} -ne 0 ]; then 
-		git checkout $files;
-	fi
+    local preview="git diff $@ --color=always -- {-1}"
+    git add -N .
+    
+    local files=$(git diff $@ --name-only | fzf-tmux -p 90% -m --ansi --preview "$preview" --preview-window '60%')
+    
+    if [ -n "$files" ]; then
+        local file_array=()
+        while IFS= read -r line; do
+            [ -n "$line" ] && file_array+=("$line")
+        done <<< "$files"
+        
+        if [ ${#file_array[@]} -ne 0 ]; then
+            git checkout "${file_array[@]}"
+        fi
+    fi
 }
 
 
@@ -98,7 +107,7 @@ alias fgk="_fzf_git_diff_vim"
 function _fzf_git_diff_vim() {
 	local preview="git diff $@ --color=always -- {-1}"
 	git add -N .
-	local files=$(git diff $@ --name-only | fzf -m --ansi --preview "$preview" --preview-window '50%')
+	local files=$(git diff $@ --name-only | fzf -m --ansi --preview "$preview" --preview-window '70%')
 	echo $files
 	files=`echo ${files} | sed -e "s/[\r\n]\+//g"`
 	if [ ${#files[@]} -ne 0 ]; then 
@@ -112,3 +121,17 @@ function _fzf_git_diff_vim() {
 	fi
 }
 
+function _select_git_switch() {
+  target_br=$(
+    git branch -a |
+      fzf --exit-0 --layout=reverse --info=hidden --no-multi --preview-window="right,65%" --prompt="CHECKOUT BRANCH > " --preview="echo {} | tr -d ' *' | xargs git log --graph --decorate --abbrev-commit --format=format:'%C(blue)%h%C(reset) - %C(green)(%ar)%C(reset)%C(yellow)%d%C(reset)\n  %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --color=always" |
+      head -n 1 |
+      perl -pe "s/\s//g; s/\*//g; s/remotes\/origin\///g"
+  )
+  if [ -n "$target_br" ]; then
+    BUFFER="git switch $target_br"
+    zle accept-line
+  fi
+}
+zle -N _select_git_switch
+bindkey '^g^o' _select_git_switch
