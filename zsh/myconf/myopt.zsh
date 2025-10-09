@@ -23,16 +23,16 @@ function fzf_file_search_current() {
 zle -N fzf_file_search_current
 bindkey '^s' fzf_file_search_current
 
-function fzf_file_search_home() {
-	local file=$(find ~ | fzf)
-	if [ -n "$file" ]; then
-		BUFFER="$(echo $BUFFER) $file"
-		CURSOR=$#BUFFER
-		zle redisplay
-	fi
-}
-zle -N fzf_file_search_home
-bindkey '^s^s' fzf_file_search_home
+# function fzf_file_search_home() {
+# 	local file=$(find ~ | fzf)
+# 	if [ -n "$file" ]; then
+# 		BUFFER="$(echo $BUFFER) $file"
+# 		CURSOR=$#BUFFER
+# 		zle redisplay
+# 	fi
+# }
+# zle -N fzf_file_search_home
+# bindkey '^s^s' fzf_file_search_home
 
 alias fs="fzf_intellij_search"
 function fzf_intellij_search() {
@@ -47,10 +47,32 @@ function mkcd() {
 }
 
 
-alias tmp="make_temp_rm"
-function make_temp_rm() {
-	datetime=$(date "+%Y%m%d%H%m")
-	fileName="tmp_$datetime"
-	vi ~/tmp/$fileName
+alias tmp="make_tempfile"
+function make_tempfile() {
+	tmpfile="tmp_$(date "+%Y%m%d%H%m%s")"
+	
+	function rm_tmpfile {
+	  [[ -f "$tmpfile" ]] && rm -f "$tmpfile"
+	  echo ~/tmp/$tmpfile is deleted.
+	}
+	vim ~/tmp/$tmpfile
+
+	trap rm_tmpfile EXIT
+	trap 'trap - EXIT; rm_tmpfile; exit -1' INT PIPE TERM
+}
+
+
+alias vs="vim_switch"
+function vim_switch() {
+	echo "Switching vim to $1..."
+	if [[ "$1" == "myvim" ]]; then
+		rm -f $HOME/.config/nvim
+		ln -s $HOME/dotfiles/nvim $HOME/.config
+	elif [[ "$1" == "astro" ]]; then
+		rm -f $HOME/.config/nvim
+		ln -s $HOME/dotfiles/AstroNvim $HOME/.config/nvim
+	else
+		echo The vim setting $1 is not found.
+	fi
 }
 

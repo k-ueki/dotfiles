@@ -10,7 +10,7 @@ function _activate_and_move_specific_tab_with_fzf() {
 		local tab_id=$(echo $target_record | cut -d"]" -f1 | cut -d":" -f2)
 	fi
 	chrome-cli activate -t $tab_id
-	if [ ! -z $target_record ] && open /Applications/Google\ Chrome.app
+	if [ ! -z $target_record ] && open /Applications/Google\ Chrome\ 2.app
 }
 alias cht="_activate_and_move_specific_tab_with_fzf"
 
