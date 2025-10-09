@@ -5,3 +5,17 @@ coc-go-data
 
 for_dynalyst.zsh
 for_dynalyst
+
+.DS_Store
+
+# Claude Code session and personal data
+claude/debug/
+claude/projects/
+claude/history.jsonl
+claude/statsig/
+claude/todos/
+claude/file-history/
+claude/shell-snapshots/
+claude/docs/
+claude/ide/
+claude/plugins/
