@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# Usage: tmux-pane-manager [kill|respawn]
+
+set -euo pipefail
+
+if [[ -z "${TMUX:-}" ]]; then
+  echo "Error: should exec in a tmux session" >&2
+  exit 1
+fi
+
+ACTION="${1:-}"
+
+if [[ -z "$ACTION" ]]; then
+  ACTION=$(printf "kill\nrespawn" | fzf --prompt="Action > " --height=8 --border)
+  [[ -z "$ACTION" ]] && exit 0
+fi
+
+if [[ "$ACTION" != "kill" && "$ACTION" != "respawn" ]]; then
+  echo "Usage: tmux-pane-manager [kill|respawn]" >&2
+  exit 1
+fi
+
+pane_list=$(tmux list-panes -a -F \
+  "#S:#I.#P  [#{pane_width}x#{pane_height}]  history:#{history_size}/#{history_limit}  pid:#{pane_pid}  #{pane_id}#{?pane_active,  ← active,}" \
+  | grep -v "$(tmux display-message -p '#S:#I.#P')" || true)
+
+if [[ -z "$pane_list" ]]; then
+  echo "The pane not found." >&2
+  exit 1
+fi
+
+selected=$(echo "$pane_list" | fzf \
+  --prompt="select a pane to ${ACTION}> " \
+  --height=40% \
+  --border \
+  --multi \
+  --preview='echo {}' \
+  --preview-window=up:1)
+
+[[ -z "$selected" ]] && exit 0
+
+echo "$selected" | while IFS= read -r line; do
+  pane_id=$(echo "$line" | grep -oE '%[0-9]+')
+  if [[ -z "$pane_id" ]]; then
+    echo "Warning: can't fetch the pane id: $line" >&2
+    continue
+  fi
+
+  case "$ACTION" in
+    kill)
+      tmux kill-pane -t "$pane_id"
+      echo "killed: $pane_id"
+      ;;
+    respawn)
+      tmux respawn-pane -k -t "$pane_id"
+      echo "respawned: $pane_id"
+      ;;
+  esac
+done
