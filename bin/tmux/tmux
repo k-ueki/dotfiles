@@ -1,0 +1,13 @@
+#!/bin/bash # tmux wrapper - adds custom subcommands while delegating everything else to the real tmux
+
+REAL_TMUX="/opt/homebrew/bin/tmux"
+
+cmd_pm() {
+  exec tmux-pane-manager "$@"
+}
+
+case "${1:-}" in 
+  pm) shift; cmd_pm "$@" ;;
+  *) exec $REAL_TMUX "$@" ;;
+esac
+
