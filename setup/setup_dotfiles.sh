@@ -27,3 +27,5 @@ ln -sf $DOT_PATH/.ideavimrc ~/.ideavimrc
 
 ln -sf $DOT_PATH/alacritty ~/.config/alacritty
 ln -sf $DOT_PATH/claude ~/.claude
+
+ln -sf $DOT_PATH/karabiner/karabiner.json ~/.config/karabiner/karabiner.json
