@@ -1,2 +1,0 @@
-statusLine:
-  right: "{{user.email}}"
