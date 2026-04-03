@@ -1,4 +1,6 @@
-#!/bin/bash # tmux wrapper - adds custom subcommands while delegating everything else to the real tmux
+#!/bin/bash 
+
+# tmux wrapper - adds custom subcommands while delegating everything else to the real tmux
 
 REAL_TMUX="/opt/homebrew/bin/tmux"
 

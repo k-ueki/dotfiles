@@ -1,4 +1,4 @@
-#!bin/sh
+#!/bin/sh
 
 # install ricty-with-powerline
 brew install ricty --with-powerline

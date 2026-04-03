@@ -1,4 +1,4 @@
-#!bin/sh
+#!/bin/sh
 
 export DOT_PATH="$HOME/dotfiles"
 

@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 # setup base
 sh ./setup_base.sh

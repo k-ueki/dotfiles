@@ -1,4 +1,4 @@
-#!bin/sh
+#!/bin/sh
 
 #dein install
 mkdir -p ~/.cache/dein
