@@ -235,22 +235,24 @@ case "${1:-}" in
   "")           if command -v fzf >/dev/null 2>&1; then _fzf_search; else _list_all; fi ;;
   list)         _list_all ;;
   exec)         _fzf_exec ;;
+  insert)       _fzf_select "insert" ;;
   --help|-h)    cat <<'EOF'
-Usage: myhelp [command|list|exec|--help]
+Usage: myhelp [command|list|exec|insert|--help]
 
-  (no args)       fzf でコマンドを検索して詳細表示
-  list            カテゴリ別に全コマンドを一覧表示
-  exec            fzf でコマンドを選択して実行
-  <command>       指定したコマンドの詳細を表示
-  --help, -h      このヘルプを表示
+  (no args)       Search commands via fzf and show details
+  list            List all commands grouped by category
+  exec            Select and execute a command via fzf
+  insert          Select a command via fzf and print it (for shell insertion)
+  <command>       Show details for the specified command
+  --help, -h      Show this help
 
 Annotation conventions (in scripts / .zsh files):
-  # @desc <text>              説明（必須）
-  # @key <key>                キーバインド（例: ^g^r）
-  # @category <name>          カテゴリ
-  # @default-category <name>  ファイル全体のデフォルトカテゴリ
-  # @usage <text>             使い方
-  # @example <text>           例
+  # @desc <text>              Description (required)
+  # @key <key>                Keybinding (e.g. ^g^r)
+  # @category <name>          Category
+  # @default-category <name>  Default category for the whole file
+  # @usage <text>             Usage
+  # @example <text>           Example
 EOF
     ;;
   *)            _show_detail "$1" ;;

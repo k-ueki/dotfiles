@@ -81,6 +81,17 @@ function fkill() {
 	fi
 }
 
+# @desc myhelp でコマンドを fzf 選択してコマンドラインに挿入する
+# @key ^h^h
+function myhelp_insert() {
+  local cmd
+  cmd=$(myhelp insert) || return
+  [[ -n "$cmd" ]] && print -z "$cmd"
+  zle reset-prompt
+}
+zle -N myhelp_insert
+bindkey '^h^h' myhelp_insert
+
 # @desc history から fzf で選択してコマンドラインに挿入する
 # @key ^r
 function fzf_history() {
