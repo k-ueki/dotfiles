@@ -82,15 +82,17 @@ function fkill() {
 }
 
 # @desc myhelp でコマンドを fzf 選択してコマンドラインに挿入する
-# @key ^h^h
+# @key ^xh
 function myhelp_insert() {
   local cmd
   cmd=$(myhelp insert) || return
-  [[ -n "$cmd" ]] && print -z "$cmd"
+  if [[ -n "$cmd" ]]; then
+    LBUFFER="${LBUFFER}${cmd}"
+  fi
   zle reset-prompt
 }
 zle -N myhelp_insert
-bindkey -M viins '^h^h' myhelp_insert
+bindkey -M viins '^xh' myhelp_insert
 
 # @desc history から fzf で選択してコマンドラインに挿入する
 # @key ^r
