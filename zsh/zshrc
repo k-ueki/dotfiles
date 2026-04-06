@@ -18,6 +18,8 @@ for f in ${Z_PATH}/myconf/*; do
 done
 
 source ${HOME}/tools/z/z.sh
+# Load zsh-abbr after zim.zsh so it binds in viins keymap (vi mode)
+source "$(brew --prefix)/share/zsh-abbr/zsh-abbr.zsh"
 eval "$(abbr-loader $HOME/dotfiles/zsh/abbr/abbr.yaml)"
 
 source ${Z_PATH}/myconf/tmux_conf.zsh

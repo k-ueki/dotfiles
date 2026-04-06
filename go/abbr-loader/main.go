@@ -48,6 +48,11 @@ func cachedHash() string {
 	return strings.TrimSpace(string(b))
 }
 
+// singleQuote wraps s in single quotes, escaping any embedded single quotes.
+func singleQuote(s string) string {
+	return strings.ReplaceAll(s, "'", `'\''`)
+}
+
 func updateCache(hash string) {
 	dir := filepath.Dir(cacheFile())
 	_ = os.MkdirAll(dir, 0755)
@@ -164,7 +169,7 @@ func main() {
 
 	// Always emit alias definitions — aliases are not persistent across sessions.
 	for _, e := range aliasEntries {
-		fmt.Printf("alias %s=%q\n", e.name, e.expansion)
+		fmt.Printf("alias %s='%s'\n", e.name, singleQuote(e.expansion))
 	}
 
 	// Diff abbr entries against current state, skipping if yaml is unchanged.
@@ -197,9 +202,9 @@ func main() {
 			fmt.Printf("abbr erase %s\n", e.name)
 		}
 		if e.kind == entryGlobal {
-			fmt.Printf("abbr -g %s=%q\n", e.name, e.expansion)
+			fmt.Printf("abbr -g %s='%s'\n", e.name, singleQuote(e.expansion))
 		} else {
-			fmt.Printf("abbr %s=%q\n", e.name, e.expansion)
+			fmt.Printf("abbr %s='%s'\n", e.name, singleQuote(e.expansion))
 		}
 	}
 
