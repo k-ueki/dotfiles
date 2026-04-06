@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-# Usage: tmux-pane-manager [kill|respawn]
+# @desc tmux のペインを fzf で選択して kill / respawn する
+# @usage tmux-pane-manager [kill|respawn]
+# @example tmux pm
+# @example tmux-pane-manager kill
+# @category tmux
 
 set -euo pipefail
 

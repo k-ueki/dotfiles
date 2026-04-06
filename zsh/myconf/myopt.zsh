@@ -1,5 +1,8 @@
 #!bin/zsh
+# @default-category util
 
+# @desc z の履歴から移動先を fzf で選択する
+# @key ^f
 function fzf_z_search() {
 	local target=$(z | sort -n | cut -c 12- | fzf )
 	if [ -n "$target" ]; then
@@ -12,6 +15,8 @@ function fzf_z_search() {
 zle -N fzf_z_search
 bindkey '^f' fzf_z_search
 
+# @desc カレントディレクトリのファイルを fzf で選択してコマンドラインに挿入する
+# @key ^s
 function fzf_file_search_current() {
 	local file=$(find . | fzf)
 	if [ -n "$file" ]; then
@@ -34,6 +39,7 @@ bindkey '^s' fzf_file_search_current
 # zle -N fzf_file_search_home
 # bindkey '^s^s' fzf_file_search_home
 
+# @desc ファイルを fzf で選択して IntelliJ IDEA で開く
 alias fs="fzf_intellij_search"
 function fzf_intellij_search() {
 	local target=$(fzf)
@@ -42,15 +48,17 @@ function fzf_intellij_search() {
 	fi
 }
 
+# @desc mkdir して即 cd する
 function mkcd() {
 	mkdir -p "$@" && eval cd "\"\$$#\"";
 }
 
 
+# @desc 一時ファイルを vim で開き、終了後に削除する
 alias tmp="make_tempfile"
 function make_tempfile() {
 	tmpfile="tmp_$(date "+%Y%m%d%H%m%s")"
-	
+
 	function rm_tmpfile {
 	  [[ -f "$tmpfile" ]] && rm -f "$tmpfile"
 	  echo ~/tmp/$tmpfile is deleted.
@@ -62,6 +70,7 @@ function make_tempfile() {
 }
 
 
+# @desc nvim の設定を切り替える (myvim / astro)
 alias vs="vim_switch"
 function vim_switch() {
 	echo "Switching vim to $1..."
@@ -75,4 +84,3 @@ function vim_switch() {
 		echo The vim setting $1 is not found.
 	fi
 }
-

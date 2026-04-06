@@ -1,0 +1,260 @@
+#!/usr/bin/env bash
+# @desc カスタムコマンド・キーバインドの一覧・詳細を表示する
+# @usage myhelp [command|list|exec]
+# @example myhelp
+# @example myhelp fgch
+# @example myhelp list
+# @example myhelp exec
+# @category util
+
+MYBIN_DIR="$HOME/mybin"
+ZSH_CONF_DIR="$HOME/dotfiles/zsh/myconf"
+ZSH_ABBR_DIR="$HOME/dotfiles/zsh/abbr"
+
+_bold() { printf '\033[1m%s\033[0m' "$1"; }
+_cyan() { printf '\033[36m%s\033[0m' "$1"; }
+_dim()  { printf '\033[2m%s\033[0m' "$1"; }
+
+# スクリプトファイルから @desc を1行取得
+_script_desc() {
+  grep -m1 '^# @desc ' "$1" 2>/dev/null | sed 's/^# @desc //'
+}
+
+# スクリプトの詳細ヘルプを表示
+_show_script_detail() {
+  local file="$1"
+  _bold "$(basename "$file")"; echo
+  while IFS= read -r line; do
+    [[ "$line" =~ ^#\ @([a-z]+)\ (.*) ]] || continue
+    local key="${BASH_REMATCH[1]}"
+    [[ "$key" == "desc" || "$key" == "usage" || "$key" == "example" || "$key" == "category" ]] || continue
+    printf '  %-10s %s\n' "$key" "${BASH_REMATCH[2]}"
+  done < "$file"
+}
+
+# zsh ファイルをスキャンして { name, desc, key, category, type } のレコードを出力
+# 出力形式: "name\tdesc\tkey\tcategory\ttype"
+_scan_zsh_file() {
+  local file="$1"
+  local desc="" key="" category="" line
+  local default_category
+  default_category=$(grep -m1 '^# @default-category ' "$file" 2>/dev/null | sed 's/^# @default-category //')
+
+  while IFS= read -r line; do
+    if [[ "$line" =~ ^[[:space:]]*#\ @desc\ (.*) ]]; then
+      desc="${BASH_REMATCH[1]}"
+      key=""; category=""
+    elif [[ -n "$desc" && "$line" =~ ^[[:space:]]*#\ @key\ (.*) ]]; then
+      key="${BASH_REMATCH[1]}"
+    elif [[ -n "$desc" && "$line" =~ ^[[:space:]]*#\ @category\ (.*) ]]; then
+      category="${BASH_REMATCH[1]}"
+    elif [[ -n "$desc" ]]; then
+      local name="" type=""
+      if [[ "$line" =~ ^[[:space:]]*alias\ ([^=_][^=]*)= ]]; then
+        name="${BASH_REMATCH[1]}"; type="alias"
+      elif [[ "$line" =~ ^[[:space:]]*(function\ +)?([a-zA-Z][a-zA-Z0-9_-]+)[[:space:]]*\(\) ]]; then
+        name="${BASH_REMATCH[2]}"; type="fn"
+      fi
+
+      if [[ -n "$name" ]]; then
+        local resolved_category="${category:-$default_category}"
+        printf '%s\t%s\t%s\t%s\t%s\n' "$name" "$desc" "$key" "$resolved_category" "$type"
+      fi
+
+      if [[ ! "$line" =~ ^[[:space:]]*# && ! "$line" =~ ^[[:space:]]*$ ]]; then
+        desc=""; key=""; category=""
+      fi
+    fi
+  done < "$file"
+}
+
+# abbr ファイルをスキャンして { name, desc, key, category } を出力
+_scan_abbr_file() {
+  local file="$1"
+  local desc="" category="" line
+  local default_category
+  default_category=$(grep -m1 '^# @default-category ' "$file" 2>/dev/null | sed 's/^# @default-category //')
+
+  while IFS= read -r line; do
+    if [[ "$line" =~ ^[[:space:]]*#\ @desc\ (.*) ]]; then
+      desc="${BASH_REMATCH[1]}"
+      category=""
+    elif [[ -n "$desc" && "$line" =~ ^[[:space:]]*#\ @category\ (.*) ]]; then
+      category="${BASH_REMATCH[1]}"
+    elif [[ "$line" =~ ^[[:space:]]*abbr[[:space:]]+(-g[[:space:]]+)?([^=[:space:]]+)[[:space:]]*=(.+)$ ]]; then
+      local global_flag="${BASH_REMATCH[1]}" name="${BASH_REMATCH[2]}" expansion="${BASH_REMATCH[3]}"
+      # クォートを除去
+      expansion="${expansion#\'}" expansion="${expansion%\'}"
+      expansion="${expansion#\"}" expansion="${expansion%\"}"
+      local resolved_category="${category:-$default_category}"
+      local resolved_desc="${desc:-$expansion}"
+      [[ -n "$global_flag" ]] && resolved_category="${resolved_category:-global}"
+      printf '%s\t%s\t\t%s\tabbr\n' "$name" "$resolved_desc" "$resolved_category"
+      desc=""; category=""
+    elif [[ ! "$line" =~ ^[[:space:]]*# && ! "$line" =~ ^[[:space:]]*$ ]]; then
+      desc=""; category=""
+    fi
+  done < "$file"
+}
+
+# 全 zsh ソースをスキャンして一括出力
+_scan_all_zsh() {
+  for f in "$ZSH_CONF_DIR"/*.zsh; do _scan_zsh_file "$f"; done
+  for f in "$ZSH_ABBR_DIR"/*.zsh; do _scan_abbr_file "$f"; done
+}
+
+# mybin スクリプトから { name, desc, category } を収集
+_scan_bin() {
+  find -L "$MYBIN_DIR" -type f ! -name ".*" | sort | while read -r script; do
+    local name desc category
+    name=$(basename "$script")
+    desc=$(_script_desc "$script")
+    [[ -z "$desc" ]] && continue
+    category=$(grep -m1 '^# @category ' "$script" 2>/dev/null | sed 's/^# @category //')
+    printf '%s\t%s\t\t%s\tbin\n' "$name" "$desc" "$category"
+  done
+}
+
+# カテゴリ別にグループ表示
+_list_all() {
+  local entries
+  entries=$(
+    _scan_bin
+    _scan_all_zsh
+  )
+
+  # カテゴリ一覧を取得（空カテゴリは "other" として扱う）
+  local categories
+  categories=$(echo "$entries" | awk -F'\t' '{print ($4=="" ? "other" : $4)}' | sort -u)
+
+  while IFS= read -r cat; do
+    echo
+    _bold "$(echo "$cat" | tr '[:lower:]' '[:upper:]')"; echo
+    echo "$entries" | awk -F'\t' -v cat="$cat" '
+      BEGIN {
+        color["abbr"]  = "\033[33m"
+        color["alias"] = "\033[90m"
+        color["fn"]    = "\033[35m"
+        reset = "\033[0m"
+        dim   = "\033[2m"
+      }
+      {
+        name=$1; desc=$2; key=$3; category=($4=="" ? "other" : $4); type=$5
+        if (category != cat) next
+        c = (type in color) ? color[type] : ""
+        type_label = (type != "" && type != "bin") ? "  " c "(" type ")" reset : ""
+        suffix = (key != "") ? "  " dim "[" key "]" reset : ""
+        printf "  \033[36m%-26s\033[0m %s%s%s\n", name, desc, type_label, suffix
+      }'
+  done <<< "$categories"
+
+  # KEYBINDINGS セクション
+  local kb
+  kb=$(
+    for f in "$ZSH_CONF_DIR"/*.zsh; do _scan_zsh_file "$f"; done \
+    | awk -F'\t' '$3 != "" { printf "  %-12s %s  (%s)\n", $3, $2, $1 }' | sort
+  )
+  if [[ -n "$kb" ]]; then
+    echo
+    _bold "KEYBINDINGS"; echo
+    echo "$kb"
+  fi
+}
+
+# fzf でインタラクティブ選択して cmd を返す
+_fzf_select() {
+  local all_entries
+  all_entries=$(
+    _scan_bin
+    _scan_all_zsh
+  )
+
+  local lines
+  lines=$(echo "$all_entries" | awk -F'\t' '{
+    category = ($4=="" ? "other" : $4)
+    type = ($5 != "" && $5 != "bin") ? "(" $5 ")" : ""
+    printf "%-12s %-24s %-8s %s\n", category, $1, type, $2
+  }' | sort)
+
+  local selected
+  selected=$(echo "$lines" | fzf \
+    --prompt="${1:-myhelp}> " \
+    --height=50% \
+    --border \
+    --ansi \
+    --preview-window=hidden)
+
+  [[ -z "$selected" ]] && return 1
+
+  echo "$selected" | awk '{print $2}'
+}
+
+# fzf でインタラクティブ検索して詳細表示
+_fzf_search() {
+  local cmd
+  cmd=$(_fzf_select "myhelp") || return
+  _show_detail "$cmd"
+}
+
+# fzf で選択してコマンドを実行
+_fzf_exec() {
+  local cmd
+  cmd=$(_fzf_select "exec") || return
+  echo "+ $cmd" >&2
+  "$cmd"
+}
+
+# 特定コマンドの詳細
+_show_detail() {
+  local cmd="$1"
+
+  # mybin を検索
+  local script
+  script=$(find -L "$MYBIN_DIR" -name "$cmd" -type f 2>/dev/null | head -1)
+  if [[ -n "$script" ]]; then
+    _show_script_detail "$script"
+    return
+  fi
+
+  # zsh を検索
+  local result
+  result=$(_scan_all_zsh | grep "^${cmd}	" | head -1)
+  if [[ -n "$result" ]]; then
+    _bold "$cmd"; echo
+    echo "$result" | awk -F'\t' '{
+      printf "  %-10s %s\n", "desc", $2
+      if ($3 != "") printf "  %-10s %s\n", "key", $3
+      if ($4 != "") printf "  %-10s %s\n", "category", $4
+      if ($5 != "") printf "  %-10s %s\n", "type", $5
+    }'
+    return
+  fi
+
+  echo "Command '$cmd' not found." >&2
+  exit 1
+}
+
+case "${1:-}" in
+  "")           if command -v fzf >/dev/null 2>&1; then _fzf_search; else _list_all; fi ;;
+  list)         _list_all ;;
+  exec)         _fzf_exec ;;
+  --help|-h)    cat <<'EOF'
+Usage: myhelp [command|list|exec|--help]
+
+  (no args)       fzf でコマンドを検索して詳細表示
+  list            カテゴリ別に全コマンドを一覧表示
+  exec            fzf でコマンドを選択して実行
+  <command>       指定したコマンドの詳細を表示
+  --help, -h      このヘルプを表示
+
+Annotation conventions (in scripts / .zsh files):
+  # @desc <text>              説明（必須）
+  # @key <key>                キーバインド（例: ^g^r）
+  # @category <name>          カテゴリ
+  # @default-category <name>  ファイル全体のデフォルトカテゴリ
+  # @usage <text>             使い方
+  # @example <text>           例
+EOF
+    ;;
+  *)            _show_detail "$1" ;;
+esac

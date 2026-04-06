@@ -1,4 +1,5 @@
 #!bin/zsh
+# @default-category chrome
 
 function _activate_and_move_specific_tab_with_fzf() {
 	local target_record=$(chrome-cli list tablinks | fzf)
@@ -12,12 +13,14 @@ function _activate_and_move_specific_tab_with_fzf() {
 	chrome-cli activate -t $tab_id
 	if [ ! -z $target_record ] && open /Applications/Google\ Chrome\ 2.app
 }
+# @desc Chrome のタブを fzf で選択してアクティブにする
 alias cht="_activate_and_move_specific_tab_with_fzf"
 
 function _ggrks() {
 	echo $@
 	open "https://www.google.com/search?q=${@}"
 }
+# @desc キーワードを Google 検索してブラウザで開く
 alias ggrks="_ggrks"
 
 function _get_tab_id() {
@@ -39,6 +42,7 @@ alias get_tab_id="_get_tab_id"
 function _clean_tab() {
 	chrome-cli list tablinks | grep $1 | xargs get_tab_id | xargs -I{} chrome-cli close -t {}
 }
+# @desc 指定キーワードに一致する Chrome タブを閉じる
 alias chtcleantab="_clean_tab"
 
 function _hoge() {

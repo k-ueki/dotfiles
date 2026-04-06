@@ -1,6 +1,8 @@
-#!/bin/bash 
-
-# tmux wrapper - adds custom subcommands while delegating everything else to the real tmux
+#!/bin/bash
+# @desc tmux ラッパー。カスタムサブコマンドを追加し、それ以外は本物の tmux に委譲する
+# @usage tmux [subcommand|tmux-args...]
+# @example tmux pm
+# @category tmux
 
 REAL_TMUX="/opt/homebrew/bin/tmux"
 
