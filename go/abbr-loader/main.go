@@ -146,18 +146,12 @@ func main() {
 		os.Exit(1)
 	}
 
-	hash := currentHash(data)
-	if hash == cachedHash() {
-		return
-	}
-
 	desired, err := parseYAML(data)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
 		os.Exit(1)
 	}
 
-	// Aliases are always re-emitted when the YAML changes; no diffing needed.
 	var aliasEntries []entry
 	var abbrEntries []entry
 	for _, e := range desired {
@@ -168,12 +162,17 @@ func main() {
 		}
 	}
 
-	// Emit alias definitions.
+	// Always emit alias definitions — aliases are not persistent across sessions.
 	for _, e := range aliasEntries {
 		fmt.Printf("alias %s=%q\n", e.name, e.expansion)
 	}
 
-	// Diff abbr entries against current state.
+	// Diff abbr entries against current state, skipping if yaml is unchanged.
+	hash := currentHash(data)
+	if hash == cachedHash() {
+		return
+	}
+
 	current := parseCurrentAbbrs()
 
 	desiredAbbrMap := make(map[string]entry)
