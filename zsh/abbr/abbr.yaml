@@ -1,0 +1,37 @@
+git:
+  ga:   "git add"
+  gs:   "git status"
+  gc:   "git commit -m"
+  gch:  "git checkout"
+  gcb:  "git checkout $(git branch | fzf)"
+  gcm:  "git checkout master"
+  gam:  "git commit --amend"
+  gp:   "git push origin head"
+  gst:  "git stash"
+  gpop: "git stash pop"
+  gl:   "git log --oneline"
+  gd:   "git diff"
+
+tools:
+  k:     "kubectl"
+  tf:    "terraform"
+  dp:    "docker-compose"
+  tm:    "tmux"
+  mux:   "tmuxinator"
+  telij: "/Applications/IntelliJ\\ IDEA.app/Contents/MacOS/idea"
+
+shell:
+  la:  "ls -a"
+  lla: "ls -al"
+
+work:
+  stg:  "ssh conv-stg-2"
+  prod: "ssh conv-prod-2"
+
+claude:
+  c: "claude"
+
+# global: abbr -g として登録される
+global:
+  G: "| grep"
+  C: "| claude"

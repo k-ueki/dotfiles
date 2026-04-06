@@ -8,14 +8,29 @@ for_dynalyst
 
 .DS_Store
 
-# Claude Code session and personal data
+# Claude Code - Git管理すべきもの:
+#   settings.json, commands/, plugins/, projects/, teams/, config/
+
+# Claude Code - セッション・一時データ
+claude/backups/
+claude/cache/
 claude/debug/
-claude/projects/
-claude/history.jsonl
-claude/statsig/
-claude/todos/
 claude/file-history/
-claude/shell-snapshots/
-claude/docs/
 claude/ide/
-claude/plugins/
+claude/paste-cache/
+claude/plans/
+claude/session-env/
+claude/sessions/
+claude/shell-snapshots/
+claude/tasks/
+claude/telemetry/
+claude/todos/
+
+# Claude Code - 自動生成・キャッシュ
+claude/docs/
+claude/statsig/
+claude/history.jsonl
+claude/mcp-needs-auth-cache.json
+claude/policy-limits.json
+claude/remote-settings.json
+claude/stats-cache.json

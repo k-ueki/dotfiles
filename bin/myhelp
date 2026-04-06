@@ -68,39 +68,34 @@ _scan_zsh_file() {
   done < "$file"
 }
 
-# abbr ファイルをスキャンして { name, desc, key, category } を出力
-_scan_abbr_file() {
+# Scan an abbr YAML file and output { name, expansion, "", category, abbr } records.
+# YAML format: sections are categories, entries are "name: expansion" pairs.
+_scan_abbr_yaml() {
   local file="$1"
-  local desc="" category="" line
-  local default_category
-  default_category=$(grep -m1 '^# @default-category ' "$file" 2>/dev/null | sed 's/^# @default-category //')
-
-  while IFS= read -r line; do
-    if [[ "$line" =~ ^[[:space:]]*#\ @desc\ (.*) ]]; then
-      desc="${BASH_REMATCH[1]}"
-      category=""
-    elif [[ -n "$desc" && "$line" =~ ^[[:space:]]*#\ @category\ (.*) ]]; then
-      category="${BASH_REMATCH[1]}"
-    elif [[ "$line" =~ ^[[:space:]]*abbr[[:space:]]+(-g[[:space:]]+)?([^=[:space:]]+)[[:space:]]*=(.+)$ ]]; then
-      local global_flag="${BASH_REMATCH[1]}" name="${BASH_REMATCH[2]}" expansion="${BASH_REMATCH[3]}"
-      # クォートを除去
-      expansion="${expansion#\'}" expansion="${expansion%\'}"
-      expansion="${expansion#\"}" expansion="${expansion%\"}"
-      local resolved_category="${category:-$default_category}"
-      local resolved_desc="${desc:-$expansion}"
-      [[ -n "$global_flag" ]] && resolved_category="${resolved_category:-global}"
-      printf '%s\t%s\t\t%s\tabbr\n' "$name" "$resolved_desc" "$resolved_category"
-      desc=""; category=""
-    elif [[ ! "$line" =~ ^[[:space:]]*# && ! "$line" =~ ^[[:space:]]*$ ]]; then
-      desc=""; category=""
-    fi
-  done < "$file"
+  awk '
+    /^[a-zA-Z_-]+:[[:space:]]*$/ {
+      sub(/:.*/, "", $0)
+      category = $0
+      next
+    }
+    /^[[:space:]]+[^#][^:]+:/ {
+      line = $0
+      gsub(/^[[:space:]]+/, "", line)
+      colon = index(line, ":")
+      if (colon == 0) next
+      name = substr(line, 1, colon - 1)
+      gsub(/[[:space:]]/, "", name)
+      expansion = substr(line, colon + 1)
+      gsub(/^[[:space:]"'"'"']+|[[:space:]"'"'"']+$/, "", expansion)
+      printf "%s\t%s\t\t%s\tabbr\n", name, expansion, category
+    }
+  ' "$file"
 }
 
-# 全 zsh ソースをスキャンして一括出力
+# Scan all zsh config and abbr YAML files.
 _scan_all_zsh() {
   for f in "$ZSH_CONF_DIR"/*.zsh; do _scan_zsh_file "$f"; done
-  for f in "$ZSH_ABBR_DIR"/*.zsh; do _scan_abbr_file "$f"; done
+  for f in "$ZSH_ABBR_DIR"/*.yaml; do _scan_abbr_yaml "$f"; done
 }
 
 # mybin スクリプトから { name, desc, category } を収集
