@@ -11,10 +11,19 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-type abbr struct {
+// entryType distinguishes how an entry should be applied.
+type entryType int
+
+const (
+	entryAbbr   entryType = iota // registered via abbr
+	entryAlias                   // registered via alias
+	entryGlobal                  // registered via abbr -g
+)
+
+type entry struct {
 	name      string
 	expansion string
-	global    bool
+	kind      entryType
 }
 
 func cacheFile() string {
@@ -45,8 +54,10 @@ func updateCache(hash string) {
 	_ = os.WriteFile(cacheFile(), []byte(hash), 0644)
 }
 
-// parseYAML reads the desired abbreviation state from a YAML file.
-func parseYAML(data []byte) ([]abbr, error) {
+// parseYAML reads desired entries from the YAML file.
+// Sections named "alias" are applied as shell aliases; "global" as abbr -g;
+// all other sections as regular abbr.
+func parseYAML(data []byte) ([]entry, error) {
 	var doc yaml.Node
 	if err := yaml.Unmarshal(data, &doc); err != nil {
 		return nil, err
@@ -55,27 +66,37 @@ func parseYAML(data []byte) ([]abbr, error) {
 		return nil, nil
 	}
 
-	var abbrs []abbr
+	var entries []entry
 	root := doc.Content[0]
 	for i := 0; i < len(root.Content)-1; i += 2 {
 		section := root.Content[i].Value
-		entries := root.Content[i+1]
-		global := section == "global"
-		for j := 0; j < len(entries.Content)-1; j += 2 {
-			abbrs = append(abbrs, abbr{
-				name:      entries.Content[j].Value,
-				expansion: entries.Content[j+1].Value,
-				global:    global,
+		nodes := root.Content[i+1]
+
+		var kind entryType
+		switch section {
+		case "alias":
+			kind = entryAlias
+		case "global":
+			kind = entryGlobal
+		default:
+			kind = entryAbbr
+		}
+
+		for j := 0; j < len(nodes.Content)-1; j += 2 {
+			entries = append(entries, entry{
+				name:      nodes.Content[j].Value,
+				expansion: nodes.Content[j+1].Value,
+				kind:      kind,
 			})
 		}
 	}
-	return abbrs, nil
+	return entries, nil
 }
 
 // parseCurrentAbbrs reads the current abbreviation state from the zsh-abbr
 // user-abbreviations file. Format: abbr [-g] name='expansion'
-func parseCurrentAbbrs() map[string]abbr {
-	result := make(map[string]abbr)
+func parseCurrentAbbrs() map[string]entry {
+	result := make(map[string]entry)
 	f, err := os.Open(userAbbrsFile())
 	if err != nil {
 		return result
@@ -92,10 +113,10 @@ func parseCurrentAbbrs() map[string]abbr {
 		if len(parts) < 2 || parts[0] != "abbr" {
 			continue
 		}
-		global := false
+		kind := entryAbbr
 		rest := parts[1:]
 		if rest[0] == "-g" {
-			global = true
+			kind = entryGlobal
 			rest = rest[1:]
 		}
 		if len(rest) == 0 {
@@ -108,7 +129,7 @@ func parseCurrentAbbrs() map[string]abbr {
 		}
 		name := kv[:idx]
 		expansion := strings.Trim(kv[idx+1:], "'\"")
-		result[name] = abbr{name: name, expansion: expansion, global: global}
+		result[name] = entry{name: name, expansion: expansion, kind: kind}
 	}
 	return result
 }
@@ -136,35 +157,50 @@ func main() {
 		os.Exit(1)
 	}
 
-	current := parseCurrentAbbrs()
-
-	// Build a map of desired abbreviations for quick lookup.
-	desiredMap := make(map[string]abbr)
-	for _, a := range desired {
-		desiredMap[a.name] = a
+	// Aliases are always re-emitted when the YAML changes; no diffing needed.
+	var aliasEntries []entry
+	var abbrEntries []entry
+	for _, e := range desired {
+		if e.kind == entryAlias {
+			aliasEntries = append(aliasEntries, e)
+		} else {
+			abbrEntries = append(abbrEntries, e)
+		}
 	}
 
-	// Erase abbreviations that are no longer in the desired state.
+	// Emit alias definitions.
+	for _, e := range aliasEntries {
+		fmt.Printf("alias %s=%q\n", e.name, e.expansion)
+	}
+
+	// Diff abbr entries against current state.
+	current := parseCurrentAbbrs()
+
+	desiredAbbrMap := make(map[string]entry)
+	for _, e := range abbrEntries {
+		desiredAbbrMap[e.name] = e
+	}
+
+	// Erase abbreviations no longer in the desired state.
 	for name := range current {
-		if _, ok := desiredMap[name]; !ok {
+		if _, ok := desiredAbbrMap[name]; !ok {
 			fmt.Printf("abbr erase %s\n", name)
 		}
 	}
 
 	// Add or update abbreviations that are new or have changed.
-	for _, a := range desired {
-		cur, exists := current[a.name]
-		if exists && cur.expansion == a.expansion && cur.global == a.global {
+	for _, e := range abbrEntries {
+		cur, exists := current[e.name]
+		if exists && cur.expansion == e.expansion && cur.kind == e.kind {
 			continue
 		}
-		// Erase first when updating an existing entry.
 		if exists {
-			fmt.Printf("abbr erase %s\n", a.name)
+			fmt.Printf("abbr erase %s\n", e.name)
 		}
-		if a.global {
-			fmt.Printf("abbr -g %s=%q\n", a.name, a.expansion)
+		if e.kind == entryGlobal {
+			fmt.Printf("abbr -g %s=%q\n", e.name, e.expansion)
 		} else {
-			fmt.Printf("abbr %s=%q\n", a.name, a.expansion)
+			fmt.Printf("abbr %s=%q\n", e.name, e.expansion)
 		}
 	}
 

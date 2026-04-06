@@ -1,3 +1,11 @@
+# Applied as shell aliases (transparent command overrides).
+alias:
+  vim:    nvim
+  less:   bat
+  cat:    "bat --paging=never"
+  grep:   rg
+  python: python3
+
 git:
   ga:   "git add"
   gs:   "git status"
@@ -11,6 +19,7 @@ git:
   gpop: "git stash pop"
   gl:   "git log --oneline"
   gd:   "git diff"
+  gti:  "git"
 
 tools:
   k:     "kubectl"
@@ -19,10 +28,16 @@ tools:
   tm:    "tmux"
   mux:   "tmuxinator"
   telij: "/Applications/IntelliJ\\ IDEA.app/Contents/MacOS/idea"
+  lg:    "lazygit"
+  ch:    "chrome-cli"
 
 shell:
-  la:  "ls -a"
-  lla: "ls -al"
+  la:   "ls -a"
+  lla:  "ls -al"
+  ei:   "exit"
+  "..":   "cd ../"
+  "...":  "cd ../.."
+  "....": "cd ../../.."
 
 work:
   stg:  "ssh conv-stg-2"
@@ -31,7 +46,7 @@ work:
 claude:
   c: "claude"
 
-# global: abbr -g として登録される
+# Registered as abbr -g (expand anywhere in the command line).
 global:
   G: "| grep"
   C: "| claude"

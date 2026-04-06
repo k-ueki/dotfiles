@@ -72,21 +72,24 @@ _scan_zsh_file() {
 _scan_abbr_yaml() {
   local file="$1"
   awk '
-    /^[a-zA-Z_-]+:[[:space:]]*$/ {
+    /^[a-zA-Z_"-]+:[[:space:]]*$/ {
       sub(/:.*/, "", $0)
+      gsub(/^"/, "", $0); gsub(/"$/, "", $0)
       category = $0
+      type = (category == "alias") ? "alias" : "abbr"
       next
     }
-    /^[[:space:]]+[^#][^:]+:/ {
+    /^[[:space:]]+[^#]/ {
       line = $0
       gsub(/^[[:space:]]+/, "", line)
       colon = index(line, ":")
       if (colon == 0) next
       name = substr(line, 1, colon - 1)
-      gsub(/[[:space:]]/, "", name)
+      gsub(/[[:space:]"'"'"']/, "", name)
       expansion = substr(line, colon + 1)
       gsub(/^[[:space:]"'"'"']+|[[:space:]"'"'"']+$/, "", expansion)
-      printf "%s\t%s\t\t%s\tabbr\n", name, expansion, category
+      if (name == "" || expansion == "") next
+      printf "%s\t%s\t\t%s\t%s\n", name, expansion, category, type
     }
   ' "$file"
 }
