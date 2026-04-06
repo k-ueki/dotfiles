@@ -8,4 +8,4 @@ function _fzf_tmux_sessions() {
 	[ -n "$session" ] && tmux switch -t "$session"
 }
 zle -N _fzf_tmux_sessions
-bindkey '^t^o' _fzf_tmux_sessions
+bindkey -M viins '^t^o' _fzf_tmux_sessions

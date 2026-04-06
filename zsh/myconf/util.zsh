@@ -13,7 +13,7 @@ function fzf_z_search() {
 	fi
 }
 zle -N fzf_z_search
-bindkey '^f' fzf_z_search
+bindkey -M viins '^f' fzf_z_search
 
 # @desc カレントディレクトリのファイルを fzf で選択してコマンドラインに挿入する
 # @key ^s
@@ -26,7 +26,7 @@ function fzf_file_search_current() {
 	fi
 }
 zle -N fzf_file_search_current
-bindkey '^s' fzf_file_search_current
+bindkey -M viins '^s' fzf_file_search_current
 
 # @desc ファイルを fzf で選択して IntelliJ IDEA で開く
 alias fs="fzf_intellij_search"
@@ -90,7 +90,7 @@ function myhelp_insert() {
   zle reset-prompt
 }
 zle -N myhelp_insert
-bindkey '^h^h' myhelp_insert
+bindkey -M viins '^h^h' myhelp_insert
 
 # @desc history から fzf で選択してコマンドラインに挿入する
 # @key ^r
@@ -100,4 +100,4 @@ function fzf_history() {
 	zle reset-prompt
 }
 zle -N fzf_history
-bindkey '^r' fzf_history
+bindkey -M viins '^r' fzf_history

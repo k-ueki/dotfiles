@@ -8,7 +8,7 @@ function _fzf_docker_exec() {
 	zle accept-line
 }
 zle -N _fzf_docker_exec
-bindkey '^x' _fzf_docker_exec
+bindkey -M viins '^x' _fzf_docker_exec
 
 # @desc 実行中コンテナを fzf で選択して docker logs -f する
 alias dlogs="_fzf_docker_logs"

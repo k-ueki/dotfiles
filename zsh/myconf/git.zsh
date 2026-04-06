@@ -21,7 +21,7 @@ function _select_git_switch() {
   fi
 }
 zle -N _select_git_switch
-bindkey '^g^o' _select_git_switch
+bindkey -M viins '^g^o' _select_git_switch
 
 # @desc コミットハッシュを fzf で選択してクリップボードにコピーする
 alias ghash="_git_fetch_commit_hash"
@@ -40,7 +40,7 @@ function _git_rebase_interactive() {
   fi
 }
 zle -N _git_rebase_interactive
-bindkey '^g^r' _git_rebase_interactive
+bindkey -M viins '^g^r' _git_rebase_interactive
 
 # @desc 変更ファイルを fzf で選択して git add する
 alias fga="_fzf_git_add"
@@ -77,7 +77,7 @@ function _git_pull() {
   zle accept-line
 }
 zle -N _git_pull
-bindkey '^g^p' _git_pull
+bindkey -M viins '^g^p' _git_pull
 
 # @desc コミットメッセージを入力して git commit する
 alias gcm="_git_commit_message"
