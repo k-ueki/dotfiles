@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# @desc カスタムコマンド・キーバインドの一覧・詳細を表示する
+# @desc List and inspect custom commands and keybindings
 # @usage myhelp [command|list|exec]
 # @example myhelp
 # @example myhelp fgch
@@ -15,12 +15,12 @@ _bold() { printf '\033[1m%s\033[0m' "$1"; }
 _cyan() { printf '\033[36m%s\033[0m' "$1"; }
 _dim()  { printf '\033[2m%s\033[0m' "$1"; }
 
-# スクリプトファイルから @desc を1行取得
+# Extract the @desc line from a script file.
 _script_desc() {
   grep -m1 '^# @desc ' "$1" 2>/dev/null | sed 's/^# @desc //'
 }
 
-# スクリプトの詳細ヘルプを表示
+# Show full annotation details for a script file.
 _show_script_detail() {
   local file="$1"
   _bold "$(basename "$file")"; echo
@@ -32,8 +32,7 @@ _show_script_detail() {
   done < "$file"
 }
 
-# zsh ファイルをスキャンして { name, desc, key, category, type } のレコードを出力
-# 出力形式: "name\tdesc\tkey\tcategory\ttype"
+# Scan a zsh file and output tab-delimited records: name, desc, key, category, type.
 _scan_zsh_file() {
   local file="$1"
   local desc="" key="" category="" line
@@ -98,7 +97,7 @@ _scan_all_zsh() {
   for f in "$ZSH_ABBR_DIR"/*.yaml; do _scan_abbr_yaml "$f"; done
 }
 
-# mybin スクリプトから { name, desc, category } を収集
+# Collect { name, desc, category } from mybin scripts.
 _scan_bin() {
   find -L "$MYBIN_DIR" -type f ! -name ".*" | sort | while read -r script; do
     local name desc category
@@ -110,7 +109,7 @@ _scan_bin() {
   done
 }
 
-# カテゴリ別にグループ表示
+# Display all commands grouped by category.
 _list_all() {
   local entries
   entries=$(
@@ -118,7 +117,7 @@ _list_all() {
     _scan_all_zsh
   )
 
-  # カテゴリ一覧を取得（空カテゴリは "other" として扱う）
+  # Collect unique categories; treat empty category as "other".
   local categories
   categories=$(echo "$entries" | awk -F'\t' '{print ($4=="" ? "other" : $4)}' | sort -u)
 
@@ -143,7 +142,7 @@ _list_all() {
       }'
   done <<< "$categories"
 
-  # KEYBINDINGS セクション
+  # Print keybindings section.
   local kb
   kb=$(
     for f in "$ZSH_CONF_DIR"/*.zsh; do _scan_zsh_file "$f"; done \
@@ -156,7 +155,7 @@ _list_all() {
   fi
 }
 
-# fzf でインタラクティブ選択して cmd を返す
+# Interactively select a command via fzf and return its name.
 _fzf_select() {
   local all_entries
   all_entries=$(
@@ -184,14 +183,14 @@ _fzf_select() {
   echo "$selected" | awk '{print $2}'
 }
 
-# fzf でインタラクティブ検索して詳細表示
+# Interactively search and show details via fzf.
 _fzf_search() {
   local cmd
   cmd=$(_fzf_select "myhelp") || return
   _show_detail "$cmd"
 }
 
-# fzf で選択してコマンドを実行
+# Select and execute a command via fzf.
 _fzf_exec() {
   local cmd
   cmd=$(_fzf_select "exec") || return
@@ -199,11 +198,11 @@ _fzf_exec() {
   "$cmd"
 }
 
-# 特定コマンドの詳細
+# Show details for a specific command.
 _show_detail() {
   local cmd="$1"
 
-  # mybin を検索
+  # Search mybin scripts.
   local script
   script=$(find -L "$MYBIN_DIR" -name "$cmd" -type f 2>/dev/null | head -1)
   if [[ -n "$script" ]]; then
@@ -211,7 +210,7 @@ _show_detail() {
     return
   fi
 
-  # zsh を検索
+  # Search zsh functions and abbr.
   local result
   result=$(_scan_all_zsh | grep "^${cmd}	" | head -1)
   if [[ -n "$result" ]]; then
