@@ -1,31 +1,29 @@
 #!/bin/sh
+set -e
 
 export DOT_PATH="$HOME/dotfiles"
 
-ln -sf $DOT_PATH/tmux/.tmux.conf ~/.tmux.conf
-ln -sf $DOT_PATH/nvim ~/.config/nvim
+link() {
+  ln -sf "$1" "$2" && echo "linked: $1 ~> $2"
+}
 
-#ln -sf $DOT_PATH/zsh/runcoms/zlogin ~/.zlogin
-#ln -sf $DOT_PATH/zsh/runcoms/zlogout ~/.zlogout
-#ln -sf $DOT_PATH/zsh/runcoms/zpreztorc ~/.zpreztorc
-#ln -sf $DOT_PATH/zsh/runcoms/zprofile ~/.zprofile
-#ln -sf $DOT_PATH/zsh/runcoms/zshenv ~/.zshenv
-#ln -sf $DOT_PATH/zsh/runcoms/zshrc ~/.zshrc
-
-ln -sf $DOT_PATH/zsh/zprofile ~/.zprofile
-ln -sf $DOT_PATH/zsh/zshenv ~/.zshenv
-ln -sf $DOT_PATH/zsh/zshrc ~/.zshrc
-ln -sf $DOT_PATH/zsh/zlogin ~/.zlogin
-
-ln -sf $DOT_PATH/zsh/zimrc ~/.zimrc
-ln -sf $DOT_PATH/zsh/zim/gitster ~/.zim/modules/gitster
-
-ln -sf $DOT_PATH/bin ~/mybin
+link $DOT_PATH/tmux/.tmux.conf ~/.tmux.conf
+link $DOT_PATH/nvim 		   ~/.config/nvim
 
 
-ln -sf $DOT_PATH/.ideavimrc ~/.ideavimrc
+link $DOT_PATH/zsh/zprofile    ~/.zprofile
+link $DOT_PATH/zsh/zshenv      ~/.zshenv
+link $DOT_PATH/zsh/zshrc       ~/.zshrc
+link $DOT_PATH/zsh/zlogin      ~/.zlogin
 
-ln -sf $DOT_PATH/alacritty ~/.config/alacritty
-ln -sf $DOT_PATH/claude ~/.claude
+link $DOT_PATH/zsh/zimrc       ~/.zimrc
+link $DOT_PATH/zsh/zim/gitster ~/.zim/modules/gitster
 
-ln -sf $DOT_PATH/karabiner/karabiner.json ~/.config/karabiner/karabiner.json
+link $DOT_PATH/bin             ~/mybin
+
+link $DOT_PATH/.ideavimrc 	   ~/.ideavimrc
+
+link $DOT_PATH/alacritty 	   ~/.config/alacritty
+link $DOT_PATH/claude 	 	   ~/.claude
+
+link $DOT_PATH/karabiner/karabiner.json ~/.config/karabiner/karabiner.json

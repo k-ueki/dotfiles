@@ -6,6 +6,7 @@
 ## Claudeへの指示
 
 以下の手順を**必ず順番に**実行してください：
+CommitMessageは英語を使用してください。PRの内容は日本語を使用してください。
 
 ### ステップ1: 現在の状態を確認
 
@@ -106,7 +107,7 @@ update: optimize UA candidate filtering logic
 
 ### 必須項目
 
-PR作成におけるTemplateは `conv-apps/.github/PULL_REQUEST_TEMPLATE.md` にあるので参照してください。
+PR作成におけるTemplateは `{PROJECT_ROOT_PATH}/.github/PULL_REQUEST_TEMPLATE.md` にあるので参照してください。
 
 
 ### 任意項目
@@ -150,7 +151,7 @@ PR作成におけるTemplateは `conv-apps/.github/PULL_REQUEST_TEMPLATE.md` に
 
 ### 必須制約
 
-- **テストの通過**: bid, ad, imp, rd などの関連プロジェクトのテストが通ること
+- **テストの通過**: bid, ad, imp, rd などの関連プロジェクトのテストが通ること(conv-appsの場合)
 - **レビュー**: 少なくとも1つの承認が必要
 - **CircleCI**: CIが成功すること
 

@@ -9,8 +9,8 @@ sh ./setup_dein.sh
 # setup fonts
 sh ./setup_fonts.sh
 
-# setup options
-sh ./setup_opts.sh
+# setup tools
+sh ./setup_tools.sh
 
 # setup dotfiles
 sh ./setup_dotfiles.sh

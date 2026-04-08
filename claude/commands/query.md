@@ -12,7 +12,8 @@
 - ファイルへの記述において絵文字を使用しないこと。
 
 ## 前提コンテキスト
-- 下記のクエリの結果(テーブル構造)を`~/.claude/docs/table_schema/2025-07-30_table_schema.csv`に置いているので、各テーブルの構造と紐づきを正確に把握すること。
+- アプリケーションコードは~/CyberAgent/Dynalyst/conv-appsにあります。十分に理解した上で回答して下さい。
+- 下記のクエリの結果(テーブル構造)を`~/.claude/docs/table_schema/2025-10-27_table_schema.csv`に置いているので、各テーブルの構造と紐づきを正確に把握すること。
     ```
       SELECT
           t.table_name,
