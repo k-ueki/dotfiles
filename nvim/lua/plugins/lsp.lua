@@ -1,6 +1,23 @@
 return {
 	-- LSP progress indicator
-	{ "j-hui/fidget.nvim", opts = {} },
+	{
+		"j-hui/fidget.nvim",
+		opts = {
+			progress = {
+				display = {
+					render_limit = 16,
+					done_ttl = 3,
+					progress_ttl = math.huge,
+				},
+			},
+			notification = {
+				window = {
+					winblend = 0,
+					align = "bottom",
+				},
+			},
+		},
+	},
 
 	-- Mason: LSP/formatter/linter installer
 	{
@@ -50,67 +67,24 @@ return {
 			local metals = require("metals")
 			local config = metals.bare_config()
 			config.capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+			-- metals バイナリ自体を Java 17 で起動する
+			local java17 = "/opt/homebrew/opt/openjdk@17"
+			config.cmd_env = {
+				JAVA_HOME = java17,
+				PATH = java17 .. "/bin:" .. vim.env.PATH,
+			}
+
 			config.settings = {
 				showImplicitArguments = true,
 				excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
 			}
+
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = { "scala", "sbt", "java" },
 				callback = function()
 					metals.initialize_or_attach(config)
 				end,
-			})
-		end,
-	},
-
-	-- Completion engine
-	{
-		"hrsh7th/nvim-cmp",
-		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-nvim-lsp-signature-help",
-			"hrsh7th/cmp-nvim-lua",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-cmdline",
-			{ "L3MON4D3/LuaSnip", build = "make install_jsregexp" },
-			"saadparwaiz1/cmp_luasnip",
-		},
-		config = function()
-			local cmp = require("cmp")
-			local luasnip = require("luasnip")
-
-			cmp.setup({
-				snippet = {
-					expand = function(args)
-						luasnip.lsp_expand(args.body)
-					end,
-				},
-				mapping = cmp.mapping.preset.insert({
-					["<C-Space>"] = cmp.mapping.complete(),
-					["<CR>"] = cmp.mapping.confirm({ select = true }),
-					["<C-j>"] = cmp.mapping.select_next_item(),
-					["<C-k>"] = cmp.mapping.select_prev_item(),
-					["<C-e>"] = cmp.mapping.abort(),
-				}),
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "nvim_lsp_signature_help" },
-					{ name = "nvim_lua" },
-					{ name = "luasnip" },
-					{ name = "buffer" },
-					{ name = "path" },
-				}),
-			})
-
-			-- Completions in cmdline
-			cmp.setup.cmdline({ "/", "?" }, {
-				mapping = cmp.mapping.preset.cmdline(),
-				sources = { { name = "buffer" } },
-			})
-			cmp.setup.cmdline(":", {
-				mapping = cmp.mapping.preset.cmdline(),
-				sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
 			})
 		end,
 	},

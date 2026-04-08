@@ -13,8 +13,8 @@ return {
 			{ "<Leader>b", "<Cmd>Telescope buffers<CR>", desc = "Buffers" },
 			{ "<Leader>.", "<Cmd>Telescope current_buffer_fuzzy_find<CR>", desc = "Buffer lines" },
 			{ "<Leader>r", "<Cmd>Telescope live_grep<CR>", desc = "Live grep" },
-			{ "<Leader>h", "<Cmd>Telescope oldfiles<CR>",  desc = "Recent files" },
-			{ "<Leader>?", "<Cmd>Telescope keymaps<CR>",   desc = "Keymaps" },
+			{ "<Leader>h", "<Cmd>Telescope oldfiles<CR>", desc = "Recent files" },
+			{ "<Leader>?", "<Cmd>Telescope keymaps<CR>", desc = "Keymaps" },
 		},
 		config = function()
 			local telescope = require("telescope")

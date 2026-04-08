@@ -11,11 +11,9 @@ map("n", "<Leader>v", "<Cmd>vsplit<CR><C-w>l",  { desc = "Vertical split" })
 map("n", "ss", "<Cmd>sp<CR><C-w>j")
 map("n", "sv", "<Cmd>vs<CR><C-w>l")
 
--- Window navigation
+-- Window navigation (<C-j>/<C-k> are used by edgemotion)
 map("n", "<C-h>", "<C-w>h")
 map("n", "<C-l>", "<C-w>l")
-map("n", "<C-j>", "<C-w>j")
-map("n", "<C-k>", "<C-w>k")
 
 -- Line navigation
 map({ "n", "v" }, "<Leader>a", "^", { desc = "Line start" })
