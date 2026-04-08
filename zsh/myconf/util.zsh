@@ -57,19 +57,12 @@ function make_tempfile() {
 	trap 'trap - EXIT; rm_tmpfile; exit -1' INT PIPE TERM
 }
 
-# @desc nvim の設定を切り替える (myvim / astro)
+# @desc nvim の設定を dotfiles/nvim にリンクする
 alias vs="vim_switch"
 function vim_switch() {
-	echo "Switching vim to $1..."
-	if [[ "$1" == "myvim" ]]; then
-		rm -f $HOME/.config/nvim
-		ln -s $HOME/dotfiles/nvim $HOME/.config
-	elif [[ "$1" == "astro" ]]; then
-		rm -f $HOME/.config/nvim
-		ln -s $HOME/dotfiles/AstroNvim $HOME/.config/nvim
-	else
-		echo "The vim setting $1 is not found."
-	fi
+	rm -f $HOME/.config/nvim
+	ln -sf $HOME/dotfiles/nvim $HOME/.config/nvim
+	echo "Switched to dotfiles/nvim"
 }
 
 # @desc プロセスを fzf で選択して kill する

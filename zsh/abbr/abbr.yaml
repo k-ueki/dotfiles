@@ -7,9 +7,11 @@ alias:
   python: python3
 
 git:
+  g:    "git"
   ga:   "git add"
   gs:   "git status"
   gc:   "git commit -m"
+  hoge: "hoge"
   gch:  "git checkout"
   gcb:  "git checkout $(git branch | fzf)"
   gcm:  "git checkout master"
