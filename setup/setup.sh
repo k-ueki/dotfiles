@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# setup base
-sh ./setup_base.sh
+# install homebrew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # setup fonts
 sh ./setup_fonts.sh
@@ -12,7 +12,7 @@ sh ./setup_tools.sh
 # setup dotfiles
 sh ./setup_dotfiles.sh
 
-#install via brew
+# install via brew
 brew update && brew bundle --file=./Brewfile
 
 exec $SHELL -l
