@@ -1,0 +1,8 @@
+name: conv-formation
+root: ~/CyberAgent/Dynalyst/conv-formation
+windows:
+  - main:
+      layout: f11d,320x77,0,0{225x77,0,0,115,94x77,226,0,116}
+      panes:
+        - nvim .
+        - ""

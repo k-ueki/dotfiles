@@ -27,3 +27,5 @@ link $DOT_PATH/alacritty 	   ~/.config/alacritty
 link $DOT_PATH/claude 	 	   ~/.claude
 
 link $DOT_PATH/karabiner/karabiner.json ~/.config/karabiner/karabiner.json
+
+link $DOT_PATH/tmux/tmuxinator ~/.config/tmuxinator

@@ -1,0 +1,9 @@
+name: conv-apps
+root: ~/CyberAgent/Dynalyst/conv-apps
+windows:
+  - main:
+      layout: ccc6,320x77,0,0{215x77,0,0,5,104x77,216,0[104x53,216,0,117,104x23,216,54,118]}
+      panes:
+        - nvim .
+        - claude -c
+        - ""
