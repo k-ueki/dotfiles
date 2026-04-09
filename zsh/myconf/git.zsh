@@ -46,7 +46,6 @@ bindkey -M viins '^g^r' _git_rebase_interactive
 alias fga="_fzf_git_add"
 function _fzf_git_add() {
   local preview="git diff $@ --color=always -- {-1}"
-  git add -N .
   git add $(git diff $@ --name-only | fzf-tmux -p 90% -m --ansi --preview "$preview" --preview-window '60%')
 }
 

@@ -3,9 +3,6 @@
 # setup base
 sh ./setup_base.sh
 
-# setup dein
-sh ./setup_dein.sh
-
 # setup fonts
 sh ./setup_fonts.sh
 
@@ -16,6 +13,6 @@ sh ./setup_tools.sh
 sh ./setup_dotfiles.sh
 
 #install via brew
-brew bundle --file=./Brewfile
+brew update && brew bundle --file=./Brewfile
 
 exec $SHELL -l

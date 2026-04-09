@@ -4,6 +4,7 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		event = { "BufReadPre", "BufNewFile" },
+		cmd = { "TSInstall", "TSUpdate", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter-textobjects",
 		},
@@ -20,9 +21,11 @@ return {
 					"markdown_inline",
 					"vim",
 					"vimdoc",
+					"scala",
 				},
+				auto_install = true,
 				highlight = { enable = true },
-				indent = { enable = true },
+				indent    = { enable = true },
 				textobjects = {
 					select = {
 						enable = true,
