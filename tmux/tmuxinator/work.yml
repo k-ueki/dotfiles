@@ -1,7 +1,0 @@
-name: work
-root: ~/
-windows:
-  - main:
-      layout: main-vertical
-      panes:
-        - clear

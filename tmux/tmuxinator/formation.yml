@@ -1,9 +1,0 @@
-# /Users/s11308/.config/tmuxinator/formation.yml
-
-name: formation
-root: ~/CyberAgent/k-ueki/conv-formation
-windows:
-  - main:
-      layout: main-vertical
-      panes:
-        - vim
