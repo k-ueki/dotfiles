@@ -57,8 +57,8 @@ zmodule zsh-users/zsh-autosuggestions
 # Custom
 #
 
-# color scheme
-zmodule gitster
+# color scheme (local dotfiles)
+zmodule ${ZDOTDIR:-${HOME}}/dotfiles/zsh/zim --name gitster --source gitster.zsh-theme
 
 zmodule prompt-pwd
 zmodule fzf

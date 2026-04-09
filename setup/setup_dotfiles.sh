@@ -17,7 +17,6 @@ link $DOT_PATH/zsh/zshrc       ~/.zshrc
 link $DOT_PATH/zsh/zlogin      ~/.zlogin
 
 link $DOT_PATH/zsh/zimrc       ~/.zimrc
-link $DOT_PATH/zsh/zim/gitster ~/.zim/modules/gitster
 
 link $DOT_PATH/.ideavimrc 	   ~/.ideavimrc
 
