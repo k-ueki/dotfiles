@@ -48,7 +48,7 @@ return {
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 			require("mason-lspconfig").setup({
-				ensure_installed = { "gopls" },
+				ensure_installed = { "gopls", "terraformls" },
 				handlers = {
 					function(server)
 						require("lspconfig")[server].setup({ capabilities = capabilities })

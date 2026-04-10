@@ -1,48 +1,64 @@
 # Applied as shell aliases (transparent command overrides).
 alias:
-  vim:    nvim
-  less:   bat
-  cat:    "bat --paging=never"
-  grep:   rg
+  vim: nvim
+  less: bat
+  cat: "bat --paging=never"
+  grep: rg
   python: python3
 
 git:
-  g:    "git"
-  ga:   "git add"
-  gs:   "git status"
-  gc:   "git commit -m"
-  hoge: "hoge"
-  gch:  "git checkout"
-  gcb:  "git checkout $(git branch | fzf)"
-  gcm:  "git checkout master"
-  gam:  "git commit --amend"
-  gp:   "git push origin head"
-  gst:  "git stash"
+  g: "git"
+  ga: "git add"
+  gs: "git status"
+  gc: "git commit -m"
+  gch: "git checkout"
+  gcb: "git checkout $(git branch | fzf)"
+  gcm: "git checkout master"
+  gam: "git commit --amend"
+  gp: "git push origin head"
+  gst: "git stash"
   gpop: "git stash pop"
-  gl:   "git log --oneline"
-  gd:   "git diff"
-  gti:  "git"
+  gl: "git log --oneline"
+  gd: "git diff"
+  gti: "git"
+
+k8s:
+  k: "kubectl"
+  kn: "kubens"
+  kgp: "kubectl get pods"
+  kgpw: "kubectl get pods -o wide"
+  kgpv: "kubectl get pvc"
+  kdp: "kubectl describe pod"
+  kdel: "kubectl delete pod"
+  kdelv: "kubectl delete volumeattachment $(kubectl get volumeattachment | fzf | awk -F' ' '{print $1}')"
+  kl: "kubectl logs"
+  klf: "kubectl logs -f"
+  kgn: "kubectl get nodes"
+  ktn: "kubectl top nodes"
+  ktp: "kubectl top pods"
+  kdn: "kubectl debug node/$(kubectl get pods -o wide | fzf | awk -F' ' '{print $7}') -it --image=ubuntu"
+  krs: "kubectl rollout status deployment"
+  krr: "kubectl rollout restart deployment"
 
 tools:
-  k:     "kubectl"
-  tf:    "terraform"
-  dp:    "docker-compose"
-  tm:    "tmux"
-  mux:   "tmuxinator"
+  tf: "terraform"
+  dp: "docker-compose"
+  tm: "tmux"
+  tmx: "tmuxinator"
   telij: "/Applications/IntelliJ\\ IDEA.app/Contents/MacOS/idea"
-  lg:    "lazygit"
-  ch:    "chrome-cli"
+  lg: "lazygit"
+  ch: "chrome-cli"
 
 shell:
-  la:   "ls -a"
-  lla:  "ls -al"
-  ei:   "exit"
-  "..":   "cd ../"
-  "...":  "cd ../.."
+  la: "ls -a"
+  lla: "ls -al"
+  ei: "exit"
+  "..": "cd ../"
+  "...": "cd ../.."
   "....": "cd ../../.."
 
 work:
-  stg:  "ssh conv-stg-2"
+  stg: "ssh conv-stg-2"
   prod: "ssh conv-prod-2"
 
 claude:
@@ -51,4 +67,5 @@ claude:
 # Registered as abbr -g (expand anywhere in the command line).
 global:
   G: "| grep"
-  C: "| claude"
+  C: "| pbcopy"
+  J: "| jq"

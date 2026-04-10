@@ -68,6 +68,16 @@ return {
 		},
 	},
 
+	-- Toggle quickfix/loclist
+	{
+		"drmingdrmer/vim-toggle-quickfix",
+		event = "VeryLazy",
+		init = function()
+			vim.keymap.set("n", "<Leader>q", "<Plug>window:quickfix:toggle", { desc = "Toggle quickfix" })
+			vim.keymap.set("n", "<Leader>l", "<Plug>window:location:toggle", { desc = "Toggle loclist" })
+		end,
+	},
+
 	-- Undo tree with persistent history
 	{
 		"mbbill/undotree",

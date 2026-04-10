@@ -11,6 +11,11 @@ vim.opt.wrap = false
 vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.autoread = true
+
+-- Auto-reload files changed outside nvim (e.g. by CLI tools)
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+	command = "silent! checktime",
+})
 vim.opt.mouse = "a"
 vim.opt.clipboard = "unnamed"
 vim.opt.hidden = true

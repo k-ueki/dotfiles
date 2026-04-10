@@ -4,8 +4,8 @@
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "attribution": {
-    "commit": false,
-    "pr": false
+    "commit": "false",
+    "pr": "false"
   },
   "permissions": {
     "allow": [
@@ -64,7 +64,8 @@
     }
   },
   "statusLine": {
-    "right": "{{user.email}}"
+    "type": "command",
+    "command": "claude auth whoami"
   },
   "alwaysThinkingEnabled": false,
   "general": {

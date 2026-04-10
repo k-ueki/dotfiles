@@ -41,7 +41,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- Navigation
 		map("n", "<Leader>g",  vim.lsp.buf.definition,     vim.tbl_extend("force", opts, { desc = "Go to definition" }))
 		map("n", "<Leader>i",  vim.lsp.buf.implementation, vim.tbl_extend("force", opts, { desc = "Go to implementation" }))
-		map("n", "<Leader>u",  vim.lsp.buf.references,     vim.tbl_extend("force", opts, { desc = "References" }))
+		map("n", "<Leader>u",  "<Cmd>Trouble lsp_references toggle<CR>", vim.tbl_extend("force", opts, { desc = "References" }))
 		map("n", "K",          vim.lsp.buf.hover,          opts)
 		map("i", "<C-k>",      vim.lsp.buf.signature_help, opts)
 		-- Refactor
