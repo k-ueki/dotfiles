@@ -59,16 +59,23 @@ function _fzf_git_diff() {
   fi
 }
 
-# @desc 新しいブランチ名を入力して checkout -b する
-alias gch="_git_checkout_new_branch"
-function _git_checkout_new_branch() {
-  echo -n "branch_name: "
-  read branch
-  if [ -n "$branch" ]; then
-    echo "git checkout -b $branch"
-    git checkout -b "$branch"
+# @desc user_date_hash 形式のブランチを作成して switch する
+function git-branch-create() {
+  git checkout -b "$(git config user.name)_$(date +'%Y%m%d')_$(cat /dev/urandom | head -c 50 | shasum -a 256 | head -c 10)"
+}
+
+# @desc git worktree を fzf で選択して cd する
+# @key ^g^w
+function _git_worktree_cd() {
+  local path
+  path=$(git-wt cd 2>/dev/null)
+  if [ -n "$path" ]; then
+    cd "$path"
+    zle reset-prompt
   fi
 }
+zle -N _git_worktree_cd
+bindkey -M viins '^g^w' _git_worktree_cd
 
 # git pull upstream master (^g^p)
 function _git_pull() {

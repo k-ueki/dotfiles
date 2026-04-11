@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+# @desc git worktree を fzf で管理する (list/add/remove/cd)
+# @usage git-wt [list|add|remove|cd]
+# @example git-wt          # fzf でワークツリーを選択して cd
+# @example git-wt add feat/new-feature
+# @example git-wt remove
+# @category git
+
+set -euo pipefail
+
+WORKTREE_BASE="$(git rev-parse --show-toplevel 2>/dev/null)/.worktrees"
+
+_ensure_git() {
+  git rev-parse --git-dir >/dev/null 2>&1 || { echo "Not a git repository." >&2; exit 1; }
+}
+
+_list() {
+  git worktree list
+}
+
+_fzf_select_worktree() {
+  git worktree list | fzf --prompt="worktree> " --height=40% --reverse | awk '{print $1}'
+}
+
+_add() {
+  local branch="${1:-}"
+  if [[ -z "$branch" ]]; then
+    # Interactive: pick existing branch or create new one
+    local choice
+    choice=$(
+      { echo "[new branch]"; git branch --format='%(refname:short)'; } |
+      fzf --prompt="branch> " --height=50% --reverse
+    )
+    if [[ "$choice" == "[new branch]" ]]; then
+      read -rp "New branch name: " branch
+      [[ -z "$branch" ]] && { echo "Aborted." >&2; exit 1; }
+    else
+      branch="$choice"
+    fi
+  fi
+
+  local dir_name
+  dir_name=$(echo "$branch" | tr '/' '-')
+  local wt_path="${WORKTREE_BASE}/${dir_name}"
+
+  mkdir -p "$WORKTREE_BASE"
+
+  if git show-ref --verify --quiet "refs/heads/${branch}"; then
+    git worktree add "$wt_path" "$branch"
+  else
+    git worktree add -b "$branch" "$wt_path"
+  fi
+
+  echo "$wt_path"
+}
+
+_remove() {
+  local path
+  path=$(_fzf_select_worktree)
+  [[ -z "$path" ]] && { echo "Aborted." >&2; exit 1; }
+
+  local main_wt
+  main_wt=$(git worktree list | head -1 | awk '{print $1}')
+  if [[ "$path" == "$main_wt" ]]; then
+    echo "Cannot remove the main worktree." >&2
+    exit 1
+  fi
+
+  echo "Remove: $path"
+  read -rp "Confirm? [y/N] " confirm
+  case "$confirm" in
+    [Yy]) git worktree remove "$path" && echo "Removed." ;;
+    *) echo "Aborted." ;;
+  esac
+}
+
+_cd() {
+  local path
+  path=$(_fzf_select_worktree)
+  [[ -z "$path" ]] && exit 1
+  echo "$path"
+}
+
+_ensure_git
+
+case "${1:-cd}" in
+  list|ls) _list ;;
+  add)     shift; _add "$@" ;;
+  remove|rm) _remove ;;
+  cd|"")   _cd ;;
+  -h|--help)
+    cat <<'EOF'
+Usage: git-wt [command] [args]
+
+Commands:
+  cd (default)    Select a worktree via fzf and print its path
+  list, ls        List all worktrees
+  add [branch]    Add a new worktree (interactive if no branch given)
+  remove, rm      Select and remove a worktree via fzf
+
+Tips:
+  cd to a worktree:  cd $(git-wt)
+  Add abbreviation:  gwt → cd $(git-wt)
+EOF
+    ;;
+  *) echo "Unknown command: $1. Use -h for help." >&2; exit 1 ;;
+esac
