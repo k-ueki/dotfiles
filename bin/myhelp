@@ -7,7 +7,7 @@
 # @example myhelp exec
 # @category util
 
-MYBIN_DIR="$HOME/mybin"
+MYBIN_DIR="$HOME/dotfiles/bin"
 ZSH_CONF_DIR="$HOME/dotfiles/zsh/myconf"
 ZSH_ABBR_DIR="$HOME/dotfiles/zsh/abbr"
 
@@ -72,7 +72,7 @@ _scan_zsh_file() {
 _scan_abbr_yaml() {
   local file="$1"
   awk '
-    /^[a-zA-Z_"-]+:[[:space:]]*$/ {
+    /^[a-zA-Z0-9_"-]+:[[:space:]]*$/ {
       sub(/:.*/, "", $0)
       gsub(/^"/, "", $0); gsub(/"$/, "", $0)
       category = $0
