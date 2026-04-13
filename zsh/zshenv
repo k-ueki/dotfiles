@@ -8,24 +8,33 @@ export GOPATH=$HOME/go
 export PYENV_ROOT="$HOME/.pyenv"
 export Z_PATH=$HOME/dotfiles/zsh
 
-# ---- PATH (order matters — do not rearrange) ----
-export PATH="/opt/homebrew/bin:$PATH"                                          # system
-export PATH="$PATH:$GOPATH/bin"                                                # lang: go
-export PATH="$HOME/.nodebrew/current/bin:$PATH"                                # lang: node
-export PATH="$HOME/CyberAgent/dynalyst-mgmt-fm-tool:$PATH"                    # work
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH" # lang: node
+# ---- PATH (order matters — top is highest priority) ----
+path=(
+  # tools
+  ${HOME}/tools/fzf-chrome-active-tab/chrome-tab-activate
+  /opt/homebrew/opt/postgresql@13/bin
 
-# dotfiles/bin and all subdirectories
-for d in ${HOME}/dotfiles/bin ${HOME}/dotfiles/bin/*/; do
-  [ -d "$d" ] && export PATH="${d%/}:${PATH}"
-done
+  # lang
+  ${HOME}/.nodenv/shims
+  ${HOME}/.jenv/shims
+  ${HOME}/.scalaenv/shims
 
-export PATH="$HOME/.jenv/shims:$PATH"                                          # lang: java
-export PATH="${HOME}/.scalaenv/bin:${PATH}"                                     # lang: scala
-export PATH="${PATH}:${HOME}/tools/cycloud"                                     # tools
-export PATH="/opt/homebrew/opt/postgresql@13/bin:$PATH"                         # tools: pg
+  # dotfiles/bin + subdirectories
+  ${HOME}/dotfiles/bin/*(N/)
+  ${HOME}/dotfiles/bin
 
-export PATH="${HOME}/tools/fzf-chrome-active-tab/chrome-tab-activate:$PATH"    # tools: chrome
+  # work
+  ${HOME}/CyberAgent/dynalyst-mgmt-fm-tool
+
+  # system
+  /opt/homebrew/bin
+
+  $path
+
+  # append (low priority)
+  ${GOPATH}/bin
+  ${HOME}/tools/cycloud
+)
 
 export LSCOLORS=cxfxcxdxbxGxDxabagacad
 
