@@ -1,5 +1,3 @@
-source /usr/local/Cellar/kube-ps1/0.8.0/share/kube-ps1.sh
-
 KUBE_PS1_SEPARATOR=' '
 KUBE_PS1_SYMBOL_USE_IMG='false'
 KUBE_PS1_PREFIX_COLOR='green'

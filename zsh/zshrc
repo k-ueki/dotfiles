@@ -1,5 +1,11 @@
 export SHELL=/bin/zsh
 
+# Reset completion state set by /etc/zshrc (nix) so zim can initialize cleanly
+unset _comps
+
+# kube-ps1 must be loaded before myconf (gitster theme uses kube_ps1 in PS1)
+[[ -f ${HOME}/tools/kube-ps1/kube-ps1.sh ]] && source ${HOME}/tools/kube-ps1/kube-ps1.sh
+
 for f in ${Z_PATH}/myconf/*; do
 	if [ -d $f ]; then
 		for file in $f/*; do

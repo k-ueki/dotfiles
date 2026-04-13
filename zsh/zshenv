@@ -37,6 +37,3 @@ path=(
 )
 
 export LSCOLORS=cxfxcxdxbxGxDxabagacad
-
-
-[[ -f /Users/s11308/tools/kube-ps1/kube-ps1.sh ]] && source /Users/s11308/tools/kube-ps1/kube-ps1.sh
