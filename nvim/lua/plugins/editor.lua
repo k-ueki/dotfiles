@@ -78,6 +78,33 @@ return {
 		end,
 	},
 
+	-- Quickfix preview
+	{
+		"kevinhwang91/nvim-bqf",
+		ft = "qf",
+		opts = {
+			preview = {
+				winblend = 0,
+			},
+			func_map = {
+				open = "",
+			},
+		},
+		config = function(_, opts)
+			require("bqf").setup(opts)
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "qf",
+				callback = function()
+					vim.keymap.set("n", "<CR>", function()
+						local idx = vim.fn.line(".")
+						vim.cmd("cclose")
+						vim.cmd("cc " .. idx)
+					end, { buffer = true })
+				end,
+			})
+		end,
+	},
+
 	-- Undo tree with persistent history
 	{
 		"mbbill/undotree",

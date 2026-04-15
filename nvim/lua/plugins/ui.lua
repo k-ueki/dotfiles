@@ -255,4 +255,16 @@ return {
 			blank = { enable = false },
 		},
 	},
+
+	-- Diffview — IntelliJ-like side-by-side diff
+	{
+		"sindrets/diffview.nvim",
+		cmd = { "DiffviewOpen", "DiffviewFileHistory" },
+		keys = {
+			{ "<Leader>gd", "<Cmd>DiffviewOpen<CR>", desc = "Diffview: open" },
+			{ "<Leader>gh", "<Cmd>DiffviewFileHistory %<CR>", desc = "Diffview: file history" },
+			{ "<Leader>gH", "<Cmd>DiffviewFileHistory<CR>", desc = "Diffview: branch history" },
+		},
+		opts = {},
+	},
 }

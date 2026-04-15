@@ -101,7 +101,13 @@ return {
 
 			config.init_options = {
 				isHttpEnabled = true,
+				statusBarProvider = "off",
 			}
+
+			-- Reuse Bloop compile cache — avoid full rebuild on nvim restart
+			config.settings.bloopSbtAlreadyInstalled = true
+			config.settings.autoImportBuild = "initial"
+			config.settings.disableIndexOnStart = true  -- reuse existing index cache on restart
 
 			-- Attach nvim-navic for breadcrumbs
 			config.on_attach = function(client, bufnr)
