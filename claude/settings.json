@@ -52,8 +52,13 @@
       }
     ]
   },
+  "statusLine": {
+    "type": "command",
+    "command": "claude auth whoami"
+  },
   "enabledPlugins": {
-    "secretary@cc-secretary": true
+    "secretary@cc-secretary": true,
+    "claude-mem@thedotmack": true
   },
   "extraKnownMarketplaces": {
     "cc-secretary": {
@@ -61,11 +66,13 @@
         "source": "github",
         "repo": "Shin-sibainu/cc-secretary"
       }
+    },
+    "thedotmack": {
+      "source": {
+        "source": "github",
+        "repo": "thedotmack/claude-mem"
+      }
     }
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "claude auth whoami"
   },
   "alwaysThinkingEnabled": false,
   "general": {
