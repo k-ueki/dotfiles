@@ -1,110 +1,81 @@
 # Neovim Configuration
 
-Plugin manager: [lazy.nvim](https://github.com/folke/lazy.nvim)
+Plugin manager: [lazy.nvim](https://github.com/folke/lazy.nvim) / Colorscheme: kuroi (bundled)
 
-## Colorscheme
+## Plugins
 
-| Plugin | Description |
-|--------|-------------|
-| kuroi (local) | Bundled dark colorscheme (`nvim/colors/kuroi.vim`) |
+### LSP & Completion
+| Plugin | Purpose |
+|--------|---------|
+| mason.nvim + mason-lspconfig | LSP server installer (gopls, terraformls) |
+| nvim-lspconfig | LSP client configuration |
+| nvim-metals | Scala LSP (Metals with Java 17 + Bloop) |
+| fidget.nvim | LSP progress indicator |
+| nvim-cmp | Completion engine |
+| cmp-nvim-lsp / cmp-buffer / cmp-path / cmp-cmdline | Completion sources |
+| cmp-nvim-lsp-signature-help | Signature help in completion |
+| LuaSnip + cmp_luasnip | Snippet engine |
 
-## UI
+### UI
+| Plugin | Purpose |
+|--------|---------|
+| neo-tree.nvim | File explorer |
+| lualine.nvim | Statusline |
+| bufferline.nvim | Tab/buffer line |
+| alpha-nvim | Dashboard |
+| noice.nvim | Command line / notification UI |
+| which-key.nvim | Keybinding hints |
+| nvim-scrollbar | Scrollbar with diagnostics |
+| outline.nvim | Symbol outline sidebar |
+| barbecue.nvim + nvim-navic | Breadcrumbs |
+| hlchunk.nvim | Indent / chunk highlight |
+| diffview.nvim | Side-by-side diff view |
 
-| Plugin | Description | Keys |
-|--------|-------------|------|
-| [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons) | File icons | — |
-| [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim) | File explorer sidebar | `<C-f>` toggle, `<C-d>` reveal, `<C-g>` git status |
-| [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) | Statusline | — |
-| [bufferline.nvim](https://github.com/akinsho/bufferline.nvim) | Buffer tabs | `<Tab>` next, `<S-Tab>` prev, `<Leader>bd` close |
-| [alpha-nvim](https://github.com/goolord/alpha-nvim) | Dashboard on startup | `f` files, `r` recent, `g` grep, `s` session, `q` quit |
-| [noice.nvim](https://github.com/folke/noice.nvim) | UI overrides (cmdline, messages, popups) | — |
-| [fidget.nvim](https://github.com/j-hui/fidget.nvim) | LSP progress indicator | — |
-| [nvim-scrollbar](https://github.com/petertriho/nvim-scrollbar) | Scrollbar with search/git markers | — |
-| [hlchunk.nvim](https://github.com/shellRaining/hlchunk.nvim) | Indent/chunk highlight | — |
+### Editor
+| Plugin | Purpose |
+|--------|---------|
+| hop.nvim | Word/anywhere jumping |
+| quick-scope | f/t target highlight |
+| vim-edgemotion | Jump to indent-block boundary |
+| nvim-hlslens | Search match count overlay |
+| nvim-surround | Surround text objects |
+| nvim-autopairs | Auto-close brackets/quotes |
+| Comment.nvim | Toggle comments |
+| vim-toggle-quickfix | Toggle quickfix/loclist |
+| nvim-bqf | Quickfix preview (auto-close on jump) |
+| undotree | Undo tree with persistent history |
 
-## File Search
+### Git
+| Plugin | Purpose |
+|--------|---------|
+| gitsigns.nvim | Git signs in gutter |
+| vim-fugitive | Git commands |
+| diffview.nvim | File history / branch diff |
 
-| Plugin | Description | Keys |
-|--------|-------------|------|
-| [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) | Fuzzy finder | `<Leader>f` git files, `<Leader>F` git status, `<Leader>b` buffers, `<Leader>.` buffer lines, `<Leader>r` live grep, `<Leader>h` recent files, `<Leader>?` keymaps |
-| [telescope-fzf-native.nvim](https://github.com/nvim-telescope/telescope-fzf-native.nvim) | fzf sorter for telescope | — |
-| [telescope-all-recent.nvim](https://github.com/prochri/telescope-all-recent.nvim) | Frecency sorting (SQLite) | — |
+### Diagnostics
+| Plugin | Purpose |
+|--------|---------|
+| trouble.nvim | Diagnostics / references panel |
+| todo-comments.nvim | TODO/FIXME/HACK highlights |
 
-## LSP & Completion
+### Treesitter
+| Plugin | Purpose |
+|--------|---------|
+| nvim-treesitter | Syntax highlighting + text objects |
+| render-markdown.nvim | Markdown rendering |
 
-| Plugin | Description |
-|--------|-------------|
-| [mason.nvim](https://github.com/williamboman/mason.nvim) | LSP/formatter/linter installer |
-| [mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim) | Bridge between mason and lspconfig |
-| [mason-tool-installer.nvim](https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim) | Auto-install tools (stylua) |
-| [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) | LSP client configs. Servers: `gopls` |
-| [nvim-metals](https://github.com/scalameta/nvim-metals) | Scala/Metals LSP (Java 17 required) |
-| [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) | Completion engine |
-| [LuaSnip](https://github.com/L3MON4D3/LuaSnip) | Snippet engine |
+### Other
+| Plugin | Purpose |
+|--------|---------|
+| conform.nvim | Formatter (goimports, gofmt, stylua) |
+| telescope.nvim + fzf-native | Fuzzy finder |
+| persistence.nvim | Auto-save sessions per directory |
 
-LSP keymaps (on attach):
+## Keymaps
 
-| Key | Action |
-|-----|--------|
-| `<Leader>g` | Go to definition |
-| `<Leader>i` | Go to implementation |
-| `<Leader>u` | References |
-| `K` | Hover |
-| `<C-k>` | Signature help (insert mode) |
-| `<Leader>rn` | Rename |
-| `<Leader>ca` | Code action |
-| `<Leader>d` | Diagnostics float |
-| `]d` / `[d` | Next/prev diagnostic |
+Leader: `Space`
 
-## Diagnostics
-
-| Plugin | Description | Keys |
-|--------|-------------|------|
-| [trouble.nvim](https://github.com/folke/trouble.nvim) | Diagnostics/references panel | `<Leader>xx` workspace, `<Leader>xd` document, `<Leader>xu` references, `<Leader>xq` quickfix |
-| [todo-comments.nvim](https://github.com/folke/todo-comments.nvim) | TODO/FIXME/HACK highlights | `]t` / `[t` jump, `<Leader>xt` list |
-
-## Git
-
-| Plugin | Description | Keys |
-|--------|-------------|------|
-| [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) | Git hunk signs in signcolumn | `]c` / `[c` next/prev hunk, `<Leader>hp` preview, `<Leader>hr` reset, `<Leader>hb` blame |
-
-## Treesitter
-
-| Plugin | Description |
-|--------|-------------|
-| [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Syntax highlighting + parsing. Languages: go, lua, bash, json, yaml, toml, markdown, vim, vimdoc, scala |
-| [nvim-treesitter-textobjects](https://github.com/nvim-treesitter/nvim-treesitter-textobjects) | Text objects: `af`/`if` function, `ac`/`ic` class; `]f`/`[f` move |
-
-## Motion & Editing
-
-| Plugin | Description | Keys |
-|--------|-------------|------|
-| [hop.nvim](https://github.com/hadronized/hop.nvim) | EasyMotion-style jumping | `<Leader>m` words, `<Leader>M` anywhere |
-| [quick-scope](https://github.com/unblevable/quick-scope) | f/t target highlight | automatic |
-| [vim-edgemotion](https://github.com/haya14busa/vim-edgemotion) | Jump to indent block boundary | `<C-j>` down, `<C-k>` up |
-| [nvim-hlslens](https://github.com/kevinhwang91/nvim-hlslens) | Search match count overlay | `n`/`N`/`*`/`#` (enhanced) |
-| [nvim-surround](https://github.com/kylechui/nvim-surround) | Surround text objects | `ys`/`cs`/`ds` |
-| [nvim-autopairs](https://github.com/windwp/nvim-autopairs) | Auto-close brackets/quotes | automatic |
-| [Comment.nvim](https://github.com/numToStr/Comment.nvim) | Toggle comments | `<Leader>/` |
-| [undotree](https://github.com/mbbill/undotree) | Visual undo history (persistent) | `<Leader>U` |
-
-## Formatting
-
-| Plugin | Description |
-|--------|-------------|
-| [conform.nvim](https://github.com/stevearc/conform.nvim) | Format on save. Go: `goimports`+`gofmt`, Lua: `stylua` |
-
-## Session
-
-| Plugin | Description |
-|--------|-------------|
-| [persistence.nvim](https://github.com/folke/persistence.nvim) | Auto-save/restore sessions per directory |
-
-Session is restored automatically on startup (when no file args given). neo-tree buffers are excluded from the session file.
-
-## Keymaps (global)
-
+### General
 | Key | Action |
 |-----|--------|
 | `<Leader>w` | Save |
@@ -112,10 +83,64 @@ Session is restored automatically on startup (when no file args given). neo-tree
 | `<Leader>qq` | Force quit |
 | `<Leader>s` | Horizontal split |
 | `<Leader>v` | Vertical split |
-| `<C-h>` / `<C-l>` | Window navigation |
 | `<Leader>a` / `<Leader>e` | Line start / end |
+| `<C-h>` / `<C-l>` | Window left / right |
 | `<F3>` | Clear search highlight |
 | `jj` | Escape (insert mode) |
-| `<Leader>?` | Show all keymaps (Telescope) |
 
-[which-key.nvim](https://github.com/folke/which-key.nvim) shows available keybindings after pressing `<Leader>`.
+### LSP
+| Key | Action |
+|-----|--------|
+| `<Leader>g` | Go to definition |
+| `<Leader>i` | Go to implementation |
+| `<Leader>u` | References (Trouble) |
+| `K` | Hover |
+| `<C-k>` | Signature help (insert) |
+| `<Leader>rn` | Rename |
+| `<Leader>ca` | Code action |
+| `<Leader>d` | Diagnostics float |
+| `]d` / `[d` | Next / prev diagnostic |
+| `<Leader>h` | Toggle inlay hints |
+| `<Leader>cl` | Run code lens |
+
+### Navigation
+| Key | Action |
+|-----|--------|
+| `<Leader>m` | Hop words |
+| `<Leader>M` | Hop anywhere |
+| `<C-j>` / `<C-k>` | Edge motion down / up |
+| `<Leader>f` | Telescope find files |
+| `<Leader>r` | Telescope live grep |
+| `<Leader>b` | Telescope buffers |
+| `<Leader>t` | Neo-tree toggle |
+
+### Git
+| Key | Action |
+|-----|--------|
+| `<Leader>gd` | Diffview open |
+| `<Leader>gh` | Diffview file history |
+| `<Leader>gH` | Diffview branch history |
+| `]c` / `[c` | Next / prev hunk (gitsigns) |
+
+### Diagnostics
+| Key | Action |
+|-----|--------|
+| `<Leader>xx` | Workspace diagnostics |
+| `<Leader>xd` | Document diagnostics |
+| `<Leader>xq` | Quickfix list (Trouble) |
+| `<Leader>xt` | Todo list |
+| `]t` / `[t` | Next / prev todo |
+| `<Leader>q` | Toggle quickfix |
+| `<Leader>l` | Toggle loclist |
+
+### Buffer
+| Key | Action |
+|-----|--------|
+| `<Tab>` / `<S-Tab>` | Next / prev buffer |
+| `<Leader>x` | Close buffer |
+
+### Other
+| Key | Action |
+|-----|--------|
+| `<Leader>o` | Outline toggle |
+| `<Leader>U` | Undo tree |
