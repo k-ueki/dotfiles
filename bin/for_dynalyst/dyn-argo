@@ -1,0 +1,91 @@
+#!/bin/bash
+# ArgoCD access via kubectx context selection
+# Usage: dyn-argo [--no-signin | -n]
+
+set -euo pipefail
+
+# Open URL in Chrome window that contains imt.services.isca.jp tab
+open_in_imt_window() {
+  local url="$1"
+  osascript -e "
+tell application \"Google Chrome\"
+  set targetWindow to missing value
+  repeat with w in windows
+    repeat with t in tabs of w
+      if URL of t contains \"imt.services.isca.jp\" then
+        set targetWindow to w
+        exit repeat
+      end if
+    end repeat
+    if targetWindow is not missing value then exit repeat
+  end repeat
+  if targetWindow is not missing value then
+    tell targetWindow
+      make new tab with properties {URL:\"${url}\"}
+    end tell
+    set index of targetWindow to 1
+  else
+    make new window with properties {URL:\"${url}\"}
+  end if
+  activate
+end tell"
+}
+
+NO_SIGNIN=false
+if [[ "${1:-}" == "--no-signin" || "${1:-}" == "-n" ]]; then
+  NO_SIGNIN=true
+fi
+
+# Select context via fzf
+CONTEXT=$(kubectx | fzf --prompt="Select cluster context: ")
+kubectx "${CONTEXT}"
+
+echo "=== Context: ${CONTEXT} ==="
+
+# Detect cluster type and set port/host
+case "${CONTEXT}" in
+  *bm*)
+    PORT=8444
+    HOST="localhost"
+    LABEL="BM"
+    ;;
+  *prd*|*prod*)
+    PORT=8443
+    HOST="127.0.0.1"
+    LABEL="AKE-PRD"
+    if [ "${NO_SIGNIN}" = false ]; then
+      open https://iam.cycloud.jp/devicecode
+      cycloud auth signin
+    fi
+    ;;
+  *stg*)
+    PORT=8445
+    HOST="127.0.0.2"
+    LABEL="AKE-STG"
+    if [ "${NO_SIGNIN}" = false ]; then
+      open https://iam.cycloud.jp/devicecode
+      cycloud auth signin
+    fi
+    ;;
+  *)
+    echo "Unknown context: ${CONTEXT}"
+    exit 1
+    ;;
+esac
+
+# Get password
+PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
+echo "${PASSWORD}" | pbcopy
+echo "Password copied to clipboard"
+
+# Port forward (background) then open browser
+URL="https://${HOST}:${PORT}/#${LABEL}"
+kubectl port-forward --address "${HOST}" -n argocd svc/argocd-server "${PORT}":443 &
+PF_PID=$!
+sleep 2
+
+open_in_imt_window "${URL}"
+echo "Opening ${URL}"
+
+# Wait for port-forward (Ctrl+C to stop)
+wait $PF_PID
