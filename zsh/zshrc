@@ -30,3 +30,12 @@ source ${Z_PATH}/myconf/tmux_conf.zsh
 eval "$(direnv hook zsh)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# bun completions
+[ -s "/Users/s11308/.bun/_bun" ] && source "/Users/s11308/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+alias claude-mem='/Users/s11308/.bun/bin/bun "/Users/s11308/.claude/plugins/cache/thedotmack/claude-mem/12.1.1/scripts/worker-service.cjs"'

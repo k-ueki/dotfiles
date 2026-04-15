@@ -37,3 +37,5 @@ path=(
 )
 
 export LSCOLORS=cxfxcxdxbxGxDxabagacad
+
+export KUBECONFIG=~/.kube/config:~/.kube/config-dynalyst-bm-iam
