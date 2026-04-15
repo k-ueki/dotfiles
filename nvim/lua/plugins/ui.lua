@@ -50,7 +50,7 @@ return {
 		event = "VimEnter",
 		opts = {
 			options = {
-				theme = "nightfly",
+				theme = require("lualine-kuroi"),
 				section_separators = "",
 				component_separators = "|",
 			},
@@ -189,6 +189,58 @@ return {
 				search = true, -- hlslens 連携
 				gitsigns = true, -- gitsigns 連携
 			},
+		},
+	},
+
+	-- Symbol outline — IntelliJ-like structure view
+	{
+		"hedyhli/outline.nvim",
+		cmd = { "Outline", "OutlineOpen" },
+		keys = {
+			{ "<Leader>o", "<Cmd>Outline<CR>", desc = "Toggle symbol outline" },
+		},
+		opts = {
+			outline_window = {
+				position = "right",
+				width = 30,
+			},
+			symbols = {
+				filter = {
+					default = {
+						"Class",
+						"Constructor",
+						"Enum",
+						"Field",
+						"Function",
+						"Interface",
+						"Method",
+						"Module",
+						"Namespace",
+						"Object",
+						"Property",
+						"Struct",
+						"Trait",
+						"Variable",
+					},
+				},
+			},
+		},
+	},
+
+	-- Breadcrumbs (winbar) — IntelliJ-like navigation context
+	{
+		"utilyre/barbecue.nvim",
+		name = "barbecue",
+		version = "*",
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			"SmiteshP/nvim-navic",
+			"nvim-tree/nvim-web-devicons",
+		},
+		opts = {
+			show_dirname = false,
+			show_basename = true,
+			kinds = false, -- use nvim-web-devicons instead of kind icons
 		},
 	},
 

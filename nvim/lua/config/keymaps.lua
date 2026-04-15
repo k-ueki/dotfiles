@@ -51,5 +51,26 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("n", "<Leader>d",  vim.diagnostic.open_float,  vim.tbl_extend("force", opts, { desc = "Diagnostics float" }))
 		map("n", "]d",         vim.diagnostic.goto_next,   opts)
 		map("n", "[d",         vim.diagnostic.goto_prev,   opts)
+		-- Inlay hints (toggle with <Leader>h)
+		if vim.lsp.inlay_hint then
+			vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+			map("n", "<Leader>h", function()
+				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = ev.buf }), { bufnr = ev.buf })
+			end, vim.tbl_extend("force", opts, { desc = "Toggle inlay hints" }))
+		end
+		-- Code Lens
+		if vim.lsp.codelens then
+			vim.lsp.codelens.refresh()
+			map("n", "<Leader>cl", vim.lsp.codelens.run, vim.tbl_extend("force", opts, { desc = "Run code lens" }))
+		end
+	end,
+})
+
+-- Auto-refresh code lens on buffer changes
+vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
+	callback = function()
+		if #vim.lsp.get_clients({ bufnr = 0 }) > 0 then
+			vim.lsp.codelens.refresh()
+		end
 	end,
 })

@@ -5,6 +5,7 @@ return {
 		dir = vim.fn.stdpath("config"),
 		name = "kuroi",
 		priority = 1000,
+		enabled = true, -- switched to kanagawa
 		config = function()
 			vim.cmd.colorscheme("kuroi")
 
@@ -17,10 +18,24 @@ return {
 		end,
 	},
 
-	-- Colorscheme (using bundled kuroi)
+	-- Colorscheme (kuroi backup, disabled)
 	{
 		"folke/tokyonight.nvim",
 		priority = 1000,
 		enabled = false, -- using local kuroi
+	},
+
+	-- Kanagawa: LSP/TreeSitter-rich dark theme
+	{
+		"rebelot/kanagawa.nvim",
+		priority = 1000,
+		enabled = false,
+		config = function()
+			require("kanagawa").setup({
+				theme = "wave",
+				background = { dark = "wave" },
+			})
+			vim.cmd.colorscheme("kanagawa-wave")
+		end,
 	},
 }

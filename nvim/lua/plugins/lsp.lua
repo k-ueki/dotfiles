@@ -51,7 +51,14 @@ return {
 				ensure_installed = { "gopls", "terraformls" },
 				handlers = {
 					function(server)
-						require("lspconfig")[server].setup({ capabilities = capabilities })
+						require("lspconfig")[server].setup({
+							capabilities = capabilities,
+							on_attach = function(client, bufnr)
+								if client.server_capabilities.documentSymbolProvider then
+									require("nvim-navic").attach(client, bufnr)
+								end
+							end,
+						})
 					end,
 				},
 			})
@@ -77,8 +84,31 @@ return {
 
 			config.settings = {
 				showImplicitArguments = true,
+				showImplicitConversionsAndClasses = true,
+				showInferredType = true,
 				excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
+				-- IntelliJ-like inlay hints
+				inlayHints = {
+					hintsInPatternMatch = { enable = true },
+					implicitArguments = { enable = true },
+					implicitConversions = { enable = true },
+					inferredTypes = { enable = true },
+					typeParameters = { enable = true },
+				},
+				-- Code Lens (references count, run/debug)
+				superMethodLensesEnabled = true,
 			}
+
+			config.init_options = {
+				isHttpEnabled = true,
+			}
+
+			-- Attach nvim-navic for breadcrumbs
+			config.on_attach = function(client, bufnr)
+				if client.server_capabilities.documentSymbolProvider then
+					require("nvim-navic").attach(client, bufnr)
+				end
+			end
 
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = { "scala", "sbt", "java" },
