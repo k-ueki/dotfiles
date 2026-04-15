@@ -37,6 +37,7 @@ let s:gui_green        = "#5faf5f"
 let s:gui_aqua         = "#87afd7"
 let s:gui_blue         = "#5fafff"
 let s:gui_purple       = "#8787ff"
+let s:gui_lightyellow  = "#d7d7af"
 
 let s:palette.gui.background   = { 'dark' : s:gui_background }
 let s:palette.gui.foreground   = { 'dark' : s:gui_foreground }
@@ -50,6 +51,7 @@ let s:palette.gui.green        = { 'dark' : s:gui_green      }
 let s:palette.gui.aqua         = { 'dark' : s:gui_aqua       }
 let s:palette.gui.blue         = { 'dark' : s:gui_blue       }
 let s:palette.gui.purple       = { 'dark' : s:gui_purple     }
+let s:palette.gui.lightyellow  = { 'dark' : s:gui_lightyellow }
 let s:palette.gui.window       = { 'dark' : "#303030"        }
 let s:palette.gui.function     = { 'dark' : s:gui_function   }
 let s:palette.gui.darkcolumn   = { 'dark' : "#1c1c1c"        }
@@ -84,10 +86,12 @@ let s:cterm_yellow = "220"
 let s:cterm_green  = "71"
 let s:cterm_aqua   = "110"
 let s:cterm_blue   = "75"
-let s:cterm_purple = "105"
+let s:cterm_purple      = "105"
+let s:cterm_lightyellow = "187"
 
 let s:palette.cterm.background   = { 'dark' : s:cterm_background }
 let s:palette.cterm.foreground   = { 'dark' : s:cterm_foreground }
+let s:palette.cterm.lightyellow  = { 'dark' : s:cterm_lightyellow }
 let s:palette.cterm.window       = { 'dark' : "236"              }
 let s:palette.cterm.function     = { 'dark' : s:cterm_function   }
 let s:palette.cterm.selection    = { 'dark' : s:cterm_selection  }
@@ -155,6 +159,7 @@ call s:build_prim('bg', 'green')
 call s:build_prim('bg', 'aqua')
 call s:build_prim('bg', 'blue')
 call s:build_prim('bg', 'purple')
+call s:build_prim('bg', 'lightyellow')
 call s:build_prim('bg', 'window')
 call s:build_prim('bg', 'function')
 call s:build_prim('bg', 'darkcolumn')
@@ -184,6 +189,7 @@ call s:build_prim('fg', 'green')
 call s:build_prim('fg', 'aqua')
 call s:build_prim('fg', 'blue')
 call s:build_prim('fg', 'purple')
+call s:build_prim('fg', 'lightyellow')
 call s:build_prim('fg', 'window')
 call s:build_prim('fg', 'function')
 call s:build_prim('fg', 'darkcolumn')
@@ -312,17 +318,17 @@ exe "hi! Statement"       .s:fg_blue        .s:bg_none        .s:fmt_none
 "   Conditional"
 "   Repeat"
 "   Label"
-exe "hi! Operator"        .s:fg_aqua        .s:bg_none        .s:fmt_none
+exe "hi! Operator"        .s:fg_foreground  .s:bg_none        .s:fmt_none
 "   Keyword"
 "   Exception"
 
-exe "hi! PreProc"         .s:fg_aqua        .s:bg_none        .s:fmt_none
+exe "hi! PreProc"         .s:fg_blue        .s:bg_none        .s:fmt_none
 "   Include"
 "   Define"
 "   Macro"
 "   PreCondit"
 
-exe "hi! Type"            .s:fg_orange      .s:bg_none        .s:fmt_none
+exe "hi! Type"            .s:fg_aqua        .s:bg_none        .s:fmt_none
 "   StorageClass"
 exe "hi! Structure"       .s:fg_aqua        .s:bg_none        .s:fmt_none
 "   Typedef"
@@ -397,6 +403,110 @@ exe "hi! SignifySignDelete"  .s:fg_gitgutterdlt  .s:bg_none  .s:fmt_none
 
 "}}}
 "
+" TreeSitter Highlighting (IntelliJ Darcula style):"{{{
+" ----------------------------------------------------------------------------
+" Variables / Parameters — Darcula uses plain foreground for locals
+exe "hi! @variable"             .s:fg_aqua        .s:bg_none  .s:fmt_none
+exe "hi! @variable.builtin"     .s:fg_orange      .s:bg_none  .s:fmt_ital
+exe "hi! @variable.parameter"   .s:fg_lightyellow .s:bg_none  .s:fmt_ital
+exe "hi! @variable.member"      .s:fg_purple      .s:bg_none  .s:fmt_none
+
+" Constants / Literals — Darcula: numbers=blue, booleans=orange keyword
+exe "hi! @constant"             .s:fg_purple      .s:bg_none  .s:fmt_ital
+exe "hi! @constant.builtin"     .s:fg_orange      .s:bg_none  .s:fmt_bold
+exe "hi! @string"               .s:fg_green       .s:bg_none  .s:fmt_none
+exe "hi! @string.escape"        .s:fg_orange      .s:bg_none  .s:fmt_bold
+exe "hi! @string.regex"         .s:fg_green       .s:bg_none  .s:fmt_bold
+exe "hi! @number"               .s:fg_blue        .s:bg_none  .s:fmt_none
+exe "hi! @boolean"              .s:fg_orange      .s:bg_none  .s:fmt_bold
+
+" Functions / Methods — Darcula uses plain foreground (not bold)
+exe "hi! @function"             .s:fg_orange      .s:bg_none  .s:fmt_none
+exe "hi! @function.builtin"     .s:fg_orange      .s:bg_none  .s:fmt_none
+exe "hi! @function.method"      .s:fg_orange      .s:bg_none  .s:fmt_none
+exe "hi! @function.macro"       .s:fg_orange      .s:bg_none  .s:fmt_none
+
+" Types — Darcula: aqua/cyan for class & type names
+exe "hi! @constructor"          .s:fg_green       .s:bg_none  .s:fmt_none
+exe "hi! @type"                 .s:fg_green       .s:bg_none  .s:fmt_none
+exe "hi! @type.builtin"         .s:fg_green       .s:bg_none  .s:fmt_none
+exe "hi! @type.qualifier"       .s:fg_blue        .s:bg_none  .s:fmt_none
+
+" Attributes / Annotations — Darcula: yellow
+exe "hi! @attribute"            .s:fg_yellow      .s:bg_none  .s:fmt_none
+exe "hi! @property"             .s:fg_purple      .s:bg_none  .s:fmt_none
+
+" Keywords — Darcula: orange for all keywords
+exe "hi! @keyword"              .s:fg_blue        .s:bg_none  .s:fmt_none
+exe "hi! @keyword.function"     .s:fg_blue        .s:bg_none  .s:fmt_none
+exe "hi! @keyword.return"       .s:fg_blue        .s:bg_none  .s:fmt_none
+exe "hi! @keyword.operator"     .s:fg_blue        .s:bg_none  .s:fmt_none
+exe "hi! @keyword.import"       .s:fg_blue        .s:bg_none  .s:fmt_none
+
+" Operators / Punctuation — Darcula: foreground
+exe "hi! @operator"             .s:fg_foreground  .s:bg_none  .s:fmt_none
+exe "hi! @punctuation"          .s:fg_foreground  .s:bg_none  .s:fmt_none
+exe "hi! @punctuation.bracket"  .s:fg_foreground  .s:bg_none  .s:fmt_none
+exe "hi! @punctuation.delimiter".s:fg_foreground  .s:bg_none  .s:fmt_none
+
+" Comments
+exe "hi! @comment"              .s:fg_comment     .s:bg_none  .s:fmt_ital
+exe "hi! @comment.todo"         .s:fg_yellow      .s:bg_none  .s:fmt_bold
+
+" Namespace / Module
+exe "hi! @namespace"            .s:fg_green       .s:bg_none  .s:fmt_none
+exe "hi! @module"               .s:fg_green       .s:bg_none  .s:fmt_none
+
+" Tags (HTML/JSX)
+exe "hi! @tag"                  .s:fg_orange      .s:bg_none  .s:fmt_none
+exe "hi! @tag.attribute"        .s:fg_foreground  .s:bg_none  .s:fmt_none
+
+"}}}
+" LSP Semantic Token Highlighting (IntelliJ Darcula style):"{{{
+" ----------------------------------------------------------------------------
+" Types — aqua/cyan (Darcula class/interface color)
+exe "hi! @lsp.type.class"         .s:fg_green       .s:bg_none  .s:fmt_none
+exe "hi! @lsp.type.struct"        .s:fg_green       .s:bg_none  .s:fmt_none
+exe "hi! @lsp.type.interface"     .s:fg_green       .s:bg_none  .s:fmt_none
+exe "hi! @lsp.type.enum"          .s:fg_green       .s:bg_none  .s:fmt_none
+exe "hi! @lsp.type.enumMember"    .s:fg_purple      .s:bg_none  .s:fmt_ital
+exe "hi! @lsp.type.type"          .s:fg_green       .s:bg_none  .s:fmt_none
+exe "hi! @lsp.type.typeParameter" .s:fg_green       .s:bg_none  .s:fmt_ital
+exe "hi! @lsp.type.namespace"     .s:fg_green       .s:bg_none  .s:fmt_none
+
+" Functions / Methods — Darcula: plain foreground
+exe "hi! @lsp.type.function"      .s:fg_orange      .s:bg_none  .s:fmt_none
+exe "hi! @lsp.type.method"        .s:fg_orange      .s:bg_none  .s:fmt_none
+
+" Properties / Variables / Parameters — foreground, fields=purple
+exe "hi! @lsp.type.property"      .s:fg_purple      .s:bg_none  .s:fmt_none
+exe "hi! @lsp.type.variable"      .s:fg_aqua        .s:bg_none  .s:fmt_none
+exe "hi! @lsp.type.parameter"     .s:fg_lightyellow .s:bg_none  .s:fmt_ital
+
+" Keywords — orange
+exe "hi! @lsp.type.keyword"       .s:fg_blue        .s:bg_none  .s:fmt_none
+
+" Literals
+exe "hi! @lsp.type.comment"       .s:fg_comment     .s:bg_none  .s:fmt_ital
+exe "hi! @lsp.type.string"        .s:fg_green       .s:bg_none  .s:fmt_none
+exe "hi! @lsp.type.number"        .s:fg_blue        .s:bg_none  .s:fmt_none
+
+" Annotations / Decorators — yellow
+exe "hi! @lsp.type.decorator"     .s:fg_yellow      .s:bg_none  .s:fmt_none
+exe "hi! @lsp.type.macro"         .s:fg_orange      .s:bg_none  .s:fmt_none
+exe "hi! @lsp.type.operator"      .s:fg_foreground  .s:bg_none  .s:fmt_none
+
+" LSP semantic modifiers
+exe "hi! @lsp.mod.deprecated"     .s:fg_none  .s:bg_none  .s:fmt_undr
+
+" Inlay hints — subtle inline annotations
+exe "hi! LspInlayHint"  .s:fg_comment  .s:bg_line  .s:fmt_ital
+
+" Code lens
+exe "hi! LspCodeLens"      .s:fg_comment  .s:bg_none  .s:fmt_ital
+exe "hi! LspCodeLensSep"   .s:fg_comment  .s:bg_none  .s:fmt_none
+
+"}}}
 " This is needed for some reason: {{{
 
 let &background = s:style
