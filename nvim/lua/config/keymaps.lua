@@ -45,11 +45,20 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ev)
 		local opts = { buffer = ev.buf }
 		-- Navigation
-		map("n", "<Leader>g", vim.lsp.buf.definition, vim.tbl_extend("force", opts, { desc = "Go to definition" }))
+		-- Jump + center cursor
+		local function jump_center(jump_fn)
+			return function()
+				jump_fn()
+				vim.schedule(function()
+					vim.cmd("normal! zz")
+				end)
+			end
+		end
+		map("n", "<Leader>g", jump_center(vim.lsp.buf.definition), vim.tbl_extend("force", opts, { desc = "Go to definition" }))
 		map(
 			"n",
 			"<Leader>i",
-			vim.lsp.buf.implementation,
+			jump_center(vim.lsp.buf.implementation),
 			vim.tbl_extend("force", opts, { desc = "Go to implementation" })
 		)
 		map(
