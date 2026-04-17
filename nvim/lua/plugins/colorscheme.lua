@@ -34,6 +34,12 @@ return {
 					hl.LspReferenceText  = { bg = "#2a2f3d" }
 					hl.LspReferenceRead  = { bg = "#2a2f3d" }
 					hl.LspReferenceWrite = { bg = "#3a2f3d" }
+					-- Gitsigns: explicit add=green, change=blue, delete=red
+					hl.GitSignsAdd          = { fg = "#50fa7b" }
+					hl.GitSignsChange       = { fg = "#7aa2f7" }
+					hl.GitSignsDelete       = { fg = "#ff5555" }
+					hl.GitSignsTopdelete    = { fg = "#ff5555" }
+					hl.GitSignsChangedelete = { fg = "#ff5555" }
 				end,
 			})
 			vim.cmd.colorscheme("tokyonight-night")
