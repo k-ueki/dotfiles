@@ -17,7 +17,9 @@ return {
 			{ "<Leader>xu", "<Cmd>Trouble lsp_references toggle<CR>", desc = "LSP references" },
 			{ "<Leader>xq", "<Cmd>Trouble qflist toggle<CR>", desc = "Quickfix list" },
 		},
-		opts = {},
+		opts = {
+			focus = true,
+		},
 	},
 
 	-- TODO/FIXME/HACK highlights

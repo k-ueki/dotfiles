@@ -15,6 +15,12 @@ map("n", "sv", "<Cmd>vs<CR><C-w>l")
 map("n", "<C-h>", "<C-w>h")
 map("n", "<C-l>", "<C-w>l")
 
+-- Window resize
+map("n", "<M-Left>",  "<Cmd>vertical resize -5<CR>", { desc = "Resize window left" })
+map("n", "<M-Right>", "<Cmd>vertical resize +5<CR>", { desc = "Resize window right" })
+map("n", "<M-Up>",    "<Cmd>resize +3<CR>",          { desc = "Resize window up" })
+map("n", "<M-Down>",  "<Cmd>resize -3<CR>",          { desc = "Resize window down" })
+
 -- Line navigation
 map({ "n", "v" }, "<Leader>a", "^", { desc = "Line start" })
 map({ "n", "v" }, "<Leader>e", "$", { desc = "Line end" })
@@ -49,8 +55,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map(
 			"n",
 			"<Leader>u",
-			"<Cmd>Trouble lsp_references toggle<CR>",
-			vim.tbl_extend("force", opts, { desc = "References" })
+			"<Cmd>Trouble lsp_references open refresh<CR>",
+			vim.tbl_extend("force", opts, { desc = "References (Trouble)" })
+		)
+		map(
+			"n",
+			"<Leader>U",
+			vim.lsp.buf.references,
+			vim.tbl_extend("force", opts, { desc = "References (quickfix)" })
 		)
 		map("n", "K", vim.lsp.buf.hover, opts)
 		map("i", "<C-k>", vim.lsp.buf.signature_help, opts)
@@ -72,6 +84,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		if vim.lsp.codelens then
 			vim.lsp.codelens.refresh()
 			map("n", "<Leader>cl", vim.lsp.codelens.run, vim.tbl_extend("force", opts, { desc = "Run code lens" }))
+		end
+		-- Document highlight: highlight the symbol under cursor
+		local client = vim.lsp.get_client_by_id(ev.data.client_id)
+		if client and client.server_capabilities.documentHighlightProvider then
+			vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+				buffer = ev.buf,
+				callback = vim.lsp.buf.document_highlight,
+			})
+			vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+				buffer = ev.buf,
+				callback = vim.lsp.buf.clear_references,
+			})
 		end
 	end,
 })

@@ -1,28 +1,46 @@
--- Load the bundled kuroi colorscheme from dotfiles/nvim/colors/
 return {
+	-- Bundled kuroi colorscheme (backup, disabled)
 	{
-		-- dummy spec to apply local colorscheme on startup
 		dir = vim.fn.stdpath("config"),
 		name = "kuroi",
 		priority = 1000,
-		enabled = true, -- switched to kanagawa
-		config = function()
-			vim.cmd.colorscheme("kuroi")
-
-			-- bufferline needs contrast between tab bg and fill bg
-			-- kuroi's TabLine (#1c1c1c) and TabLineFill (#1b1918) are nearly identical
-			local set = vim.api.nvim_set_hl
-			set(0, "TabLine", { fg = "#c5c8c6", bg = "#2d2d2d" })
-			set(0, "TabLineFill", { bg = "#1b1918" })
-			set(0, "TabLineSel", { fg = "#ffffff", bg = "#3d4148", bold = true })
-		end,
+		enabled = false,
 	},
 
-	-- Colorscheme (kuroi backup, disabled)
+	-- Tokyo Night (active)
 	{
 		"folke/tokyonight.nvim",
 		priority = 1000,
-		enabled = false, -- using local kuroi
+		config = function()
+			require("tokyonight").setup({
+				style = "night", -- "storm" | "night" | "moon" | "day"
+				transparent = false,
+				on_colors = function(c)
+					c.bg = "#070707"
+					c.bg_dark = "#040404"
+					c.bg_float = "#070707"
+					c.bg_sidebar = "#040404"
+					c.bg_statusline = "#040404"
+				end,
+				on_highlights = function(hl, c)
+					-- Diff colors (stronger contrast against dark bg)
+					hl.DiffAdd    = { bg = "#1e3a2f" }
+					hl.DiffChange = { bg = "#1f2937" }
+					hl.DiffText   = { bg = "#264f78", fg = "#ffffff" }
+					hl.DiffDelete = { bg = "#3a1f24", fg = "#3a1f24" }
+					hl.DiffviewDiffAddAsDelete = { bg = "#3a1f24", fg = "#3a1f24" }
+					hl.DiffviewDiffDelete      = { fg = "#1a1a1a" }
+					-- Highlight same symbols under cursor (via LSP document highlight)
+					hl.LspReferenceText  = { bg = "#2a2f3d" }
+					hl.LspReferenceRead  = { bg = "#2a2f3d" }
+					hl.LspReferenceWrite = { bg = "#3a2f3d" }
+				end,
+			})
+			vim.cmd.colorscheme("tokyonight-night")
+
+			-- Use dotted filler character for deleted regions in diff
+			vim.opt.fillchars:append({ diff = "╱" })
+		end,
 	},
 
 	-- Kanagawa: LSP/TreeSitter-rich dark theme

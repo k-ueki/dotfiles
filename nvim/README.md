@@ -1,6 +1,6 @@
 # Neovim Configuration
 
-Plugin manager: [lazy.nvim](https://github.com/folke/lazy.nvim) / Colorscheme: kuroi (bundled)
+Plugin manager: [lazy.nvim](https://github.com/folke/lazy.nvim) / Colorscheme: tokyonight (night variant, customized) / Font: JetBrainsMono Nerd Font
 
 ## Plugins
 
@@ -43,7 +43,7 @@ Plugin manager: [lazy.nvim](https://github.com/folke/lazy.nvim) / Colorscheme: k
 | Comment.nvim | Toggle comments |
 | vim-toggle-quickfix | Toggle quickfix/loclist |
 | nvim-bqf | Quickfix preview (auto-close on jump) |
-| undotree | Undo tree with persistent history |
+| ~~undotree~~ | Disabled (rarely used) |
 
 ### Git
 | Plugin | Purpose |
@@ -85,6 +85,8 @@ Leader: `Space`
 | `<Leader>v` | Vertical split |
 | `<Leader>a` / `<Leader>e` | Line start / end |
 | `<C-h>` / `<C-l>` | Window left / right |
+| `<M-Left>` / `<M-Right>` | Resize window horizontally |
+| `<M-Up>` / `<M-Down>` | Resize window vertically |
 | `<F3>` | Clear search highlight |
 | `jj` | Escape (insert mode) |
 
@@ -93,7 +95,8 @@ Leader: `Space`
 |-----|--------|
 | `<Leader>g` | Go to definition |
 | `<Leader>i` | Go to implementation |
-| `<Leader>u` | References (Trouble) |
+| `<Leader>u` | References (Trouble, refresh) |
+| `<Leader>U` | References (quickfix) |
 | `K` | Hover |
 | `<C-k>` | Signature help (insert) |
 | `<Leader>rn` | Rename |
@@ -117,7 +120,7 @@ Leader: `Space`
 ### Git
 | Key | Action |
 |-----|--------|
-| `<Leader>gd` | Diffview open |
+| `<Leader>gd` | Diffview toggle |
 | `<Leader>gh` | Diffview file history |
 | `<Leader>gH` | Diffview branch history |
 | `]c` / `[c` | Next / prev hunk (gitsigns) |
@@ -143,4 +146,3 @@ Leader: `Space`
 | Key | Action |
 |-----|--------|
 | `<Leader>o` | Outline toggle |
-| `<Leader>U` | Undo tree |

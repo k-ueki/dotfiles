@@ -51,7 +51,7 @@ function make_tempfile() {
 	  [[ -f "$tmpfile" ]] && rm -f "$tmpfile"
 	  echo ~/tmp/$tmpfile is deleted.
 	}
-	vim ~/tmp/$tmpfile
+	nvim ~/tmp/$tmpfile
 
 	trap rm_tmpfile EXIT
 	trap 'trap - EXIT; rm_tmpfile; exit -1' INT PIPE TERM

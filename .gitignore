@@ -6,6 +6,10 @@ coc-go-data
 for_dynalyst.zsh
 
 .DS_Store
+*.zwc
+
+# BSP local state (Scala build tool)
+.bsp/
 
 # Claude Code - Git管理すべきもの:
 #   settings.json, commands/, plugins/, projects/, teams/, config/
@@ -24,6 +28,20 @@ claude/shell-snapshots/
 claude/tasks/
 claude/telemetry/
 claude/todos/
+
+# Claude Code - 会話ログ・ランタイムデータ
+claude/projects/
+claude/image-cache/
+claude/teams/
+claude/config/
+claude/plugins/blocklist.json
+claude/plugins/install-counts-cache.json
+claude/plugins/installed_plugins.json
+claude/plugins/known_marketplaces.json
+claude/plugins/cache/
+claude/plugins/data/
+claude/plugins/repos/
+claude/plugins/marketplaces/
 
 # Claude Code - 自動生成・キャッシュ
 claude/docs/

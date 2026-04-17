@@ -34,6 +34,15 @@ return {
 					["<"] = function()
 						vim.cmd("vertical resize -" .. 5)
 					end,
+					["<Leader>f"] = function()
+						vim.cmd("Telescope git_files")
+					end,
+					["<Leader>r"] = function()
+						vim.cmd("Telescope live_grep")
+					end,
+					["<Leader>b"] = function()
+						vim.cmd("Telescope buffers")
+					end,
 				},
 			},
 		},
@@ -261,7 +270,18 @@ return {
 		"sindrets/diffview.nvim",
 		cmd = { "DiffviewOpen", "DiffviewFileHistory" },
 		keys = {
-			{ "<Leader>gd", "<Cmd>DiffviewOpen<CR>", desc = "Diffview: open" },
+			{
+				"<Leader>gd",
+				function()
+					local view = require("diffview.lib").get_current_view()
+					if view then
+						vim.cmd("DiffviewClose")
+					else
+						vim.cmd("DiffviewOpen")
+					end
+				end,
+				desc = "Diffview: toggle",
+			},
 			{ "<Leader>gh", "<Cmd>DiffviewFileHistory %<CR>", desc = "Diffview: file history" },
 			{ "<Leader>gH", "<Cmd>DiffviewFileHistory<CR>", desc = "Diffview: branch history" },
 		},

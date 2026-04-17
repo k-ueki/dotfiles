@@ -105,12 +105,12 @@ return {
 		end,
 	},
 
-	-- Undo tree with persistent history
-	{
-		"mbbill/undotree",
-		cmd  = "UndotreeToggle",
-		keys = {
-			{ "<Leader>U", "<Cmd>UndotreeToggle<CR>", desc = "Undo tree" },
-		},
-	},
+	-- Undo tree with persistent history (disabled — rarely used)
+	-- {
+	-- 	"mbbill/undotree",
+	-- 	cmd  = "UndotreeToggle",
+	-- 	keys = {
+	-- 		{ "<Leader>U", "<Cmd>UndotreeToggle<CR>", desc = "Undo tree" },
+	-- 	},
+	-- },
 }

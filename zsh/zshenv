@@ -4,6 +4,7 @@ if [ "$LS_COLORS" -a -f /etc/DIR_COLORS ]; then
   eval $(dircolors /etc/DIR_COLORS)
 fi
 
+export EDITOR=nvim
 export GOPATH=$HOME/go
 export PYENV_ROOT="$HOME/.pyenv"
 export Z_PATH=$HOME/dotfiles/zsh

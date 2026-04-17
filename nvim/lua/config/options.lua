@@ -22,10 +22,12 @@ vim.opt.clipboard = "unnamed"
 vim.opt.hidden = true
 vim.opt.encoding = "utf-8"
 vim.opt.list = true
-vim.opt.listchars = { tab = ">-" }
+-- vim.opt.listchars = { tab = "--" }
 vim.opt.completeopt = { "menuone", "noinsert", "noselect" }
 vim.opt.signcolumn = "yes"
 vim.opt.termguicolors = true
+vim.opt.timeoutlen = 150
+vim.opt.updatetime = 300  -- Faster CursorHold (LSP document highlight, etc.)
 vim.opt.undofile = true
 vim.opt.undodir = vim.fn.stdpath("state") .. "/undo"
 

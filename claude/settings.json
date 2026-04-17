@@ -4,8 +4,8 @@
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "attribution": {
-    "commit": "false",
-    "pr": "false"
+    "commit": "",
+    "pr": ""
   },
   "permissions": {
     "allow": [
@@ -58,7 +58,8 @@
   },
   "enabledPlugins": {
     "secretary@cc-secretary": true,
-    "claude-mem@thedotmack": true
+    "claude-mem@thedotmack": true,
+    "devkit@jtcc-claude-code-plugin-marketplace": true
   },
   "extraKnownMarketplaces": {
     "cc-secretary": {
@@ -71,6 +72,12 @@
       "source": {
         "source": "github",
         "repo": "thedotmack/claude-mem"
+      }
+    },
+    "jtcc-claude-code-plugin-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "japantradingcardcenter/claude-code-plugin-marketplace"
       }
     }
   },

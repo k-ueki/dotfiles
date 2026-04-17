@@ -120,7 +120,7 @@ function _fzf_git_add_diff() {
 alias fgc="_fzf_git_checkout"
 function _fzf_git_checkout() {
   local preview="git diff $@ --color=always -- {-1}"
-  git add -N .
+  # git add -N .
   local files=$(git diff $@ --name-only | fzf-tmux -p 90% -m --ansi --preview "$preview" --preview-window '60%')
   if [ -n "$files" ]; then
     local file_array=()
