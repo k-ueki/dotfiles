@@ -64,12 +64,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map(
 			"n",
 			"<Leader>u",
-			"<Cmd>Trouble lsp_references open refresh<CR>",
-			vim.tbl_extend("force", opts, { desc = "References (Trouble)" })
-		)
-		map(
-			"n",
-			"<Leader>U",
 			vim.lsp.buf.references,
 			vim.tbl_extend("force", opts, { desc = "References (quickfix)" })
 		)
@@ -82,9 +76,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("n", "<Leader>d", vim.diagnostic.open_float, vim.tbl_extend("force", opts, { desc = "Diagnostics float" }))
 		map("n", "]d", vim.diagnostic.goto_next, opts)
 		map("n", "[d", vim.diagnostic.goto_prev, opts)
-		-- Inlay hints (toggle all buffers with <Leader>h)
+		-- Inlay hints (toggle with <Leader>h)
+		-- Note: initial state is controlled elsewhere (see config/options.lua)
+		-- so that reloading / re-attaching LSP doesn't flip user's choice.
 		if vim.lsp.inlay_hint then
-			vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
 			map("n", "<Leader>h", function()
 				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 			end, vim.tbl_extend("force", opts, { desc = "Toggle inlay hints (global)" }))

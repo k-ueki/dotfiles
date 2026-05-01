@@ -29,7 +29,8 @@ Plugin manager: [lazy.nvim](https://github.com/folke/lazy.nvim) / Colorscheme: t
 | outline.nvim | Symbol outline sidebar |
 | barbecue.nvim + nvim-navic | Breadcrumbs |
 | hlchunk.nvim | Indent / chunk highlight |
-| diffview.nvim | Side-by-side diff view |
+| diffview.nvim | Side-by-side diff view (`l` opens fold on context line) |
+| nvim-treesitter-context | Sticky scope header (class/function/etc.) |
 
 ### Editor
 | Plugin | Purpose |
@@ -146,3 +147,4 @@ Leader: `Space`
 | Key | Action |
 |-----|--------|
 | `<Leader>o` | Outline toggle |
+| `[C` / `]C` | Jump to parent / child context (treesitter-context) |

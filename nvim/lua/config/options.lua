@@ -40,3 +40,6 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 	pattern = "*.sbt",
 	command = "set filetype=scala",
 })
+
+-- Inlay hints: disabled by default (toggle with <Leader>h)
+-- Metals sometimes returns `<notype>` placeholders, so we keep it off globally.

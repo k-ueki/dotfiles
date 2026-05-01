@@ -100,6 +100,7 @@ return {
 						vim.cmd("cclose")
 						vim.cmd("cc " .. idx)
 					end, { buffer = true })
+					vim.keymap.set("n", "<Esc>", "<Cmd>cclose<CR>", { buffer = true })
 				end,
 			})
 		end,
@@ -113,4 +114,27 @@ return {
 	-- 		{ "<Leader>U", "<Cmd>UndotreeToggle<CR>", desc = "Undo tree" },
 	-- 	},
 	-- },
+
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		event = "BufReadPost",
+		opts = {
+			max_lines = 3,
+			multiline_threshold = 1,
+			trim_scope = "outer",
+			mode = "topline",
+		},
+		keys = {
+			{
+				"[C",
+				function() require("treesitter-context").go_to_context(vim.v.count1) end,
+				desc = "Jump to context (parent scope)",
+			},
+			{
+				"]C",
+				function() require("treesitter-context").go_to_context(-vim.v.count1) end,
+				desc = "Jump to context (child scope)",
+			},
+		},
+	},
 }

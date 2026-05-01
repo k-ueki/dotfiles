@@ -285,6 +285,17 @@ return {
 			{ "<Leader>gh", "<Cmd>DiffviewFileHistory %<CR>", desc = "Diffview: file history" },
 			{ "<Leader>gH", "<Cmd>DiffviewFileHistory<CR>", desc = "Diffview: branch history" },
 		},
-		opts = {},
+		opts = {
+			hooks = {
+				diff_buf_read = function(bufnr)
+					vim.keymap.set("n", "l", function()
+						if vim.fn.foldclosed(".") ~= -1 then
+							return "zo"
+						end
+						return "l"
+					end, { buffer = bufnr, expr = true, desc = "Diffview: open fold or move right" })
+				end,
+			},
+		},
 	},
 }
