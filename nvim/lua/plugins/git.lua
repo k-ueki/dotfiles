@@ -1,5 +1,11 @@
 return {
-	{ "tpope/vim-fugitive" },
+	{
+		"tpope/vim-fugitive",
+		cmd = { "Git", "G" },
+		keys = {
+			{ "<Leader>gB", "<Cmd>Git blame<CR>", desc = "Git blame (full file)" },
+		},
+	},
 
 	{
 		"lewis6991/gitsigns.nvim",
@@ -22,6 +28,7 @@ return {
 				map("n", "<Leader>hp", gs.preview_hunk, "Preview hunk")
 				map("n", "<Leader>hr", gs.reset_hunk, "Reset hunk")
 				map("n", "<Leader>hb", gs.blame_line, "Blame line")
+				map("n", "<Leader>gb", gs.blame_line, "Git blame (current line)")
 			end,
 		},
 	},

@@ -43,3 +43,13 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 
 -- Inlay hints: disabled by default (toggle with <Leader>h)
 -- Metals sometimes returns `<notype>` placeholders, so we keep it off globally.
+
+-- Soft-wrap markdown at word boundaries with hanging indent.
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "markdown",
+	callback = function()
+		vim.opt_local.wrap = true
+		vim.opt_local.linebreak = true
+		vim.opt_local.breakindent = true
+	end,
+})

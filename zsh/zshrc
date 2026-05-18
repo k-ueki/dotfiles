@@ -39,3 +39,15 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 alias claude-mem='/Users/s11308/.bun/bin/bun "/Users/s11308/.claude/plugins/cache/thedotmack/claude-mem/12.1.1/scripts/worker-service.cjs"'
+
+# tmux popup: cd into the cwd of the pane that opened the popup.
+# TMUX_POPUP_CWD is set by `bind Space` in tmux.conf and unset after first use
+# so subsequent prompts in the same popup session keep the user's navigation.
+_tmux_popup_cd() {
+	if [[ -n "$TMUX_POPUP_CWD" && -d "$TMUX_POPUP_CWD" ]]; then
+		cd "$TMUX_POPUP_CWD"
+		unset TMUX_POPUP_CWD
+	fi
+}
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd _tmux_popup_cd

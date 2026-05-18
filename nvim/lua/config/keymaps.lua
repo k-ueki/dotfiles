@@ -70,7 +70,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("n", "K", vim.lsp.buf.hover, opts)
 		map("i", "<C-k>", vim.lsp.buf.signature_help, opts)
 		-- Refactor
-		map("n", "<Leader>rn", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename" }))
+		map("n", "<Leader>R", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename (LSP)" }))
 		map("n", "<Leader>ca", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code action" }))
 		-- Diagnostics
 		map("n", "<Leader>d", vim.diagnostic.open_float, vim.tbl_extend("force", opts, { desc = "Diagnostics float" }))

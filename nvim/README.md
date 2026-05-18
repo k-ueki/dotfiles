@@ -100,7 +100,7 @@ Leader: `Space`
 | `<Leader>U` | References (quickfix) |
 | `K` | Hover |
 | `<C-k>` | Signature help (insert) |
-| `<Leader>rn` | Rename |
+| `<Leader>R` | Rename (LSP) |
 | `<Leader>ca` | Code action |
 | `<Leader>d` | Diagnostics float |
 | `]d` / `[d` | Next / prev diagnostic |
@@ -124,6 +124,8 @@ Leader: `Space`
 | `<Leader>gd` | Diffview toggle |
 | `<Leader>gh` | Diffview file history |
 | `<Leader>gH` | Diffview branch history |
+| `<Leader>gb` | Git blame (current line, gitsigns float) |
+| `<Leader>gB` | Git blame (full file, fugitive) |
 | `]c` / `[c` | Next / prev hunk (gitsigns) |
 
 ### Diagnostics
