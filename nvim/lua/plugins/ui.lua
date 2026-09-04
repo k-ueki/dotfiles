@@ -17,6 +17,12 @@ return {
 		},
 		opts = {
 			close_if_last_window = true,
+			default_component_configs = {
+				file_size = { enabled = false },
+				last_modified = { enabled = false },
+				created = { enabled = false },
+				type = { enabled = false },
+			},
 			filesystem = {
 				filtered_items = {
 					visible = true, -- show hidden files (dimmed)

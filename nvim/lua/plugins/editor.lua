@@ -1,7 +1,7 @@
 return {
 	-- Motion: word/anywhere jumping
 	{
-		"hadronized/hop.nvim",
+		"smoka7/hop.nvim",
 		event = "BufReadPre",
 		config = function()
 			local hop = require("hop")

@@ -70,3 +70,15 @@ program = "/bin/zsh"
 [window]
 startup_mode = "Fullscreen"
 opacity=0.9
+
+# Prevent accidental window close on stray cmd+w while typing.
+# To intentionally close, use cmd+shift+w (or cmd+q).
+[[keyboard.bindings]]
+key = "W"
+mods = "Command"
+chars = ""
+
+[[keyboard.bindings]]
+key = "W"
+mods = "Command|Shift"
+action = "Quit"

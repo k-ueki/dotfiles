@@ -51,3 +51,8 @@ claude/mcp-needs-auth-cache.json
 claude/policy-limits.json
 claude/remote-settings.json
 claude/stats-cache.json
+claude/remote-settings-consent.json
+claude/.last-cleanup
+claude/.last-update-result.json
+claude/plugins/.last_inuse_sweep
+claude/plugins/config.json

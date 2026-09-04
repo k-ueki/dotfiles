@@ -61,12 +61,80 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			jump_center(vim.lsp.buf.implementation),
 			vim.tbl_extend("force", opts, { desc = "Go to implementation" })
 		)
-		map(
-			"n",
-			"<Leader>u",
-			vim.lsp.buf.references,
-			vim.tbl_extend("force", opts, { desc = "References (quickfix)" })
-		)
+		-- <Leader>u : references. For Scala/Metals, if the symbol under cursor is an
+		-- override, ask Metals for the super method position and run references there
+		-- so trait-level callers + all impls show up. Falls back to plain references
+		-- when there is no super method or the client is not metals.
+		local function metals_super_references()
+			local client
+			for _, c in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+				if c.name == "metals" then
+					client = c
+					break
+				end
+			end
+			if not client then
+				vim.lsp.buf.references()
+				return
+			end
+
+			local params = vim.lsp.util.make_position_params(0, client.offset_encoding)
+			client:request("workspace/executeCommand", {
+				command = "metals.goto-super-method",
+				arguments = { params },
+			}, function(err, result)
+				-- Metals returns the super location as a side-effect via
+				-- `textDocument/definition`-like flow; if there is no super it
+				-- returns nil / an error. In either case we still want references
+				-- for the current symbol.
+				if err or not result or (type(result) == "table" and vim.tbl_isempty(result)) then
+					vim.lsp.buf.references()
+					return
+				end
+
+				local loc = result[1] or result
+				if not (loc and loc.uri and loc.range) then
+					vim.lsp.buf.references()
+					return
+				end
+
+				-- Open the super location in a way that lsp.buf.references can read
+				-- the cursor from, then run references there. Use bufnr + set_cursor
+				-- without jumping the window so the user's focus is preserved.
+				local bufnr = vim.uri_to_bufnr(loc.uri)
+				vim.fn.bufload(bufnr)
+				local super_params = {
+					textDocument = { uri = loc.uri },
+					position = loc.range.start,
+					context = { includeDeclaration = true },
+				}
+				client:request("textDocument/references", super_params, function(rerr, rresult)
+					if rerr or not rresult or vim.tbl_isempty(rresult) then
+						vim.lsp.buf.references()
+						return
+					end
+					local items = vim.lsp.util.locations_to_items(rresult, client.offset_encoding)
+					vim.fn.setqflist({}, " ", { title = "References (via super)", items = items })
+					vim.cmd("copen")
+				end, bufnr)
+			end)
+		end
+
+		map("n", "<Leader>u", metals_super_references, vim.tbl_extend("force", opts, { desc = "References (super-aware for Scala)" }))
+		-- Fallback: plain references only, ignoring super method resolution.
+		map("n", "<Leader>uu", vim.lsp.buf.references, vim.tbl_extend("force", opts, { desc = "References (local, no super)" }))
+
+		if ev.data and ev.data.client_id then
+			local client = vim.lsp.get_client_by_id(ev.data.client_id)
+			if client and client.name == "metals" then
+				map("n", "<Leader>us", function()
+					require("metals").goto_super_method()
+				end, vim.tbl_extend("force", opts, { desc = "Metals: goto super method" }))
+				map("n", "<Leader>uh", function()
+					require("metals").super_method_hierarchy()
+				end, vim.tbl_extend("force", opts, { desc = "Metals: super method hierarchy" }))
+			end
+		end
 		map("n", "K", vim.lsp.buf.hover, opts)
 		map("i", "<C-k>", vim.lsp.buf.signature_help, opts)
 		-- Refactor
@@ -84,9 +152,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 			end, vim.tbl_extend("force", opts, { desc = "Toggle inlay hints (global)" }))
 		end
-		-- Code Lens
-		if vim.lsp.codelens then
-			vim.lsp.codelens.refresh()
+		-- Code Lens (nvim 0.12+: `enable` supersedes `refresh` and auto-refreshes)
+		if vim.lsp.codelens and vim.lsp.codelens.enable then
+			vim.lsp.codelens.enable(true, { bufnr = ev.buf })
 			map("n", "<Leader>cl", vim.lsp.codelens.run, vim.tbl_extend("force", opts, { desc = "Run code lens" }))
 		end
 		-- Document highlight: highlight the symbol under cursor
@@ -104,11 +172,26 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
--- Auto-refresh code lens on buffer changes
-vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
-	callback = function()
-		if #vim.lsp.get_clients({ bufnr = 0 }) > 0 then
-			vim.lsp.codelens.refresh()
-		end
-	end,
-})
+-- <Leader>ac : insert `REVIEW: ` (fix request), <Leader>aq : insert `REVIEW?: ` (question).
+-- Comment prefix is taken from the buffer's `commentstring` so it works across languages.
+-- Paired with the `review-fix` Claude Code skill: leave notes here, run `/review-fix` later.
+local function insert_review_comment(marker)
+	local cs = vim.bo.commentstring
+	if cs == "" then
+		cs = "# %s"
+	end
+	local line = cs:gsub("%%s", marker)
+	local row = vim.api.nvim_win_get_cursor(0)[1]
+	local indent = vim.api.nvim_buf_get_lines(0, row - 1, row, false)[1]:match("^%s*") or ""
+	vim.api.nvim_buf_set_lines(0, row - 1, row - 1, false, { indent .. line })
+	vim.api.nvim_win_set_cursor(0, { row, #indent + #line })
+	vim.cmd("startinsert!")
+end
+
+vim.keymap.set("n", "<Leader>ac", function()
+	insert_review_comment("REVIEW: ")
+end, { desc = "Add REVIEW comment (fix — for /review-fix)" })
+
+vim.keymap.set("n", "<Leader>aq", function()
+	insert_review_comment("REVIEW?: ")
+end, { desc = "Add REVIEW? comment (question — for /review-fix)" })

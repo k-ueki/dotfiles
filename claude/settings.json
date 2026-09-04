@@ -10,6 +10,7 @@
   "permissions": {
     "allow": [
       "Bash(grep:*)",
+      "Bash(awk:*)",
       "Bash(find:*)",
       "Bash(echo:*)",
       "Bash(ls:*)",
@@ -27,7 +28,6 @@
       "Bash(sudo:*)"
     ]
   },
-  "model": "opus[1m]",
   "hooks": {
     "Notification": [
       {
@@ -82,6 +82,9 @@
     }
   },
   "alwaysThinkingEnabled": false,
+  "tui": "fullscreen",
+  "theme": "dark-daltonized",
+  "editorMode": "vim",
   "general": {
     "verboseLogging": true
   },

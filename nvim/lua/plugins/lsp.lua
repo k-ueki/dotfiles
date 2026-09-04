@@ -32,6 +32,7 @@ return {
 		opts = {
 			ensure_installed = {
 				"stylua", -- Lua formatter
+				"prettier", -- TS/JS/JSON/YAML/MD formatter
 			},
 		},
 	},
@@ -48,7 +49,7 @@ return {
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 			require("mason-lspconfig").setup({
-				ensure_installed = { "gopls", "terraformls" },
+				ensure_installed = { "gopls", "terraformls", "vtsls" },
 				handlers = {
 					function(server)
 						require("lspconfig")[server].setup({
@@ -106,8 +107,9 @@ return {
 
 			-- Reuse Bloop compile cache — avoid full rebuild on nvim restart
 			config.settings.bloopSbtAlreadyInstalled = true
-			config.settings.autoImportBuild = "initial"
-			config.settings.disableIndexOnStart = true  -- reuse existing index cache on restart
+			-- Metals >=1.x renamed `autoImportBuild` → `automaticImportBuild`.
+			-- `disableIndexOnStart` was removed (indexing always runs; the cache handles startup speed).
+			config.settings.automaticImportBuild = "initial"
 
 			-- Attach nvim-navic for breadcrumbs
 			config.on_attach = function(client, bufnr)

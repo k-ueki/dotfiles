@@ -19,6 +19,7 @@ path=(
   ${HOME}/.nodenv/shims
   ${HOME}/.jenv/shims
   ${HOME}/.scalaenv/shims
+  /opt/homebrew/opt/tfenv/bin
 
   # dotfiles/bin + subdirectories
   ${HOME}/dotfiles/bin/*(N/)

@@ -5,6 +5,7 @@ alias:
   cat: "bat --paging=never"
   grep: rg
   python: python3
+  v: vim
 
 git:
   g: "git"
